@@ -1,0 +1,26 @@
+# secrets
+.env
+
+# data — too large / regenerable via fetch.py
+data/raw/
+data/processed/
+
+# model artefacts — sarima.pkl is 2+ GB (top-level only, not src/models/)
+/models/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# notebooks
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
