@@ -1,0 +1,9 @@
+MAE,RMSE,MAE_negative,MAE_high_100,neg_recall,neg_precision,n_negative,n_high,model,training_time_s,n_features,information_set,rankable
+19.6444,29.5945,37.8745,20.3725,0.1715,0.828,449,1951,DA Ensemble,8.78,49,primary,True
+20.3153,29.7777,31.5351,22.214,0.3051,0.7326,449,1951,DA Price History,1.38,49,primary,True
+20.6627,30.4589,30.2655,21.4276,0.3363,0.6398,449,1951,DA Spike,1.71,49,primary,True
+21.698,32.4432,47.4626,20.9162,0.0713,0.9412,449,1951,DA Hourly,7.4,49,primary,True
+26.2116,39.2596,37.6051,31.3307,0.3675,0.3667,449,1951,Naive D-1,0.0,1,primary baseline,True
+28.9848,43.3413,43.64,31.6065,0.3408,0.3201,449,1951,Naive D-7,0.0,1,primary baseline,True
+8.6604,14.9194,16.8398,12.2823,0.7327,0.7796,449,1951,Leaky LGBM,0.83,23,same-auction leakage,False
+19.4604,26.6167,20.9678,20.3348,0.4098,0.9246,449,1951,Post-gate Oracle,0.62,58,post-gate oracle,False

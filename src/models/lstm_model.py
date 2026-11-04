@@ -83,7 +83,10 @@ class LSTMModel:
         loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
         optimizer = torch.optim.Adam(self.net.parameters(), lr=lr)
-        criterion = nn.MSELoss()
+        # MAE (L1) loss directly optimises the reported evaluation metric,
+        # producing more robust predictions on the heavy-tailed energy price
+        # distribution than MSE (which over-penalises rare spikes).
+        criterion = nn.L1Loss()
 
         best_val_loss = float("inf")
         patience = 5

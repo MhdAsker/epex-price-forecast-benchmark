@@ -1,0 +1,26 @@
+{
+  "experiment_version": "3.0.0",
+  "zones": {
+    "DE": {"test_year": 2017},
+    "FR": {"test_year": 2016},
+    "BE": {"test_year": 2016},
+    "NP": {"test_year": 2018}
+  },
+  "calibration_years": 4,
+  "transfer_finetune_days": 365,
+  "battery": {
+    "energy_mwh": 1.0,
+    "power_mw": 1.0,
+    "roundtrip_efficiency": 0.9,
+    "transaction_cost_eur_mwh": 0.5,
+    "degradation_cost_eur_mwh": 2.0,
+    "initial_soc_fraction": 0.5,
+    "terminal_soc_fraction": 0.5
+  },
+  "shadow": {
+    "forecast_origin_local": "12:00 D-1",
+    "immutable": true,
+    "allow_revisions": false
+  },
+  "release_version": "0.3.0"
+}

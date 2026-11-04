@@ -117,9 +117,11 @@ print()
 # source files
 for rel in [
     "src/fetch.py", "src/features.py", "src/evaluate.py", "src/visualize.py",
+    "src/cv.py", "src/day_ahead.py", "src/protocol.py",
     "src/models/sarima_model.py", "src/models/lgbm_model.py",
     "src/models/xgb_model.py",   "src/models/lstm_model.py",
-    "run_benchmark.py",
+    "src/models/day_ahead_models.py",
+    "run_benchmark.py", "run_day_ahead.py", "config/forecast_protocol.json",
 ]:
     ok_flag, msg = check_file(rel)
     checks[rel] = ok_flag
@@ -128,7 +130,7 @@ for rel in [
 print()
 
 # model artefacts
-for rel, fn in [("models/sarima.pkl", check_pkl),
+for rel, fn in [("models/sarima_params.joblib", check_pkl),
                 ("models/lgbm.pkl",   check_pkl),
                 ("models/xgb.pkl",    check_pkl),
                 ("models/lstm.pt",    check_pt)]:
@@ -216,12 +218,13 @@ print(SEP)
 steps = [
     ("Step 1: Data fetched",       checks.get("data/raw/entso_raw.parquet", False)),
     ("Step 2: Features built",     checks.get("data/processed/features.parquet", False)),
-    ("Step 3: SARIMA trained",     checks.get("models/sarima.pkl", False)),
+    ("Step 3: SARIMA trained",     checks.get("models/sarima_params.joblib", False)),
     ("Step 4: LightGBM trained",   checks.get("models/lgbm.pkl", False)),
     ("Step 5: XGBoost trained",    checks.get("models/xgb.pkl", False)),
     ("Step 6: LSTM trained",       checks.get("models/lstm.pt", False)),
     ("Step 7: Benchmark complete", checks.get("results/metrics/leaderboard.csv", False)),
     ("Step 8: Plots generated",    checks.get("plots", False)),
+    ("Step 9: Day-ahead protocol", (ROOT / "results/metrics/day_ahead_primary_leaderboard.csv").exists()),
 ]
 
 for label, passed in steps:
@@ -236,7 +239,7 @@ if not checks.get("data/raw/entso_raw.parquet", False):
 elif not checks.get("data/processed/features.parquet", False):
     next_action = 'Run: python src/features.py'
 elif not all([
-    checks.get("models/sarima.pkl", False),
+    checks.get("models/sarima_params.joblib", False),
     checks.get("models/lgbm.pkl",   False),
     checks.get("models/xgb.pkl",    False),
     checks.get("models/lstm.pt",    False),
@@ -246,8 +249,10 @@ elif not checks.get("results/metrics/leaderboard.csv", False):
     next_action = 'Run: python run_benchmark.py'
 elif not checks.get("plots", False):
     next_action = 'Run: python run_benchmark.py'
+elif not (ROOT / "results/metrics/day_ahead_primary_leaderboard.csv").exists():
+    next_action = 'Run: python run_day_ahead.py'
 else:
-    next_action = '✅ ALL STEPS COMPLETE — paste leaderboard.csv contents below'
+    next_action = '✅ ALL STEPS COMPLETE — primary day-ahead results below'
 
 print(f"NEXT ACTION: {next_action}")
 print(SEP)
@@ -255,11 +260,11 @@ print(SEP)
 # ────────────────────────────────────────────────────────────────────────────
 # 6. Leaderboard (if exists)
 # ────────────────────────────────────────────────────────────────────────────
-lb_path = ROOT / "results/metrics/leaderboard.csv"
+lb_path = ROOT / "results/metrics/day_ahead_primary_leaderboard.csv"
 if lb_path.exists():
     print()
     print(SEP + "════")
-    print("BENCHMARK RESULTS")
+    print("PRIMARY NOON D-1 BENCHMARK RESULTS")
     print(SEP + "════")
 
     lb = pd.read_csv(lb_path)
@@ -267,14 +272,12 @@ if lb_path.exists():
     print()
 
     best = lb.loc[lb["MAE"].idxmin()]
-    sarima_row = lb[lb["model"].str.upper() == "SARIMA"]
-
     print(f"Winner: {best['model']}  (MAE = {best['MAE']:.2f} €/MWh)")
-
-    if not sarima_row.empty:
-        sarima_mae = float(sarima_row["MAE"].values[0])
-        if sarima_mae > 0:
-            improvement = (sarima_mae - float(best["MAE"])) / sarima_mae * 100
-            print(f"MAE improvement over SARIMA: {improvement:.1f}%")
+    naive_row = lb[lb["model"] == "Naive D-1"]
+    if not naive_row.empty:
+        naive_mae = float(naive_row["MAE"].iloc[0])
+        improvement = (naive_mae - float(best["MAE"])) / naive_mae * 100
+        print(f"MAE improvement over Naive D-1: {improvement:.1f}%")
+    print("Legacy hourly scores are diagnostic only; they use same-auction prices.")
 
     print(SEP + "════")

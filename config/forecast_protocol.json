@@ -1,0 +1,21 @@
+{
+  "protocol_version": "1.0.0",
+  "market": "EPEX SPOT DE-LU day-ahead",
+  "timezone": "Europe/Berlin",
+  "forecast_origin": "12:00 on delivery day D-1",
+  "target": "all market time units of delivery day D",
+  "primary_information_set": [
+    "calendar and market-product identity",
+    "day-ahead prices from delivery days D-1 and earlier"
+  ],
+  "oracle_information_set": [
+    "ENTSO-E wind and solar day-ahead forecasts",
+    "ENTSO-E scheduled generation forecast"
+  ],
+  "oracle_reason": "EU 543/2013 requires these series by 18:00 D-1, after the declared noon forecast origin; the downloaded history has no auditable publication vintage.",
+  "evaluation": {
+    "split_unit": "local delivery day",
+    "primary_metric": "MAE_EUR_per_MWh",
+    "required_baselines": ["previous-day same product", "previous-week same product"]
+  }
+}

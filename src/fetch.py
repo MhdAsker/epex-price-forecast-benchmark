@@ -1,5 +1,7 @@
 import os
 import logging
+import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -105,13 +107,6 @@ class ENTSOFetcher:
         else:
             df["gen_forecast_mw"] = float("nan")
 
-        # Outer merge all on index, forward-fill gaps up to 2 hours
-        dfs_to_merge = []
-        if isinstance(wind_solar, pd.DataFrame) and not wind_solar.empty:
-            dfs_to_merge.append(wind_solar)
-        if isinstance(load, pd.Series) and not load.empty:
-            dfs_to_merge.append(load.to_frame())
-
         df = df.sort_index()
         df = df.ffill(limit=2)
 
@@ -120,6 +115,42 @@ class ENTSOFetcher:
 
         out_path = RAW_DIR / "entso_raw.parquet"
         df.to_parquet(out_path)
+        metadata = {
+            "retrieved_at_utc": datetime.now(timezone.utc).isoformat(),
+            "requested_start": start,
+            "requested_end": end,
+            "bidding_zone": self.zone,
+            "index_semantics": "timezone-naive UTC delivery timestamps",
+            "series": {
+                "price_eur_mwh": {
+                    "source": "ENTSO-E query_day_ahead_prices",
+                    "phase1_availability": "primary target/history",
+                },
+                "load_mw": {
+                    "source": "ENTSO-E load forecast, actual-load fallback",
+                    "phase1_availability": "oracle/unusable when fallback is actual",
+                },
+                "wind_onshore_mw": {
+                    "source": "ENTSO-E query_wind_and_solar_forecast",
+                    "phase1_availability": "post-gate oracle; vintage not preserved",
+                },
+                "wind_offshore_mw": {
+                    "source": "ENTSO-E query_wind_and_solar_forecast",
+                    "phase1_availability": "post-gate oracle; vintage not preserved",
+                },
+                "solar_mw": {
+                    "source": "ENTSO-E query_wind_and_solar_forecast",
+                    "phase1_availability": "post-gate oracle; vintage not preserved",
+                },
+                "gen_forecast_mw": {
+                    "source": "ENTSO-E query_generation_forecast",
+                    "phase1_availability": "post-gate oracle; vintage not preserved",
+                },
+            },
+        }
+        (RAW_DIR / "entso_raw.metadata.json").write_text(
+            json.dumps(metadata, indent=2), encoding="utf-8"
+        )
 
         n = len(df)
         logger.info("Fetched %d hourly rows from %s to %s", n, start, end)

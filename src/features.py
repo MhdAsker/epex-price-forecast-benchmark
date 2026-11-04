@@ -52,8 +52,12 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     df["price_lag_336h"] = df["price_eur_mwh"].shift(336)
 
     # ------------------------------------------------------------------
-    # 4. ROLLING STATISTICS (shifted by 1 to avoid leakage)
+    # 4. ROLLING STATISTICS (shifted by 1 to avoid using the target hour)
     # ------------------------------------------------------------------
+    # shift(1) keeps the current hour out of the window. It does not keep out
+    # the earlier hours of the same delivery day. price_lag_1h is known at the
+    # noon gate for hour 00 only. For hours 01–23 it is a price from the auction
+    # being forecast. src/day_ahead.py rebuilds the matrix from that gate.
     price = df["price_eur_mwh"]
     df["price_roll_mean_24h"] = price.rolling(24).mean().shift(1)
     df["price_roll_std_24h"] = price.rolling(24).std().shift(1)

@@ -1,0 +1,24 @@
+{
+  "experiment_version": "2.0.0",
+  "primary_dataset": "Lago et al. EPEX-Germany open benchmark",
+  "market": "EPEX-DE historical bidding zone",
+  "timezone": "Europe/Berlin",
+  "history_start": "2012-01-09",
+  "history_end_inclusive": "2017-12-31",
+  "calibration_years": [2012, 2013, 2014, 2015],
+  "test_years": [2016, 2017],
+  "forecast_origin": "12:00 D-1 Europe/Berlin",
+  "primary_features": "price history and calendar/product identity only",
+  "rolling_window_days": 1461,
+  "validation_days": 182,
+  "retrain_every_days": 1,
+  "hyperparameter_refresh_days": 28,
+  "random_seeds": [17, 42, 91],
+  "quantiles": [0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95],
+  "bootstrap": {
+    "block_days": 7,
+    "replications": 2000,
+    "confidence": 0.95
+  },
+  "spike_threshold_eur_mwh": 100.0
+}

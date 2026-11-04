@@ -1,0 +1,52 @@
+{
+  "experiment_version": "2.0.0",
+  "status": "complete weekly-refit full panel",
+  "source_manifest": {
+    "dataset": "Lago et al. epftoolbox EPEX-Germany",
+    "source": "https://zenodo.org/records/4624805/files/DE.csv",
+    "zenodo_record": "4624805",
+    "retrieved_at_utc": "2026-11-04T12:55:24.294969+00:00",
+    "raw_rows": 52416,
+    "raw_columns": [
+      "Price",
+      "Ampirion Load Forecast",
+      "PV+Wind Forecast"
+    ],
+    "used_columns": [
+      "Price"
+    ],
+    "excluded_columns_reason": "exogenous publication vintages not independently audited",
+    "first_delivery": "2012-01-09T00:00:00",
+    "last_delivery": "2017-12-31T23:00:00",
+    "raw_content_sha256": "be6358196dd8f53ad1c3388d6da7f3a61df0bd1ceaf515fe751de2d0ac4e8c2d"
+  },
+  "source_matrix_sha256": "cdf3f7430891b74c0735ff0dd1dad85b49d6bdf4d963fb582a52c1892f3b7886",
+  "point_predictions": "results\\predictions\\phase2_point_predictions.parquet",
+  "quantile_predictions": "results\\predictions\\phase2_quantile_predictions.parquet",
+  "models": [
+    "CatBoost",
+    "JointCurve",
+    "JointMLP",
+    "LEAR",
+    "LightGBM",
+    "Naive D-1",
+    "Naive D-7",
+    "XGBoost"
+  ],
+  "test_years": [
+    2016,
+    2017
+  ],
+  "seeds": [
+    42
+  ],
+  "calibration_days": [
+    1461
+  ],
+  "retrain_every_days": [
+    7
+  ],
+  "qra_refit_days": 28,
+  "online_probabilistic_burn_in_days": 60,
+  "tuning_log": "results/predictions/phase2_seed42_r7_w1461_tuning.json"
+}

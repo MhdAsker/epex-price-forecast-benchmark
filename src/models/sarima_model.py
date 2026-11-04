@@ -39,9 +39,23 @@ class SARIMAModel:
         elapsed = time.time() - t0
         logger.info("SARIMA fitted in %.1fs — AIC: %.2f", elapsed, self.result.aic)
 
-        out_path = MODELS_DIR / "sarima.pkl"
-        joblib.dump(self.result, out_path)
-        logger.info("Saved SARIMA model to %s", out_path)
+        # Persist a compact, version-tolerant research artefact.  Pickling the
+        # full statsmodels result retained the complete state-space history
+        # (over 2 GB here) and proved unreadable across pandas versions.
+        out_path = MODELS_DIR / "sarima_params.joblib"
+        joblib.dump(
+            {
+                "model": "SARIMAX",
+                "order": (1, 0, 1),
+                "seasonal_order": (1, 0, 1, 24),
+                "params": np.asarray(self.result.params),
+                "param_names": list(self.result.param_names),
+                "aic": float(self.result.aic),
+                "nobs": int(self.result.nobs),
+            },
+            out_path,
+        )
+        logger.info("Saved compact SARIMA parameters to %s", out_path)
 
     def predict(self, n_steps: int) -> np.ndarray:
         if self.result is None:

@@ -5,7 +5,7 @@
 data/raw/
 data/processed/
 
-# model artefacts — sarima.pkl is 2+ GB (top-level only, not src/models/)
+# model artefacts (regenerable; SARIMA now stores compact parameters)
 /models/
 
 # Python

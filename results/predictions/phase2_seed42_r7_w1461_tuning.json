@@ -1,0 +1,4523 @@
+{
+  "LEAR": [
+    {
+      "forecast_date": "2016-01-01",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 5.131621007430481,
+          "fit_seconds": 3.451828199904412
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.124431778700862,
+          "fit_seconds": 0.12269350001588464
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 5.157520819645949,
+          "fit_seconds": 0.12283470015972853
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-01-29",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 5.092833592617572,
+          "fit_seconds": 0.1520581003278494
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.061149671349055,
+          "fit_seconds": 0.12565529998391867
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 5.078441006879864,
+          "fit_seconds": 0.11035279976204038
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-02-26",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 5.078937247567845,
+          "fit_seconds": 0.15232180012390018
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.055138381606701,
+          "fit_seconds": 0.11163030005991459
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 5.104046702289299,
+          "fit_seconds": 0.12136230012401938
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-03-25",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.941891926114343,
+          "fit_seconds": 0.1601151996292174
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.908336242773514,
+          "fit_seconds": 0.11439220001921058
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 4.957126498945981,
+          "fit_seconds": 0.11211020033806562
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-04-22",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.797055629195096,
+          "fit_seconds": 0.157994800247252
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.78719197408804,
+          "fit_seconds": 0.11386859975755215
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 4.839259169322163,
+          "fit_seconds": 0.12717580003663898
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-05-20",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.627399750973652,
+          "fit_seconds": 0.15656520007178187
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.587605605701314,
+          "fit_seconds": 0.11611199984326959
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 4.664654426519426,
+          "fit_seconds": 0.11771909985691309
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-06-17",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.2072232541181735,
+          "fit_seconds": 0.14771670009940863
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.176663083886247,
+          "fit_seconds": 0.13844639994204044
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 4.240853164660346,
+          "fit_seconds": 0.12631559977307916
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-07-15",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 3.9038961257205926,
+          "fit_seconds": 0.15094450023025274
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.8792131357376434,
+          "fit_seconds": 0.138824800029397
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 3.9512063594583524,
+          "fit_seconds": 0.10330399964004755
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-08-12",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 3.542755847107887,
+          "fit_seconds": 0.15980530017986894
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.5290284297818753,
+          "fit_seconds": 0.11387160001322627
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 3.587152090074947,
+          "fit_seconds": 0.12603910034522414
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-09-09",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 3.509069347758733,
+          "fit_seconds": 0.16665890021249652
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.4850996437023682,
+          "fit_seconds": 0.1129370997659862
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 3.5113484240271484,
+          "fit_seconds": 0.10579519998282194
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-10-07",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 3.5451440684007696,
+          "fit_seconds": 0.18049999978393316
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.516930869952513,
+          "fit_seconds": 0.1236736997961998
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 3.5234755633747166,
+          "fit_seconds": 0.1110148997977376
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-11-04",
+      "selected": {
+        "alpha": 0.3
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 3.8219308544543487,
+          "fit_seconds": 0.17913360008969903
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.7679796763526503,
+          "fit_seconds": 0.12605280010029674
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 3.7676070334688925,
+          "fit_seconds": 0.10996600007638335
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-02",
+      "selected": {
+        "alpha": 0.3
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.153391168830846,
+          "fit_seconds": 0.1804046998731792
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.146462555404636,
+          "fit_seconds": 0.12161860009655356
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 4.145700792540231,
+          "fit_seconds": 0.1253307000733912
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-30",
+      "selected": {
+        "alpha": 0.03
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.966725547099143,
+          "fit_seconds": 0.14661999978125095
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.007930134327634,
+          "fit_seconds": 0.13315350003540516
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 5.06086792060976,
+          "fit_seconds": 0.1360466997139156
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-01-27",
+      "selected": {
+        "alpha": 0.03
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 6.0554949320106175,
+          "fit_seconds": 0.1557555003091693
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.07333174527778,
+          "fit_seconds": 0.11473849974572659
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 6.159336440335575,
+          "fit_seconds": 0.1379009997472167
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-02-24",
+      "selected": {
+        "alpha": 0.03
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 6.633842586266534,
+          "fit_seconds": 0.13612680044025183
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.640657171676067,
+          "fit_seconds": 0.11376990005373955
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 6.735780929399948,
+          "fit_seconds": 0.123197500128299
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-03-24",
+      "selected": {
+        "alpha": 0.03
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 6.991647338612266,
+          "fit_seconds": 0.12331809988245368
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.9938528900735,
+          "fit_seconds": 0.11345299985259771
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 7.090430078932608,
+          "fit_seconds": 0.12623530020937324
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-04-21",
+      "selected": {
+        "alpha": 0.03
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 6.866277673113315,
+          "fit_seconds": 0.1421900000423193
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.867125205119936,
+          "fit_seconds": 0.12546000024303794
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 6.930419092541211,
+          "fit_seconds": 0.12506579980254173
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-05-19",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 7.091972949888722,
+          "fit_seconds": 0.13592750020325184
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 7.041021834362956,
+          "fit_seconds": 0.12283239979296923
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 7.060315781742251,
+          "fit_seconds": 0.13505669962614775
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-06-16",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 6.602130699304132,
+          "fit_seconds": 0.14872659975662827
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.533859994514975,
+          "fit_seconds": 0.11339870002120733
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 6.538578472072433,
+          "fit_seconds": 0.11281289998441935
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-07-14",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 5.8348167348962345,
+          "fit_seconds": 0.15293070022016764
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.772092318722921,
+          "fit_seconds": 0.11534149991348386
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 5.777804139224312,
+          "fit_seconds": 0.12527909968048334
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-08-11",
+      "selected": {
+        "alpha": 0.3
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.874121900749595,
+          "fit_seconds": 0.15663870004937053
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.81407865534957,
+          "fit_seconds": 0.1258704997599125
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 4.785101069393787,
+          "fit_seconds": 0.10201880009844899
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-09-08",
+      "selected": {
+        "alpha": 0.3
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.5050090413648025,
+          "fit_seconds": 0.16528930002823472
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.468869823453721,
+          "fit_seconds": 0.11677650036290288
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 4.455875298121491,
+          "fit_seconds": 0.1283066999167204
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-10-06",
+      "selected": {
+        "alpha": 0.3
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 4.767032151661574,
+          "fit_seconds": 0.14524299977347255
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.75527224363769,
+          "fit_seconds": 0.12398609984666109
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 4.7373680466881,
+          "fit_seconds": 0.12337329983711243
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-11-03",
+      "selected": {
+        "alpha": 0.3
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 5.307596732069881,
+          "fit_seconds": 0.15550559991970658
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.281406761445066,
+          "fit_seconds": 0.11380110029131174
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 5.241766501246151,
+          "fit_seconds": 0.13472179975360632
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-01",
+      "selected": {
+        "alpha": 0.3
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 6.349083999327749,
+          "fit_seconds": 0.18530109990388155
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.300175682324016,
+          "fit_seconds": 0.1243775999173522
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 6.252924885500852,
+          "fit_seconds": 0.1376362000592053
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-29",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.03
+          },
+          "validation_mae": 7.014097244243034,
+          "fit_seconds": 0.16809040028601885
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.9898727970505945,
+          "fit_seconds": 0.12587679969146848
+        },
+        {
+          "params": {
+            "alpha": 0.3
+          },
+          "validation_mae": 7.00080468955475,
+          "fit_seconds": 0.1140415002591908
+        }
+      ]
+    }
+  ],
+  "LightGBM": [
+    {
+      "forecast_date": "2016-01-01",
+      "selected": {
+        "num_leaves": 31
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.313526462549379,
+          "fit_seconds": 0.7622695998288691
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.257247562019461,
+          "fit_seconds": 1.2971905004233122
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 5.313070003417171,
+          "fit_seconds": 1.5191852999851108
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-01-29",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.239333238942077,
+          "fit_seconds": 0.7964234002865851
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.173200947035004,
+          "fit_seconds": 1.0256795999594033
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 5.1430516538283895,
+          "fit_seconds": 1.5495701995678246
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-02-26",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.500121926345812,
+          "fit_seconds": 0.7372142998501658
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.536459421856835,
+          "fit_seconds": 1.0489944000728428
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 5.4318541682979795,
+          "fit_seconds": 1.514628800097853
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-03-25",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.576514300932377,
+          "fit_seconds": 0.7029360998421907
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.668343687915674,
+          "fit_seconds": 1.0085279000923038
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 5.69799754631087,
+          "fit_seconds": 1.530085800215602
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-04-22",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.669639910248625,
+          "fit_seconds": 0.7452789000235498
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.831648556680132,
+          "fit_seconds": 1.0656535997986794
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 5.781434764336054,
+          "fit_seconds": 1.5522669004276395
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-05-20",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.492294611581133,
+          "fit_seconds": 0.5656485999934375
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.6523050744461605,
+          "fit_seconds": 1.0005486998707056
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 5.6336500742266375,
+          "fit_seconds": 1.4757618997246027
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-06-17",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 4.994051209344206,
+          "fit_seconds": 0.6121438997797668
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.135997725704735,
+          "fit_seconds": 0.9768819999881089
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 5.208489711775993,
+          "fit_seconds": 1.504680100362748
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-07-15",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 4.746620611446104,
+          "fit_seconds": 0.6339489999227226
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 4.8663537048636485,
+          "fit_seconds": 1.0415444001555443
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 4.891763006935409,
+          "fit_seconds": 1.4312705001793802
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-08-12",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 4.233377911692535,
+          "fit_seconds": 0.6850963002070785
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 4.228069145213103,
+          "fit_seconds": 1.6133717000484467
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 4.182359961484951,
+          "fit_seconds": 2.1320957001298666
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-09-09",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 3.828555004555966,
+          "fit_seconds": 0.5965733998455107
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 3.7330187160396404,
+          "fit_seconds": 0.8746393998153508
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 3.729269846795583,
+          "fit_seconds": 1.7294698003679514
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-10-07",
+      "selected": {
+        "num_leaves": 31
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 3.65804831034974,
+          "fit_seconds": 0.6463701999746263
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 3.5877208243932794,
+          "fit_seconds": 0.9023257000371814
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 3.606484628627022,
+          "fit_seconds": 1.4791811001487076
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-11-04",
+      "selected": {
+        "num_leaves": 31
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 3.8505536611884676,
+          "fit_seconds": 0.6095660999417305
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 3.732732898638557,
+          "fit_seconds": 0.9339403999038041
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 3.804323085093882,
+          "fit_seconds": 1.6556891999207437
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-02",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 4.247343666150488,
+          "fit_seconds": 0.6912624998949468
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 4.264737592387159,
+          "fit_seconds": 1.1716311001218855
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 4.284295279681917,
+          "fit_seconds": 1.6300281998701394
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-30",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.100995763272521,
+          "fit_seconds": 0.6958730998449028
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.028399696088869,
+          "fit_seconds": 0.9474913999438286
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 4.890291419727173,
+          "fit_seconds": 1.5498302998021245
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-01-27",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 6.467609213503017,
+          "fit_seconds": 0.5848820996470749
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 6.388803750183668,
+          "fit_seconds": 0.9450646000914276
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 6.384307392258925,
+          "fit_seconds": 1.4939378998242319
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-02-24",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 7.085804396454894,
+          "fit_seconds": 0.8875180999748409
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 7.1576012497133945,
+          "fit_seconds": 0.9703521002084017
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 7.093313173274883,
+          "fit_seconds": 2.5143808997236192
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-03-24",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 7.885755037792556,
+          "fit_seconds": 0.7286904002539814
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 8.07387411840278,
+          "fit_seconds": 0.956370999570936
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 7.849035704011335,
+          "fit_seconds": 1.5695095001719892
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-04-21",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 8.087640512651289,
+          "fit_seconds": 0.6578810000792146
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 8.205693844776054,
+          "fit_seconds": 0.9912847001105547
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 8.205860171253082,
+          "fit_seconds": 2.0487313997000456
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-05-19",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 7.813836876898707,
+          "fit_seconds": 0.703866200055927
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 7.840216347235965,
+          "fit_seconds": 0.9753433000296354
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 7.71268955658845,
+          "fit_seconds": 1.4399542999453843
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-06-16",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 7.428592388560184,
+          "fit_seconds": 0.7715341998264194
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 7.415604427999297,
+          "fit_seconds": 0.9900834998115897
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 7.3379484057512,
+          "fit_seconds": 1.443687000311911
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-07-14",
+      "selected": {
+        "num_leaves": 15
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 6.50119525000393,
+          "fit_seconds": 0.4804954999126494
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 6.526354894638832,
+          "fit_seconds": 0.7465355000458658
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 6.503894684155546,
+          "fit_seconds": 1.2151109999977052
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-08-11",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.080154276090019,
+          "fit_seconds": 0.5283007998950779
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 4.9986398295071375,
+          "fit_seconds": 0.6681125001050532
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 4.982836551186367,
+          "fit_seconds": 1.1077763997018337
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-09-08",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 4.715761729671449,
+          "fit_seconds": 0.5417168000712991
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 4.6336050182182325,
+          "fit_seconds": 0.9995317002758384
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 4.598306457811349,
+          "fit_seconds": 1.1538709001615644
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-10-06",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 4.959150577138854,
+          "fit_seconds": 0.5142402001656592
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 4.777637138938919,
+          "fit_seconds": 0.6722464999184012
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 4.75537254485739,
+          "fit_seconds": 1.0831086998805404
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-11-03",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 5.348935485324762,
+          "fit_seconds": 0.5554196001030505
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 5.158473326924107,
+          "fit_seconds": 0.7735909000039101
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 5.062789080331003,
+          "fit_seconds": 1.121000999584794
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-01",
+      "selected": {
+        "num_leaves": 63
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 6.25704711837046,
+          "fit_seconds": 0.5387451001442969
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 6.2077131287234835,
+          "fit_seconds": 0.7260153000243008
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 6.1194597795923045,
+          "fit_seconds": 1.1646962999366224
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-29",
+      "selected": {
+        "num_leaves": 31
+      },
+      "candidates": [
+        {
+          "params": {
+            "num_leaves": 15
+          },
+          "validation_mae": 7.002456934335054,
+          "fit_seconds": 0.5637309001758695
+        },
+        {
+          "params": {
+            "num_leaves": 31
+          },
+          "validation_mae": 6.899548760493967,
+          "fit_seconds": 0.7516981000080705
+        },
+        {
+          "params": {
+            "num_leaves": 63
+          },
+          "validation_mae": 6.9134996485752644,
+          "fit_seconds": 1.1736661000177264
+        }
+      ]
+    }
+  ],
+  "XGBoost": [
+    {
+      "forecast_date": "2016-01-01",
+      "selected": {
+        "max_depth": 6
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 5.213598906584493,
+          "fit_seconds": 2.4327036002650857
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 5.064183464506436,
+          "fit_seconds": 1.6128195999190211
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 5.109473632781293,
+          "fit_seconds": 2.9031659001484513
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-01-29",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 5.108961577198142,
+          "fit_seconds": 1.0938832997344434
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 4.968514233584083,
+          "fit_seconds": 1.5492584998719394
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 4.955769572876217,
+          "fit_seconds": 2.9147612997330725
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-02-26",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 5.345702138881817,
+          "fit_seconds": 1.1109841000288725
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 5.237099689486105,
+          "fit_seconds": 1.572629800066352
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 5.1898729451043675,
+          "fit_seconds": 2.9312259000726044
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-03-25",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 5.333857897305964,
+          "fit_seconds": 0.9974298998713493
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 5.314531318198535,
+          "fit_seconds": 1.5096921999938786
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 5.225857689955081,
+          "fit_seconds": 3.1644297000020742
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-04-22",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 5.2604454419696385,
+          "fit_seconds": 1.1301892003975809
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 5.14502579792679,
+          "fit_seconds": 1.8100657002069056
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 5.078885656914609,
+          "fit_seconds": 4.505390800070018
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-05-20",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 5.345375074456027,
+          "fit_seconds": 1.2422992996871471
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 5.154334932033398,
+          "fit_seconds": 1.7792854001745582
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 5.0191834247301275,
+          "fit_seconds": 3.4298963001929224
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-06-17",
+      "selected": {
+        "max_depth": 6
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 4.830489512928608,
+          "fit_seconds": 1.147524899803102
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 4.629538702567162,
+          "fit_seconds": 1.7298038001172245
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 4.682029258442886,
+          "fit_seconds": 3.327730800025165
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-07-15",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 4.684732692010782,
+          "fit_seconds": 1.1541679999791086
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 4.55992303137978,
+          "fit_seconds": 2.0889075002633035
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 4.500517311890374,
+          "fit_seconds": 3.6810459000989795
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-08-12",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 4.129114598870932,
+          "fit_seconds": 1.1489860997535288
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 3.940972211375532,
+          "fit_seconds": 1.7724481001496315
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 3.859533880128638,
+          "fit_seconds": 3.3896055999211967
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-09-09",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 3.7430419950345493,
+          "fit_seconds": 1.1486204997636378
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 3.6448843529896857,
+          "fit_seconds": 1.8043778999708593
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 3.5587664655582367,
+          "fit_seconds": 3.2958436999469995
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-10-07",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 3.5956490189688544,
+          "fit_seconds": 1.288545799907297
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 3.5069334717154943,
+          "fit_seconds": 1.9645201996900141
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 3.367479670257359,
+          "fit_seconds": 3.635835599619895
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-11-04",
+      "selected": {
+        "max_depth": 4
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 3.5914653406125723,
+          "fit_seconds": 1.1795226000249386
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 3.610414861405726,
+          "fit_seconds": 1.712325899861753
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 3.595397747654618,
+          "fit_seconds": 3.343005199916661
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-02",
+      "selected": {
+        "max_depth": 4
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 3.891107768291956,
+          "fit_seconds": 1.209610200021416
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 3.9409630848658392,
+          "fit_seconds": 1.8559889998286963
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 3.953706895281107,
+          "fit_seconds": 4.003765500150621
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-30",
+      "selected": {
+        "max_depth": 4
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 4.864560871648129,
+          "fit_seconds": 1.1135047003626823
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 4.908534805328063,
+          "fit_seconds": 1.7737364997155964
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 4.924526834374382,
+          "fit_seconds": 3.443409299943596
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-01-27",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 6.511579825557196,
+          "fit_seconds": 1.1775428000837564
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 6.441441659689796,
+          "fit_seconds": 1.7218462000600994
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 6.3918747998465655,
+          "fit_seconds": 3.371088200248778
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-02-24",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 7.285322511598413,
+          "fit_seconds": 1.1521888999268413
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 7.161220396406702,
+          "fit_seconds": 1.75288650020957
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 7.1341541236011325,
+          "fit_seconds": 3.3576728999614716
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-03-24",
+      "selected": {
+        "max_depth": 4
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 7.696009986563261,
+          "fit_seconds": 1.1922470997087657
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 7.76416692642038,
+          "fit_seconds": 2.4953545997850597
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 7.846831517331985,
+          "fit_seconds": 3.4457390001043677
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-04-21",
+      "selected": {
+        "max_depth": 6
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 7.869448705795649,
+          "fit_seconds": 1.1365203000605106
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 7.7825533893025876,
+          "fit_seconds": 1.8258853000588715
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 8.050693102234447,
+          "fit_seconds": 3.2877585999667645
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-05-19",
+      "selected": {
+        "max_depth": 4
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 7.95907888224055,
+          "fit_seconds": 1.6221313001587987
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 7.9660435011469835,
+          "fit_seconds": 1.7086179996840656
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 7.981386572637837,
+          "fit_seconds": 3.282560800202191
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-06-16",
+      "selected": {
+        "max_depth": 4
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 7.374059114546785,
+          "fit_seconds": 1.2180695999413729
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 7.504329230784278,
+          "fit_seconds": 2.126266200095415
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 7.652948847161162,
+          "fit_seconds": 3.750030600000173
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-07-14",
+      "selected": {
+        "max_depth": 6
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 6.545514614344079,
+          "fit_seconds": 1.1190041000954807
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 6.502836892140328,
+          "fit_seconds": 1.6422068001702428
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 6.512616770407492,
+          "fit_seconds": 3.330998800229281
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-08-11",
+      "selected": {
+        "max_depth": 6
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 4.9684613617774325,
+          "fit_seconds": 1.0020956001244485
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 4.783387743045504,
+          "fit_seconds": 1.4857748998329043
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 4.814654711116474,
+          "fit_seconds": 2.854691400192678
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-09-08",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 4.642460119353109,
+          "fit_seconds": 1.051652000285685
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 4.469061800829875,
+          "fit_seconds": 1.5011305999942124
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 4.45346140815607,
+          "fit_seconds": 2.886426300276071
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-10-06",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 4.820312036677595,
+          "fit_seconds": 1.0094206999056041
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 4.649722803013856,
+          "fit_seconds": 1.4871815000660717
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 4.562943331647268,
+          "fit_seconds": 2.6448332997970283
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-11-03",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 5.1923374529357575,
+          "fit_seconds": 1.0828760997392237
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 5.052327660636042,
+          "fit_seconds": 1.8826628001406789
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 4.993184632945519,
+          "fit_seconds": 3.1586565002799034
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-01",
+      "selected": {
+        "max_depth": 8
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 6.337658720169312,
+          "fit_seconds": 1.013057000003755
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 6.1822213073192165,
+          "fit_seconds": 1.4852086999453604
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 6.111067142655524,
+          "fit_seconds": 2.8816390996798873
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-29",
+      "selected": {
+        "max_depth": 6
+      },
+      "candidates": [
+        {
+          "params": {
+            "max_depth": 4
+          },
+          "validation_mae": 7.069750050964045,
+          "fit_seconds": 1.0052593001164496
+        },
+        {
+          "params": {
+            "max_depth": 6
+          },
+          "validation_mae": 6.8409007673278355,
+          "fit_seconds": 1.4378283000551164
+        },
+        {
+          "params": {
+            "max_depth": 8
+          },
+          "validation_mae": 6.85897547276445,
+          "fit_seconds": 2.8463253998197615
+        }
+      ]
+    }
+  ],
+  "CatBoost": [
+    {
+      "forecast_date": "2016-01-01",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.264596242974547,
+          "fit_seconds": 2.1893945997580886
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 5.170990894490698,
+          "fit_seconds": 3.0645097997039557
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 5.182875602833556,
+          "fit_seconds": 7.580361399799585
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-01-29",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.257137822883713,
+          "fit_seconds": 1.8576503000222147
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 5.13767564091571,
+          "fit_seconds": 2.917069099843502
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 5.103794737249017,
+          "fit_seconds": 7.259099899791181
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-02-26",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.407062974408709,
+          "fit_seconds": 1.975972100161016
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 5.3588546126379315,
+          "fit_seconds": 3.1437417999841273
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 5.298465214128589,
+          "fit_seconds": 8.252207200042903
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-03-25",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.381284243695598,
+          "fit_seconds": 2.0203619999811053
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 5.317966409108903,
+          "fit_seconds": 3.3524587000720203
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 5.298594795644483,
+          "fit_seconds": 8.170293199829757
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-04-22",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.338601866139133,
+          "fit_seconds": 1.9563429998233914
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 5.29674121761466,
+          "fit_seconds": 3.0636034002527595
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 5.355737213116814,
+          "fit_seconds": 7.710550100076944
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-05-20",
+      "selected": {
+        "depth": 5
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.170205084534067,
+          "fit_seconds": 1.916078899987042
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 5.192405685802477,
+          "fit_seconds": 3.0992083000019193
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 5.180756629762517,
+          "fit_seconds": 7.844497799873352
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-06-17",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 4.803655387189785,
+          "fit_seconds": 1.8995880000293255
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 4.75849391865991,
+          "fit_seconds": 3.1152917998842895
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 4.759442710032585,
+          "fit_seconds": 7.924037499818951
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-07-15",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 4.565659435895538,
+          "fit_seconds": 2.0292998999357224
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 4.5520449898531865,
+          "fit_seconds": 3.2106455001048744
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 4.582116771462873,
+          "fit_seconds": 7.8827186999842525
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-08-12",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 4.028332745138214,
+          "fit_seconds": 2.0118077001534402
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 3.8450027981833483,
+          "fit_seconds": 3.143501800019294
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 3.987371254038436,
+          "fit_seconds": 7.989138700067997
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-09-09",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 3.6722521930062015,
+          "fit_seconds": 1.8927949001081288
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 3.599574874971142,
+          "fit_seconds": 3.066442099865526
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 3.45884971974964,
+          "fit_seconds": 7.762157500255853
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-10-07",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 3.5952465582472226,
+          "fit_seconds": 1.8557724002748728
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 3.4415632968269283,
+          "fit_seconds": 2.988709199707955
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 3.4124849007547615,
+          "fit_seconds": 7.690107500180602
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-11-04",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 3.7302251384971514,
+          "fit_seconds": 2.0077525000087917
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 3.663946876148406,
+          "fit_seconds": 3.0895890002138913
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 3.6226742839225112,
+          "fit_seconds": 7.933225799817592
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-02",
+      "selected": {
+        "depth": 5
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 3.9930581248029524,
+          "fit_seconds": 1.9362109997309744
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 3.9958583941459,
+          "fit_seconds": 3.245293399784714
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 4.024638783719778,
+          "fit_seconds": 7.788423200137913
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-30",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.070041837248801,
+          "fit_seconds": 1.8923161001875997
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 4.995478581540064,
+          "fit_seconds": 3.1196297998540103
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 5.007588371144781,
+          "fit_seconds": 7.894964199978858
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-01-27",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 6.532818531204174,
+          "fit_seconds": 1.9282867000438273
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 6.450603547904067,
+          "fit_seconds": 3.092715000268072
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 6.343893339839644,
+          "fit_seconds": 7.936291899997741
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-02-24",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 7.103819279723639,
+          "fit_seconds": 1.773379999678582
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 7.0772241302525005,
+          "fit_seconds": 2.9084311998449266
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 7.0270658343117764,
+          "fit_seconds": 7.5320588001050055
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-03-24",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 7.568003401579727,
+          "fit_seconds": 1.9700077003799379
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 7.492593877734365,
+          "fit_seconds": 3.063840900082141
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 7.553150460144478,
+          "fit_seconds": 7.988383200019598
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-04-21",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 7.7193910489598005,
+          "fit_seconds": 1.879612300079316
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 7.580485839726975,
+          "fit_seconds": 3.086395400110632
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 7.497217267874995,
+          "fit_seconds": 8.207507400307804
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-05-19",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 7.831967718901638,
+          "fit_seconds": 1.9867509002797306
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 7.701362541538622,
+          "fit_seconds": 3.3783269999548793
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 7.604295166173383,
+          "fit_seconds": 8.125992699991912
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-06-16",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 7.365942437236541,
+          "fit_seconds": 2.035324899945408
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 7.16919357080516,
+          "fit_seconds": 3.1137132002040744
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 7.1880590464438185,
+          "fit_seconds": 9.773559399880469
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-07-14",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 6.488489011516063,
+          "fit_seconds": 2.2344050998799503
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 6.339776578128778,
+          "fit_seconds": 3.66219720011577
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 6.314826287969842,
+          "fit_seconds": 9.469410700257868
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-08-11",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.014859570343507,
+          "fit_seconds": 2.1291694999672472
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 4.839260004209256,
+          "fit_seconds": 3.3272228999994695
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 4.9088167818635995,
+          "fit_seconds": 8.648093800060451
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-09-08",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 4.6747725987278095,
+          "fit_seconds": 1.9328844002448022
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 4.576847227076682,
+          "fit_seconds": 3.1030906001105905
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 4.525615225646809,
+          "fit_seconds": 8.002304799854755
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-10-06",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 4.847730427532185,
+          "fit_seconds": 2.0721042999066412
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 4.7597288810204175,
+          "fit_seconds": 3.3075569001957774
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 4.780443202341821,
+          "fit_seconds": 8.695369400084019
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-11-03",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 5.307143691232806,
+          "fit_seconds": 1.8971747001633048
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 5.201127935063553,
+          "fit_seconds": 3.084557000081986
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 5.214740179336829,
+          "fit_seconds": 8.065962800290436
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-01",
+      "selected": {
+        "depth": 9
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 6.343518998175767,
+          "fit_seconds": 1.9813787997700274
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 6.31141705381808,
+          "fit_seconds": 3.09067519987002
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 6.308417057075894,
+          "fit_seconds": 7.698775900062174
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-29",
+      "selected": {
+        "depth": 7
+      },
+      "candidates": [
+        {
+          "params": {
+            "depth": 5
+          },
+          "validation_mae": 7.072538474459598,
+          "fit_seconds": 1.9173832996748388
+        },
+        {
+          "params": {
+            "depth": 7
+          },
+          "validation_mae": 6.948232709060665,
+          "fit_seconds": 3.178522900212556
+        },
+        {
+          "params": {
+            "depth": 9
+          },
+          "validation_mae": 6.963050351076189,
+          "fit_seconds": 7.977773899678141
+        }
+      ]
+    }
+  ],
+  "JointCurve": [
+    {
+      "forecast_date": "2016-01-01",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 5.160179395586567,
+          "fit_seconds": 1.4422595999203622
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 5.122300231839328,
+          "fit_seconds": 0.578286400064826
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.099309036108152,
+          "fit_seconds": 0.505018400028348
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-01-29",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 5.1187806420134505,
+          "fit_seconds": 1.3766891998238862
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 5.076867846907169,
+          "fit_seconds": 0.6519285999238491
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.046444539658049,
+          "fit_seconds": 0.5409579002298415
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-02-26",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 5.113535738548733,
+          "fit_seconds": 1.2762453998439014
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 5.077883985660771,
+          "fit_seconds": 0.6106007997877896
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.052948956999695,
+          "fit_seconds": 0.4335396997630596
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-03-25",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.968043025857539,
+          "fit_seconds": 1.2609532000496984
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.923596788540188,
+          "fit_seconds": 0.6187873003073037
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.886415238888198,
+          "fit_seconds": 0.47902509989216924
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-04-22",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.816880754061973,
+          "fit_seconds": 1.2185808001086116
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.779507190254913,
+          "fit_seconds": 0.6064308998174965
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.7498968759071305,
+          "fit_seconds": 0.5023292996920645
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-05-20",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.672473505394261,
+          "fit_seconds": 1.3645399999804795
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.610199151552991,
+          "fit_seconds": 0.5681242998689413
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.568669409317775,
+          "fit_seconds": 0.5018970998935401
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-06-17",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.240041206965382,
+          "fit_seconds": 1.270142899826169
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.184113002907265,
+          "fit_seconds": 0.5117146000266075
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.145172925741938,
+          "fit_seconds": 0.5116539001464844
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-07-15",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 3.9359410280130303,
+          "fit_seconds": 1.3600633000023663
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 3.8839996495382727,
+          "fit_seconds": 0.6044513997621834
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.8520081172617022,
+          "fit_seconds": 0.6335601001046598
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-08-12",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 3.5659754297709494,
+          "fit_seconds": 1.5792545001022518
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 3.512747046147367,
+          "fit_seconds": 0.7665231004357338
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.473953770345411,
+          "fit_seconds": 0.5663132001645863
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-09-09",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 3.537561748683331,
+          "fit_seconds": 1.6311810999177396
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 3.482059399302433,
+          "fit_seconds": 0.7917216001078486
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.4385752559148104,
+          "fit_seconds": 0.6192318997345865
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-10-07",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 3.5689749262028974,
+          "fit_seconds": 1.659321099985391
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 3.5107059708992945,
+          "fit_seconds": 0.7606866997666657
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.4664159677005792,
+          "fit_seconds": 0.6133838999085128
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-11-04",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 3.869521017972445,
+          "fit_seconds": 1.5931373997591436
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 3.80047304198945,
+          "fit_seconds": 0.8125179996713996
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 3.749191711105459,
+          "fit_seconds": 0.6534218001179397
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-02",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.1786023439072,
+          "fit_seconds": 1.54095369996503
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.133959526882745,
+          "fit_seconds": 0.6662682997994125
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.101152254174909,
+          "fit_seconds": 0.4863548995926976
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-30",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.989480338804537,
+          "fit_seconds": 1.4787849001586437
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.965818975736211,
+          "fit_seconds": 0.5459654997102916
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.964037671812356,
+          "fit_seconds": 0.41611600015312433
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-01-27",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 6.12019838858721,
+          "fit_seconds": 1.192013599909842
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 6.080032516088329,
+          "fit_seconds": 0.48909240029752254
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.0673218334498635,
+          "fit_seconds": 0.2780716996639967
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-02-24",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 6.717710337813998,
+          "fit_seconds": 0.9061965998262167
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 6.6686839497839,
+          "fit_seconds": 0.5168622001074255
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.657717860932703,
+          "fit_seconds": 0.28788210032507777
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-03-24",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 7.084962066709931,
+          "fit_seconds": 1.0096404999494553
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 7.032439041671113,
+          "fit_seconds": 0.5224830000661314
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 7.017792827108244,
+          "fit_seconds": 0.31145039992406964
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-04-21",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 6.960249771389658,
+          "fit_seconds": 0.8279773001559079
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 6.902936430052016,
+          "fit_seconds": 0.37907660007476807
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.882225195399126,
+          "fit_seconds": 0.2871102001518011
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-05-19",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 7.200293789998459,
+          "fit_seconds": 0.9314585002139211
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 7.127960031500403,
+          "fit_seconds": 0.4025958999991417
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 7.082701449492447,
+          "fit_seconds": 0.2768653999082744
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-06-16",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 6.673411659004231,
+          "fit_seconds": 1.045649299863726
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 6.621491730241308,
+          "fit_seconds": 0.4209616999141872
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.585658647006489,
+          "fit_seconds": 0.32893669977784157
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-07-14",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 5.858264664795778,
+          "fit_seconds": 1.0933051998727024
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 5.818139359819755,
+          "fit_seconds": 0.512455299962312
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.783116079741031,
+          "fit_seconds": 0.3272293000482023
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-08-11",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.895561980144694,
+          "fit_seconds": 1.1331992000341415
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.866892246949255,
+          "fit_seconds": 0.45425619976595044
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.8356251817030795,
+          "fit_seconds": 0.3700020997785032
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-09-08",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.512901209471055,
+          "fit_seconds": 1.1691850000061095
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.493796401888931,
+          "fit_seconds": 0.5474724997766316
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.470082975263782,
+          "fit_seconds": 0.4315597000531852
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-10-06",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 4.772146423220488,
+          "fit_seconds": 1.1611065003089607
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 4.757270970967755,
+          "fit_seconds": 0.581246200017631
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 4.741875908623906,
+          "fit_seconds": 0.44550650008022785
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-11-03",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 5.354852567155949,
+          "fit_seconds": 1.0389955001883209
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 5.314018771890827,
+          "fit_seconds": 0.5212609004229307
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 5.281113216610952,
+          "fit_seconds": 0.35709490021690726
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-01",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 6.41527285682141,
+          "fit_seconds": 1.1294281999580562
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 6.351649967585414,
+          "fit_seconds": 0.5286677000112832
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.311260774547551,
+          "fit_seconds": 0.3680527997203171
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-29",
+      "selected": {
+        "alpha": 0.1
+      },
+      "candidates": [
+        {
+          "params": {
+            "alpha": 0.02
+          },
+          "validation_mae": 7.102308026218875,
+          "fit_seconds": 1.073755499906838
+        },
+        {
+          "params": {
+            "alpha": 0.05
+          },
+          "validation_mae": 7.0197771086522,
+          "fit_seconds": 0.4435993004590273
+        },
+        {
+          "params": {
+            "alpha": 0.1
+          },
+          "validation_mae": 6.9727051668783115,
+          "fit_seconds": 0.32253329968079925
+        }
+      ]
+    }
+  ],
+  "JointMLP": [
+    {
+      "forecast_date": "2016-01-01",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 29.048953171042186,
+          "fit_seconds": 3.1024846001528203
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 21.09862484340484,
+          "fit_seconds": 0.2447363999672234
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-01-29",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 27.965692992033542,
+          "fit_seconds": 0.20436230022460222
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 20.02874841739188,
+          "fit_seconds": 0.2535987999290228
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-02-26",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 25.75636867205029,
+          "fit_seconds": 0.16566279996186495
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 19.39091106400822,
+          "fit_seconds": 0.215609900187701
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-03-25",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 24.107397045281342,
+          "fit_seconds": 0.19474309962242842
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 17.072865040559904,
+          "fit_seconds": 0.24032649956643581
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-04-22",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 20.941410772766602,
+          "fit_seconds": 0.19964219955727458
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 14.871385294356188,
+          "fit_seconds": 0.21483359998092055
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-05-20",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 18.73839075448421,
+          "fit_seconds": 0.18881670013070107
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 13.968656337117102,
+          "fit_seconds": 0.25087810028344393
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-06-17",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 17.38546802754695,
+          "fit_seconds": 0.18248430034145713
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 12.642234123347006,
+          "fit_seconds": 0.23764119995757937
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-07-15",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 17.658855964461747,
+          "fit_seconds": 0.20199119998142123
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 11.87047597028397,
+          "fit_seconds": 0.2422623997554183
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-08-12",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 18.47249507275475,
+          "fit_seconds": 0.18915879959240556
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 11.358531935132028,
+          "fit_seconds": 0.2384480000473559
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-09-09",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 19.83006760733905,
+          "fit_seconds": 0.20066249975934625
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 12.281411987178492,
+          "fit_seconds": 0.25090450001880527
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-10-07",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 21.73909655424592,
+          "fit_seconds": 0.19546699989587069
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 14.251454396793694,
+          "fit_seconds": 0.25244739977642894
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-11-04",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 24.68063567671693,
+          "fit_seconds": 0.19618159998208284
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 17.052242018979985,
+          "fit_seconds": 0.2609874000772834
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-02",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 27.14830190736896,
+          "fit_seconds": 0.18680510018020868
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 17.60026541991767,
+          "fit_seconds": 0.24792669992893934
+        }
+      ]
+    },
+    {
+      "forecast_date": "2016-12-30",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 28.43629677361239,
+          "fit_seconds": 0.1867594001814723
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 18.576018125144113,
+          "fit_seconds": 0.23761359974741936
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-01-27",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 30.72544486820971,
+          "fit_seconds": 0.1962067000567913
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 20.250003148489817,
+          "fit_seconds": 0.23127799993380904
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-02-24",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 31.803744183170707,
+          "fit_seconds": 0.21507959999144077
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 20.395266577492265,
+          "fit_seconds": 0.26934099989011884
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-03-24",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 31.29774769965546,
+          "fit_seconds": 0.2050858000293374
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 19.536173032033137,
+          "fit_seconds": 0.26547340024262667
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-04-21",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 30.787969930355363,
+          "fit_seconds": 0.2018275000154972
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 19.62745132105473,
+          "fit_seconds": 0.26895719999447465
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-05-19",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 29.91609241520529,
+          "fit_seconds": 0.20889380015432835
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 21.049577867672557,
+          "fit_seconds": 0.2669596001505852
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-06-16",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 29.04837753256817,
+          "fit_seconds": 0.1935255997814238
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 21.123122459320356,
+          "fit_seconds": 0.25765980035066605
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-07-14",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 28.98367995673265,
+          "fit_seconds": 0.20699650002643466
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 20.98240177743601,
+          "fit_seconds": 0.2627075999043882
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-08-11",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 27.8032808697311,
+          "fit_seconds": 0.21040669968351722
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 20.08052753519444,
+          "fit_seconds": 0.2685744999907911
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-09-08",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 27.922052876187333,
+          "fit_seconds": 0.20411039981991053
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 20.615330293497323,
+          "fit_seconds": 0.25949810026213527
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-10-06",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 27.914198789950802,
+          "fit_seconds": 0.20797530002892017
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 19.909809415766173,
+          "fit_seconds": 0.27037090016528964
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-11-03",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 28.485118835363195,
+          "fit_seconds": 0.21078570000827312
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 19.976426202777105,
+          "fit_seconds": 0.26349270017817616
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-01",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 29.03251234008825,
+          "fit_seconds": 0.21326129976660013
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 20.13079715190353,
+          "fit_seconds": 0.26427470007911325
+        }
+      ]
+    },
+    {
+      "forecast_date": "2017-12-29",
+      "selected": {
+        "hidden": 128
+      },
+      "candidates": [
+        {
+          "params": {
+            "hidden": 64
+          },
+          "validation_mae": 29.122211867886367,
+          "fit_seconds": 0.20334640005603433
+        },
+        {
+          "params": {
+            "hidden": 128
+          },
+          "validation_mae": 20.835953989522363,
+          "fit_seconds": 0.26559290010482073
+        }
+      ]
+    }
+  ]
+}
