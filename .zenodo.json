@@ -1,0 +1,9 @@
+{
+  "title": "EPEX Price Forecast Benchmark",
+  "description": "Leakage-audited point, probabilistic, cross-zone, and battery-value benchmark for European day-ahead electricity prices.",
+  "upload_type": "software",
+  "license": "MIT",
+  "creators": [{"name": "Asker, Mhd"}],
+  "version": "0.3.0",
+  "keywords": ["electricity price forecasting", "EPEX", "probabilistic forecasting", "reproducibility"]
+}

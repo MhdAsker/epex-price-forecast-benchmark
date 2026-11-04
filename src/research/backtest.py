@@ -85,6 +85,8 @@ def run_point_backtest(
     spec: BacktestSpec,
     *,
     max_test_days: int | None = None,
+    checkpoint_path: Path | None = None,
+    checkpoint_every_days: int = 28,
 ) -> tuple[pd.DataFrame, dict]:
     """Run outer rolling-origin evaluation and inner blocked validation.
 
@@ -108,15 +110,30 @@ def run_point_backtest(
     fitted: dict[str, DailyModel] = {}
     params_by_model: dict[str, dict] = {}
 
+    completed: dict[str, set[str]] = {name: set() for name in models}
+    if checkpoint_path is not None and checkpoint_path.exists():
+        prior = pd.read_parquet(checkpoint_path)
+        rows.extend(prior.to_dict("records"))
+        for model_name in models:
+            completed[model_name] = set(
+                prior.loc[prior["model"] == model_name, "delivery_date"].astype(str)
+            )
+
     # Baselines are exact columns of the declared lag design.
+    existing_baselines = {row["model"] for row in rows}
     for idx in test_indices:
-        rows.extend(_prediction_rows(data.dates[idx], data.y[idx], data.X[idx, :24], "Naive D-1", spec, 0.0))
-        rows.extend(_prediction_rows(data.dates[idx], data.y[idx], data.X[idx, 48:72], "Naive D-7", spec, 0.0))
+        if "Naive D-1" not in existing_baselines:
+            rows.extend(_prediction_rows(data.dates[idx], data.y[idx], data.X[idx, :24], "Naive D-1", spec, 0.0))
+        if "Naive D-7" not in existing_baselines:
+            rows.extend(_prediction_rows(data.dates[idx], data.y[idx], data.X[idx, 48:72], "Naive D-7", spec, 0.0))
 
     for model_name in models:
         print(f"Backtesting {model_name} on {len(test_indices)} daily origins", flush=True)
         last_fit_position = -10**9
         for position, idx in enumerate(test_indices):
+            date_string = data.dates[idx].date().isoformat()
+            if date_string in completed[model_name]:
+                continue
             if position % 28 == 0:
                 print(
                     f"  {model_name}: {position + 1}/{len(test_indices)} "
@@ -153,7 +170,18 @@ def run_point_backtest(
                     data.dates[idx], data.y[idx], pred, model_name, spec, fit_seconds
                 )
             )
+            if checkpoint_path is not None and (position + 1) % checkpoint_every_days == 0:
+                checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
+                pd.DataFrame(rows).drop_duplicates(
+                    ["delivery_date", "hour", "model", "seed"], keep="last"
+                ).to_parquet(checkpoint_path, index=False)
     predictions = pd.DataFrame(rows)
+    predictions = predictions.drop_duplicates(
+        ["delivery_date", "hour", "model", "seed"], keep="last"
+    ).sort_values(["delivery_date", "model", "hour"]).reset_index(drop=True)
+    if checkpoint_path is not None:
+        checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
+        predictions.to_parquet(checkpoint_path, index=False)
     return predictions, tuning_log
 
 

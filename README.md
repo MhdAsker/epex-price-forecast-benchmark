@@ -1,266 +1,265 @@
-# EPEX DE-LU Day-Ahead Price Forecast Benchmark
+# EPEX day-ahead price forecasting benchmark
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-11%20Passed-brightgreen)](tests/)
-[![Market: EPEX SPOT DE-LU](https://img.shields.io/badge/Market-EPEX%20SPOT%20DE--LU-orange)](https://www.epexspot.com/)
-[![Benchmark: Lago et al.](https://img.shields.io/badge/Benchmark-epftoolbox-purple)](https://github.com/jeslago/epftoolbox)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+[![Tests](https://img.shields.io/badge/tests-14%20passed-brightgreen)](tests/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Release](https://img.shields.io/badge/release-v0.3.0-purple)](CITATION.cff)
 
-An audit-grade, leak-free benchmark for day-ahead electricity price forecasting in the German-Luxembourg (**DE-LU**) bidding zone. 
+A leakage-audited research benchmark for point forecasts, predictive intervals, cross-market generalization, and storage decision value in European day-ahead electricity markets.
 
-Unlike standard time-series regression tasks, day-ahead power markets operate under strict auction timing: all 24 hourly products for delivery day $D$ clear simultaneously at **12:00 Europe/Berlin on day $D-1$**. This repository documents the widespread "same-auction information leakage" trap, enforces formal protocol guardrails, and provides state-of-the-art point and probabilistic forecasting benchmarks across both recent post-crisis data (2022–2024) and standardized multi-year academic testbeds (2012–2017).
+The central design constraint is operational: all 24 hourly products for delivery day **D** are forecast together at **12:00 Europe/Berlin on D-1**. A model may use only information available at that origin. This invalidates the common practice of using the preceding delivery hour to predict the next hour inside the same auction curve.
 
----
+The repository develops the benchmark in three layers:
 
-## 📑 Table of Contents
+1. **Protocol validity:** formal forecast-time information boundaries and leakage tests on recent DE-LU data.
+2. **Forecast rigor:** multi-year rolling point and probabilistic evaluation with nested temporal tuning, dependence-aware inference, and ablations.
+3. **Generalization and value:** four European zones, local/pooled/transfer learning, non-anticipative battery dispatch, immutable artifacts, and a reproducibility release.
 
-- [Executive Summary & The Information Leakage Trap](#-executive-summary--the-information-leakage-trap)
-- [Benchmark Results](#-benchmark-results)
-  - [Phase 1: Real-World 2024 DE-LU Day-Ahead Auction](#phase-1-real-world-2024-de-lu-day-ahead-auction-20222024)
-  - [Phase 2: Standardized Multi-Year Rolling-Origin Benchmark](#phase-2-standardized-multi-year-rolling-origin-benchmark-20162017)
-  - [Statistical Significance (Diebold-Mariano Tests)](#statistical-significance-diebold-mariano-tests)
-  - [Probabilistic & Quantile Calibration](#probabilistic--quantile-calibration)
-- [Formal Auction Protocol & Guardrails](#-formal-auction-protocol--guardrails)
-- [Diagnostic Plots & Visualizations](#-diagnostic-plots--visualizations)
-- [Repository Architecture](#-repository-architecture)
-- [Reproducibility & Quickstart](#-reproducibility--quickstart)
-- [Methodological Key Insights](#-methodological-key-insights)
+## Research status
 
----
+| Capability | Status | Evidence |
+|---|---|---|
+| Noon D-1 information contract | Complete | [`config/forecast_protocol.json`](config/forecast_protocol.json) |
+| Leakage and DST guardrails | Complete | 14 automated tests |
+| Recent DE-LU holdout | Complete | 2024, 8,040 hourly products |
+| Full-year rolling benchmark | Complete | 2016 and 2017, 17,544 products |
+| Point models | Complete | naive, LEAR, LightGBM, XGBoost, CatBoost, JointCurve, JointMLP |
+| Probabilistic forecasts | Complete | QRA and conformal LightGBM, seven quantiles |
+| Dependence-aware inference | Complete | daily losses, moving-block bootstrap, Diebold-Mariano tests |
+| Cross-zone generalization | Complete | BE, DE, FR, Nordic; 140,352 predictions |
+| Decision value | Complete | mixed-integer 1 MW / 1 MWh battery dispatch |
+| Immutable release artifacts | Complete | checksums, manifests, cards, release bundle command |
+| Audited exogenous vintages | Not yet available | excluded rather than treated as known |
+| DOI | Pending external deposit | Zenodo metadata is prepared; no DOI is claimed |
 
-## ⚠️ Executive Summary & The Information Leakage Trap
+## Main findings
 
-In European day-ahead power markets (EPEX SPOT / SDAC), market participants submit order curves before the gate closure at **12:00 on $D-1$**. The auction clears simultaneously for all 24 hours of day $D$.
+- The valid 2024 DE-LU ensemble reaches **19.64 EUR/MWh MAE**, 25.1% below D-1 persistence. A deliberately leaky one-hour-lag diagnostic reaches 8.66 EUR/MWh and is **not rankable**.
+- On the standardized German benchmark, the best MAE is **4.28** in 2016 (XGBoost) and **6.59** in 2017 (JointCurve). The leading classical and tree models are statistically difficult to separate, while all materially outperform persistence.
+- Probabilistic forecasts remain under-covered: QRA obtains 85.7% and 85.0% empirical coverage for nominal 90% intervals in 2016 and 2017. Conformal calibration improves this to 88.2% and 86.8%, at the cost of wider intervals.
+- Transfer is not uniformly beneficial. It is best by MAE in France, local training is best in Belgium, Germany, and Nordic, and pooled training is worse than persistence in Nordic.
+- Accuracy and economic value do not have identical rankings. In Belgium and France, pooled models produce the greatest battery value even though another model has lower MAE.
 
-### The Classic Leakage Trap:
-A frequent error in published machine learning benchmarks is conditioning next-hour forecasts on `price_lag_1h`. In an operational day-ahead setting at 12:00 on $D-1$:
-- For hour 00 of day $D$, the actual price of hour 23 on day $D-1$ is **unknown** (it hasn't delivered yet).
-- For hours 01–23 of day $D$, using `price_lag_1h` directly leaks prices established in the **very same auction block**.
+These are benchmark results, not claims of universal superiority. Market, period, feature vintage, calibration design, and decision objective all affect rankings.
 
-```
-Gate Closure: 12:00 (D-1)
-                     |
-                     v
-[Delivery Day D-1]   |   [Delivery Day D: 24 Hourly Products Clear Simultaneously]
-... 10  11  12  13 ...   [00:00] [01:00] ... [12:00] ... [22:00] [23:00]
-                     |      ^       ^
-                     |      |_______|--- Using D[h-1] to predict D[h] leaks prices
-                     |                   from the exact same auction!
-```
+## Phase 1: forecast-time validity on DE-LU 2024
 
-This benchmark explicitly isolates this effect:
-- **Leaky LightGBM** (`price_lag_1h` included) reports an artificial **8.66 €/MWh MAE**.
-- **Audited Auction-Safe Ensemble** achieves **19.64 €/MWh MAE** (a realistic 25.1% improvement over persistence).
+**Data:** 2022-01-01 through 2024-11-30. 2022-2023 train the estimators; 2024 is held out. The primary information set uses complete price curves and features admitted by the noon D-1 protocol. Exogenous revisions published after the gate are isolated as a sensitivity analysis.
 
----
+| Model | Status | MAE | RMSE | Negative-price MAE | Negative recall |
+|---|---:|---:|---:|---:|---:|
+| **DA Ensemble** | primary winner | **19.64** | **29.59** | 37.87 | 17.2% |
+| DA Price History | primary | 20.32 | 29.78 | 31.54 | 30.5% |
+| DA Spike | primary | 20.66 | 30.46 | **30.27** | **33.6%** |
+| DA Hourly | primary | 21.70 | 32.44 | 47.46 | 7.1% |
+| Naive D-1 | baseline | 26.21 | 39.26 | 37.61 | 36.8% |
+| Naive D-7 | baseline | 28.98 | 43.34 | 43.64 | 34.1% |
 
-## 📊 Benchmark Results
+The post-gate oracle and leaky LightGBM diagnostic are stored separately and cannot win the primary leaderboard. This distinction matters more than small differences among valid model specifications.
 
-### Phase 1: Real-World 2024 DE-LU Day-Ahead Auction (2022–2024)
+### Information boundary
 
-- **Training Period:** 2022-01-01 to 2023-12-31 (17,185 hourly observations).
-- **Test Period:** 2024-01-01 to 2024-11-30 (8,040 hourly observations).
-- **Forecast Origin:** 12:00 Europe/Berlin on $D-1$.
-- **Negative-price hours in test:** 449 hours (5.6%).
-
-| Model | Information Set | Status | MAE (€/MWh) | RMSE (€/MWh) | MAE Negative | Neg Recall | Neg Precision |
-|:---|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **DA Ensemble** | Auction-safe ($D-1$) | **Primary Winner** | **19.64** | **29.59** | 37.87 | 17.2% | **82.8%** |
-| **DA Price History** | Auction-safe ($D-1$) | Primary | 20.32 | 29.78 | 31.54 | 30.5% | 73.3% |
-| **DA Spike** | Auction-safe ($D-1$) | Primary | 20.66 | 30.46 | **30.27** | **33.6%** | 64.0% |
-| **DA Hourly** | 24 distinct hourly estimators | Primary | 21.70 | 32.44 | 47.46 | 7.1% | 94.1% |
-| **Naive D-1** | Lag 24h persistence | Baseline | 26.21 | 39.26 | 37.61 | 36.8% | 36.7% |
-| **Naive D-7** | Lag 168h persistence | Baseline | 28.98 | 43.34 | 43.64 | 34.1% | 32.0% |
-| *Post-gate Oracle* | Exogenous wind/solar (18:00 D-1) | Sensitivity | 19.46 | 26.62 | 20.97 | 41.0% | 92.5% |
-| *Leaky LightGBM* | `price_lag_1h` (intra-auction leak) | Invalid diagnostic | 8.66 | 14.92 | 16.84 | 73.3% | 78.0% |
-
-> **Key takeaway:** The primary auction-safe ensemble delivers a **25.1% MAE reduction** over the D-1 naive baseline without relying on post-gate exogenous forecast revisions.
-
----
-
-### Phase 2: Standardized Multi-Year Rolling-Origin Benchmark (2016–2017)
-
-To ensure comparability with international academic literature, Phase 2 implements a continuous **weekly-refit rolling calibration** over the standardized Lago et al. (*epftoolbox*) German EPEX dataset (4-year calibration window: 1,461 days, rolling forward weekly).
-
-#### Test Year 2016 (8,784 hours):
-| Model | MAE (€/MWh) | RMSE (€/MWh) | rMAE vs D-1 | Bias (€) | MAE Negative | Neg Recall | Spike MAE | Train Time |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **XGBoost** | **4.28** | 7.10 | **0.661** | +0.45 | 30.14 | 2.1% | 48.93 | 151s |
-| **JointCurve** | 4.32 | **6.92** | 0.667 | +0.11 | **24.35** | 24.7% | **41.19** | 31s |
-| **LEAR** | 4.37 | 6.99 | 0.675 | +0.11 | 24.37 | 25.8% | 42.36 | **6s** |
-| **CatBoost** | 4.45 | 7.18 | 0.688 | +0.38 | 30.65 | 4.1% | 48.50 | 280s |
-| **LightGBM** | 4.60 | 7.60 | 0.711 | **+0.07** | 30.14 | **37.1%** | 45.31 | 60s |
-| *Naive D-1* | 6.47 | 10.21 | 1.000 | -0.04 | 28.80 | 19.6% | 35.13 | 0s |
-| *Naive D-7* | 6.80 | 11.44 | 1.051 | -0.03 | 47.33 | 10.3% | 57.45 | 0s |
-| *JointMLP* | 15.45 | 19.61 | 2.387 | -6.52 | 53.42 | 0.0% | 92.30 | 14s |
-
-#### Test Year 2017 (8,760 hours):
-| Model | MAE (€/MWh) | RMSE (€/MWh) | rMAE vs D-1 | Bias (€) | MAE Negative | Neg Recall | Spike MAE | Train Time |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **JointCurve** | **6.59** | **10.47** | **0.666** | -0.17 | **29.37** | **40.7%** | **35.42** | 20s |
-| **LightGBM** | 6.61 | 10.93 | 0.668 | -0.38 | 33.69 | 31.7% | 38.12 | 63s |
-| **LEAR** | 6.62 | 10.53 | 0.669 | -0.24 | 30.94 | 39.3% | 36.00 | **6s** |
-| **CatBoost** | 6.65 | 11.49 | 0.672 | +0.10 | 40.41 | 9.7% | 55.44 | 313s |
-| **XGBoost** | 6.68 | 11.60 | 0.675 | **-0.08** | 39.13 | 13.1% | 57.87 | 118s |
-| *Naive D-1* | 9.89 | 15.58 | 1.000 | +0.09 | 39.32 | 24.8% | 32.81 | 0s |
-| *Naive D-7* | 11.44 | 18.24 | 1.157 | +0.14 | 52.95 | 6.9% | 33.87 | 0s |
-| *JointMLP* | 21.20 | 26.25 | 2.143 | -10.80 | 57.21 | 0.0% | 43.49 | 15s |
-
----
-
-### Statistical Significance (Diebold-Mariano Tests)
-
-Pairwise Diebold-Mariano (DM) tests with multi-horizon adjustments and bootstrap confidence intervals evaluated over 731 out-of-sample days:
-- **JointCurve, LEAR, and Gradient Boosting (XGBoost/LightGBM/CatBoost)** form a statistical equivalence tier ($p > 0.05$), each significantly outperforming persistence baselines ($p < 10^{-16}$).
-- **LEAR (Lasso Estimated AutoRegressive)** trains in **6 seconds** while matching 280-second CatBoost models within 0.03–0.08 €/MWh across both years.
-- **JointMLP** fails catastrophically under extreme price shifts and regime changes, showing that unregularized deep networks overfit non-stationary electricity auctions.
-
----
-
-### Probabilistic & Quantile Calibration
-
-Day-ahead risk management and battery arbitrage require reliable predictive densities. We evaluated **Quantile Regression Averaging (QRA)** and **Conformalized Quantile Predictions** across 50%, 80%, and 90% target prediction intervals:
-
-| Method | Test Year | Mean Pinball Loss | CRPS (approx) | 90% Coverage (Width) | 80% Coverage (Width) | 50% Coverage (Width) |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **QRA** | 2016 | **1.330** | **2.660** | 85.7% (15.58 €) | 74.9% (11.05 €) | 47.4% (5.23 €) |
-| **Conformal-LGBM** | 2016 | 1.467 | 2.933 | **88.2%** (17.42 €) | **78.4%** (12.60 €) | **50.2%** (5.89 €) |
-| **QRA** | 2017 | **2.136** | **4.272** | 85.0% (24.54 €) | 74.1% (16.95 €) | 46.7% (7.37 €) |
-| **Conformal-LGBM** | 2017 | 2.223 | 4.446 | **86.8%** (26.93 €) | **76.5%** (17.40 €) | **48.6%** (7.63 €) |
-
----
-
-## 🛡️ Formal Auction Protocol & Guardrails
-
-The machine-readable forecast contract is formalized in [`config/forecast_protocol.json`](config/forecast_protocol.json) and enforced at runtime by [`src/protocol.py`](src/protocol.py):
-
-1. **Cutoff Rule:** Strict 12:00 Europe/Berlin gate on $D-1$.
-2. **Lag Availability:** Only $D-1$, $D-2$, $D-7$, and $D-14$ full-curve vectors and profile statistics are admitted.
-3. **Autumn Daylight Saving Time (DST):** On 25-hour transition days in October, the two distinct 02:00 UTC/local hours are retained as separate products using `local_fold` and `product_position` instead of being averaged or dropped.
-4. **Automated Leakage Testing:** PyTest suite scrambles same-day future hours to verify that estimator predictions remain strictly unchanged.
-
----
-
-## 📈 Diagnostic Plots & Visualizations
-
-All diagnostic figures are generated to `results/plots/`:
-
-| Diagnostic Plot | Description |
-|:---|:---|
-| [`phase2_point_mae_by_year.png`](results/plots/phase2_point_mae_by_year.png) | Annual MAE comparison across all Phase 2 models vs Naive persistence. |
-| [`phase2_probabilistic_calibration.png`](results/plots/phase2_probabilistic_calibration.png) | Reliability diagram and prediction interval width for QRA and Conformal LGBM. |
-| [`phase2_dm_matrix.png`](results/plots/phase2_dm_matrix.png) | Heatmap of pairwise Diebold-Mariano test p-values across all models. |
-| [`day_ahead_by_hour.png`](results/plots/day_ahead_by_hour.png) | Model-by-model MAE curve broken down by delivery hour (00:00 to 23:00). |
-| [`day_ahead_regimes.png`](results/plots/day_ahead_regimes.png) | Performance under extreme price volatility, negative prices, and peak hours. |
-| [`actual_vs_predicted.png`](results/plots/actual_vs_predicted.png) | 30-day time-series overlay of ground truth prices against model predictions. |
-| [`error_distribution.png`](results/plots/error_distribution.png) | Residual error distributions showing skewness and heavy-tail behavior. |
-| [`negative_price_analysis.png`](results/plots/negative_price_analysis.png) | Scatter analysis of negative pricing events colored by hour of day. |
-| [`feature_importance.png`](results/plots/feature_importance.png) | Top predictors identified by split-count and gain importance. |
-
----
-
-## 📂 Repository Architecture
+At the forecast origin, prices from delivery day D are unknown because all products clear together. Therefore `price_lag_1h` is not a valid recursive signal for hours 01-23 of D.
 
 ```text
-epex-price-forecast-benchmark/
-├── config/
-│   └── forecast_protocol.json          # Machine-readable gate closure & availability contract
-├── data/
-│   ├── raw/                            # Raw ENTSO-E / epftoolbox parquets (gitignored)
-│   └── processed/                      # Engineered feature matrices (gitignored)
-├── results/
-│   ├── metrics/                        # Leaderboards, DM tests, and manifest JSON files
-│   ├── plots/                          # PNG diagnostic and calibration figures
-│   └── predictions/                    # Out-of-sample prediction parquets
-├── src/
-│   ├── day_ahead.py                    # Phase 1 auction-safe feature pipeline
-│   ├── protocol.py                     # Information boundary validation and guardrails
-│   ├── cv.py                           # Expanding-window walk-forward cross validation
-│   ├── evaluate.py                     # Metric calculations (MAE, RMSE, Pinball, MAPE)
-│   ├── fetch.py                        # ENTSO-E transparency API ingestion
-│   ├── features.py                     # Base feature engineering
-│   ├── visualize.py                    # Phase 1 visualization functions
-│   ├── models/
-│   │   ├── day_ahead_models.py         # Phase 1 DA estimators (Ensemble, Spike, Hourly)
-│   │   ├── lgbm_quantile_model.py      # Multi-quantile LightGBM regressor
-│   │   ├── xgb_quantile_model.py       # Native quantile error XGBoost regressor
-│   │   ├── lgbm_model.py               # Standard LightGBM point estimator
-│   │   ├── xgb_model.py                # Standard XGBoost point estimator
-│   │   ├── lstm_model.py               # PyTorch LSTM recurrent model
-│   │   └── sarima_model.py             # Seasonal ARIMA baseline
-│   └── research/                       # Phase 2 epftoolbox rolling benchmark engine
-│       ├── backtest.py                 # Multi-year rolling origin backtester
-│       ├── evaluation.py               # DM test matrix and statistical evaluation
-│       ├── features.py                 # Standardized daily matrix builder
-│       ├── probabilistic.py            # QRA and Conformal prediction implementations
-│       └── visualize.py                # Phase 2 visualization suite
-├── tests/
-│   ├── test_day_ahead.py               # Leakage guardrails and DST transition tests
-│   └── test_phase2.py                  # Rolling backtest and evaluation unit tests
-├── finalize_phase2.py                  # Generate Phase 2 tables, tests, and plots
-├── run_day_ahead.py                    # Primary Phase 1 benchmark runner
-├── run_phase2.py                       # Phase 2 rolling backtest orchestrator
-├── run_benchmark.py                    # Diagnostic legacy benchmark runner
-├── requirements.txt                    # Python package dependencies
-└── check_status.py                     # Pipeline environment & artifact checker
+11:00 D-1     12:00 D-1                         Delivery day D
+known data ─── forecast origin ───────────────── 00 01 ... 22 23
+                    │                             └── one joint auction curve ──┘
+                    └── every model input must be available here
 ```
 
----
+The protocol implementation also retains both products in the autumn 25-hour transition using product position and local-fold identity; it does not average away the duplicated local hour.
 
-## 🚀 Reproducibility & Quickstart
+## Phase 2: rigorous point and probabilistic benchmark
 
-### 1. Environment Setup
+**Source:** the open EPEX-Germany file distributed with the [epftoolbox benchmark](https://github.com/jeslago/epftoolbox), associated with Lago et al. (2021), Zenodo record 4624805. The raw series spans 2012-01-09 to 2017-12-31. Only prices enter the primary design matrix because the publication vintages of bundled exogenous columns have not been independently verified.
+
+**Executed experiment:** four-year rolling calibration window, full test years 2016 and 2017, seed 42, weekly parameter refits, blocked 182-day inner validation, and hyperparameter refresh every 28 days. Forecast origins remain daily. The daily-refit JointCurve sensitivity uses a resumable checkpoint. The larger three-seed daily configuration in [`config/phase2.json`](config/phase2.json) is the research target; it is not misrepresented as an already executed artifact.
+
+### Point accuracy
+
+| Model | 2016 MAE | 2016 RMSE | 2017 MAE | 2017 RMSE | Total recorded fit time |
+|---|---:|---:|---:|---:|---:|
+| JointCurve | 4.32 | **6.92** | **6.59** | **10.47** | 51.5 s |
+| LEAR | 4.37 | 6.99 | 6.62 | 10.53 | **12.2 s** |
+| LightGBM | 4.60 | 7.60 | 6.61 | 10.93 | 123.1 s |
+| XGBoost | **4.28** | 7.10 | 6.68 | 11.60 | 269.5 s |
+| CatBoost | 4.45 | 7.18 | 6.65 | 11.49 | 593.5 s |
+| Naive D-1 | 6.47 | 10.21 | 9.89 | 15.58 | 0 s |
+| Naive D-7 | 6.80 | 11.44 | 11.44 | 18.24 | 0 s |
+| JointMLP | 15.45 | 19.61 | 21.20 | 26.25 | 29.3 s |
+
+The compact deep model is a negative result: it is substantially worse than persistence under the chosen architecture and optimization budget. The repository reports it rather than hiding it.
+
+The recovered **daily-refit JointCurve** sensitivity is now complete: MAE is 4.327 in 2016 and 6.588 in 2017, versus 4.317 and 6.591 for weekly refitting. Daily parameter estimation therefore adds roughly 324 seconds of recorded fit time without a meaningful accuracy gain in this specification. The panel and summary are stored in [`phase2_daily_jointcurve.parquet`](results/predictions/phase2_daily_jointcurve.parquet) and [`phase2_daily_jointcurve_metrics.csv`](results/metrics/phase2_daily_jointcurve_metrics.csv).
+
+### Statistical inference
+
+Tests operate on one aggregate absolute-error loss per delivery day, not on 24 hourly rows treated as independent. Confidence intervals use a seven-day moving-block bootstrap with 2,000 replications. Diebold-Mariano tests use heteroskedasticity/autocorrelation-consistent variance.
+
+For the combined 731-day panel, JointCurve versus LEAR is borderline but not conventionally significant (`p = 0.0518`); JointCurve versus LightGBM (`p = 0.0962`) and versus XGBoost (`p = 0.8333`) are also not significant at 5%. Each leading model is decisively better than D-1 persistence in the reported panel. See [`phase2_pairwise_tests.csv`](results/metrics/phase2_pairwise_tests.csv) for every pair rather than relying on a winner-only summary.
+
+### Probabilistic performance
+
+Seven quantiles (0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95) are produced sequentially after a 60-day burn-in.
+
+| Method | Year | Pinball | Approx. CRPS | 90% coverage / width | 80% coverage / width | 50% coverage / width |
+|---|---:|---:|---:|---:|---:|---:|
+| QRA | 2016 | **1.330** | **2.660** | 85.7% / 15.58 | 74.9% / 11.05 | 47.4% / 5.23 |
+| Conformal-LightGBM | 2016 | 1.467 | 2.933 | **88.2%** / 17.42 | **78.4%** / 12.60 | **50.2%** / 5.89 |
+| QRA | 2017 | **2.136** | **4.272** | 85.0% / 24.54 | 74.1% / 16.95 | 46.7% / 7.37 |
+| Conformal-LightGBM | 2017 | 2.223 | 4.446 | **86.8%** / 26.93 | **76.5%** / 17.40 | **48.6%** / 7.63 |
+
+Coverage is close to, but below, nominal levels. The correct interpretation is “improved calibration with residual under-coverage,” not perfect calibration.
+
+## Phase 3: generalization and decision value
+
+Phase 3 freezes the Phase 2 JointCurve specification and evaluates three training strategies:
+
+- **Local:** four calendar years from the target zone.
+- **Pooled:** the union of all four zone calibration panels plus zone identity.
+- **Transfer:** pretrain on three source zones, then warm-start fine-tuning on the final 365 target-zone calibration days.
+
+The Nordic source ends on 2018-12-24. To preserve the complete-year rule, 2017—not partial 2018—is the Nordic test year.
+
+### Cross-zone forecast results
+
+| Zone / test | Best strategy | MAE | RMSE | rMAE vs D-1 | D-1 MAE |
+|---|---|---:|---:|---:|---:|
+| Belgium / 2016 | Local | **6.13** | 14.55 | 0.738 | 8.30 |
+| Germany / 2017 | Local | **6.62** | 10.48 | 0.670 | 9.89 |
+| France / 2016 | Transfer | **5.14** | 15.68 | 0.713 | 7.21 |
+| Nordic / 2017 | Local | **1.71** | 3.08 | 0.743 | 2.31 |
+
+Important failure cases remain visible: France local has 8.60 MAE and a 55.49 RMSE because extreme errors dominate; Nordic pooled has 2.79 MAE and is worse than persistence (`rMAE = 1.208`). Geographic pooling is therefore a hypothesis to test, not a guaranteed improvement.
+
+### Battery decision value
+
+Each daily schedule is chosen from that model's 24-hour forecast before delivery and settled against actual prices. The optimization enforces:
+
+- 1 MW charge/discharge power and 1 MWh energy capacity;
+- 90% round-trip efficiency;
+- 0.50 EUR/MWh transaction and 2.00 EUR/MWh degradation cost;
+- no simultaneous charge and discharge through binary constraints;
+- 50% initial and terminal state of charge each day.
+
+| Zone | Highest-value forecast | Annual realized value | Accuracy rank | Value rank | Perfect-foresight bound |
+|---|---|---:|---:|---:|---:|
+| Belgium | Pooled | **EUR 6,520** | 2 | 1 | EUR 9,512 |
+| Germany | Local | **EUR 5,150** | 1 | 1 | EUR 7,370 |
+| France | Pooled | **EUR 6,526** | 2 | 1 | EUR 8,444 |
+| Nordic | Local | **EUR 227** | 1 | 1 | EUR 731 |
+
+In France, transfer has the lowest MAE but pooled earns EUR 558 more. In Belgium, local has the lowest MAE but pooled earns EUR 147 more. The perfect-foresight result is a non-rankable upper bound, not a deployable strategy.
+
+### Regimes and limits
+
+Conditional metrics are generated for negative prices, top-5% absolute-price spikes, peak hours, weekends, and fixed-date holidays. These are ex-post labels and never model inputs.
+
+This release does **not** claim audited high-renewable, extreme-weather, or energy-crisis regime results for the historical cross-zone panel. Those labels require traceable realized series and definitions. Likewise, load, weather, outages, flows, fuel, and carbon features remain excluded until their forecast-time vintages can be reproduced. This is an intentional validity boundary.
+
+## Reproduce the work
+
+### Install
 
 ```bash
 git clone https://github.com/MhdAsker/epex-price-forecast-benchmark.git
 cd epex-price-forecast-benchmark
-
 python -m venv .venv
-# On Windows:
+# Windows
 .venv\Scripts\activate
-# On Linux/macOS:
-source .venv/bin/activate
-
+# Linux/macOS
+# source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Verify Tests & Leakage Guardrails
+Python dependencies are pinned in [`requirements.txt`](requirements.txt). Raw data and large model files are ignored; acquisition functions recreate checksum manifests.
+
+### Validate
 
 ```bash
-python -m pytest -v
+python -m pytest -q
 ```
-All 11 tests check for:
-- Temporal order preservation (no future observation shuffling).
-- Strict information availability at 12:00 on $D-1$.
-- 25-hour Autumn DST clock change preservation.
-- Diebold-Mariano test consistency.
 
-### 3. Run Benchmarks
+The 14 tests cover information isolation, DST handling, daily-curve construction, estimator dimensions, probabilistic scores, dependence-aware inference, incomplete-year rejection, battery feasibility/non-simultaneity, and shadow-packet checksum detection.
+
+### Run experiments
 
 ```bash
-# Run primary Phase 1 Auction Benchmark (2024 test period)
+# Phase 1: recent DE-LU protocol benchmark
 python run_day_ahead.py
 
-# Finalize Phase 2 rolling benchmark metrics & calibration plots
+# Phase 2: full research target (expensive)
+python run_phase2.py --checkpoint
+
+# Rebuild Phase 2 metrics and plots from saved predictions
 python finalize_phase2.py
 
-# Run pipeline health check
-python check_status.py
+# Phase 3: fetch four open price files, fit, evaluate, and report
+python run_phase3.py
+
+# Recreate paper tables/figures from immutable Phase 3 predictions
+# and package dist/epex-benchmark-0.3.0.zip plus its checksum
+python release.py
 ```
 
-*(Optional: Set `ENTSOE_API_KEY` in `.env` if re-fetching raw ENTSO-E data via `python src/fetch.py`).*
+`run_phase2.py --checkpoint` writes an idempotent per-model panel so an interruption can resume without duplicating delivery dates. ENTSO-E acquisition requires `ENTSOE_API_KEY`; the open epftoolbox files do not.
 
----
+## Artifact map
 
-## 💡 Methodological Key Insights
+```text
+config/
+  forecast_protocol.json       noon D-1 contract
+  phase2.json                  target rolling experiment
+  phase3.json                  zones and decision specification
+src/research/
+  backtest.py                  rolling origin + temporal tuning + checkpoints
+  probabilistic.py             sequential QRA and conformal calibration
+  evaluation.py               point/probabilistic metrics, bootstrap, DM
+  generalization.py            local, pooled, and transfer experiments
+  decision.py                  non-anticipative battery MILP
+  regimes.py                   ex-post conditional evaluation
+  shadow.py                    append-only checksum and hash-chain packets
+results/
+  metrics/                     machine-readable tables and manifests
+  predictions/                 out-of-sample panels
+  plots/                       generated figures
+reports/
+  PHASE3_RESEARCH_REPORT.md    concise paper-style report
+  DATA_CARD.md                 provenance and exclusions
+  MODEL_CARDS.md               intended use and model limitations
+release.py                     one-command reproducibility bundle
+```
 
-1. **Information Leakage Invalidation:** Machine learning papers claiming sub-10 €/MWh MAE on day-ahead EPEX without hourly decomposition almost invariably leak same-auction prices via 1-hour lags. Enforcing an audited D-1 12:00 cutoff sets the true competitive benchmark at **~19.6 €/MWh** on 2024 DE-LU data.
-2. **Linear Parsimony vs Gradient Boosting:** In standardized rolling benchmarks (Phase 2), regularized linear multi-output models (**LEAR** and **JointCurve**) perform within 1% of heavy gradient boosting trees (XGBoost/CatBoost) while training in a fraction of the time (6s vs 280s).
-3. **Deep Learning Fragility in Extreme Regimes:** Multilayer Perceptrons and recurrent networks struggled with the heavy tails and negative-price shocks of German electricity prices, yielding severe negative bias and high ramp errors.
-4. **Quantile Calibration:** Conformalized quantile prediction achieves near-perfect empirical coverage (88.2% on 90% nominal interval) even during renewable supply shocks, making it suitable for practical risk-constrained battery dispatch.
+The Phase 3 manifest records a SHA-256 checksum and byte count for every research artifact. Historical shadow packets are explicitly marked as simulated; they must never be mixed with genuinely submitted live forecasts.
 
----
+## Reproducibility and audit policy
 
-## 📜 License
+- Raw sources receive retrieval metadata and content checksums.
+- Prediction panels contain forecast date, product hour, actual, prediction, model, and experiment identity.
+- Test outcomes never select hyperparameters.
+- Same-auction leakage tests mutate future target values and require predictions to remain invariant.
+- Statistical tests aggregate to the delivery-day level.
+- Post-gate or perfect-foresight quantities are labeled non-rankable.
+- Release metadata is available in [`CITATION.cff`](CITATION.cff) and [`.zenodo.json`](.zenodo.json). A DOI will be added only after an authorized Zenodo deposit.
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details. Market data originates from the ENTSO-E Transparency Platform and epftoolbox/Zenodo.
+## Known limitations and next work
+
+1. The complete multi-model Phase 2 artifact currently contains seed 42 with weekly parameter refits; daily refitting has been completed for JointCurve only. The configured three-seed daily panel should be completed before making seed-stability claims.
+2. QRA and conformal intervals are still under-covered in volatile periods.
+3. Cross-zone tests cover one full test year per zone; additional normal, crisis, and recent negative-price years require new immutable inputs.
+4. The transfer design is coefficient warm-starting, not a domain-adversarial or hierarchical model.
+5. Battery value is a deterministic day-ahead schedule. Intraday recourse, imbalance settlement, market impact, and reserve co-optimization are outside the present scope.
+6. The repository prepares, but cannot independently mint, a DOI without release-account authorization.
+
+## Citation
+
+If you use the repository, cite the archived software release once a DOI is available and cite the benchmark methodology:
+
+> Lago, J., Marcjasz, G., De Schutter, B., and Weron, R. (2021). Forecasting day-ahead electricity prices: A review of state-of-the-art algorithms, best practices and an open-access benchmark. *Applied Energy*, 293, 116983.
+
+See [`CITATION.cff`](CITATION.cff) for machine-readable software metadata.
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).

@@ -1,0 +1,52 @@
+{
+  "experiment_version": "3.0.0",
+  "prediction_panel_immutable": true,
+  "forecast_time_exogenous_features": [],
+  "excluded_unverifiable_regimes": [
+    "energy_crisis",
+    "high_renewable",
+    "extreme_weather"
+  ],
+  "artifacts": [
+    {
+      "path": "results/predictions/phase3_generalization_predictions.parquet",
+      "sha256": "7a441cfec83ce06bca53193e20ca6790e7dadb0110c46440110eb054e06126cc",
+      "bytes": 1422633
+    },
+    {
+      "path": "results/metrics/phase3_generalization_metrics.csv",
+      "sha256": "1d0e792c0d35aeb3497ac39dc3b99da50b7adc7676892b7a0db38a606afc4cbc",
+      "bytes": 1692
+    },
+    {
+      "path": "results/metrics/phase3_regime_metrics.csv",
+      "sha256": "dc0c6dd28ca4ddc768779274a955b89ad0adffcda5e4369cc0e3a3386231eaff",
+      "bytes": 5689
+    },
+    {
+      "path": "results/metrics/phase3_decision_metrics.csv",
+      "sha256": "3c75bb6b81230f411d1341804eb4147960cc0c69a756a3fa1f2b21aa7d84bbbe",
+      "bytes": 2757
+    },
+    {
+      "path": "results/plots/phase3_generalization_and_value.png",
+      "sha256": "d87baea46846b1dc7ca33b58a098fff73d84717afa7eb1444b1bbae29bda8099",
+      "bytes": 81858
+    },
+    {
+      "path": "reports/PHASE3_RESEARCH_REPORT.md",
+      "sha256": "79a341d2a6c31421ccbf0feabc277bea78d43bf409e3d583379f11f23cbe8c1b",
+      "bytes": 2397
+    },
+    {
+      "path": "reports/DATA_CARD.md",
+      "sha256": "9d9d6c204a2f5c5fc1f4f04183571171395c4090490305665374c82e6adb731a",
+      "bytes": 505
+    },
+    {
+      "path": "reports/MODEL_CARDS.md",
+      "sha256": "e0ea229552520cf3cc0558e1e88e8c71c4fa7f47259d778a4636a291b4bf9983",
+      "bytes": 851
+    }
+  ]
+}

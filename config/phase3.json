@@ -4,7 +4,7 @@
     "DE": {"test_year": 2017},
     "FR": {"test_year": 2016},
     "BE": {"test_year": 2016},
-    "NP": {"test_year": 2018}
+    "NP": {"test_year": 2017}
   },
   "calibration_years": 4,
   "transfer_finetune_days": 365,

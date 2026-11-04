@@ -33,6 +33,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--hyperparameter-refresh-days", type=int, default=28)
     parser.add_argument("--max-test-days", type=int)
     parser.add_argument("--ablations", action="store_true")
+    parser.add_argument("--checkpoint", action="store_true", help="Resume-safe per-model checkpoint")
     return parser.parse_args()
 
 
@@ -54,7 +55,11 @@ def main() -> None:
             seed=seed,
         )
         points, tuning = run_point_backtest(
-            data, tuple(args.models), spec, max_test_days=args.max_test_days
+            data, tuple(args.models), spec, max_test_days=args.max_test_days,
+            checkpoint_path=(
+                PREDICTIONS / f"phase2_seed{seed}_r{args.retrain_every_days}_w{args.calibration_days}_checkpoint.parquet"
+                if args.checkpoint else None
+            ),
         )
         label = f"phase2_seed{seed}_r{args.retrain_every_days}_w{args.calibration_days}"
         pred_path, tune_path = save_backtest(points, tuning, label)
