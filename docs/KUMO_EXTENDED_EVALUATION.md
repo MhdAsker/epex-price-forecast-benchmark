@@ -33,7 +33,7 @@ From the repository root on a compatible Windows machine (the existing `scripts/
 
 ```powershell
 python scripts/setup_kumo.py
-.\.research_deps\Kumo-TS\Kumo-Forecast\.venv\Scripts\python.exe -m pip install -r requirements.txt
+uv pip install --python .\.research_deps\Kumo-TS\Kumo-Forecast\.venv\Scripts\python.exe pyarrow==17.0.0 scipy==1.14.1
 .\.research_deps\Kumo-TS\Kumo-Forecast\.venv\Scripts\python.exe -m pytest tests/test_kumo_extended.py -q
 ```
 
@@ -54,7 +54,7 @@ $py = ".\.research_deps\Kumo-TS\Kumo-Forecast\.venv\Scripts\python.exe"
 
 Where a compatible CUDA environment exists and is verified, substitute `--device cuda`. The original recorded machine has a GTX 1650 with 4 GB VRAM and PyTorch without CUDA; **CPU is the cautious default**, and the longer-history runs may take significantly longer than the earlier limited smoke test.
 
-**Data and dependency prerequisites:** the runner requires `data/raw/epftoolbox_epex_de.parquet`, `results/predictions/phase2_point_predictions.parquet`, the existing SciPy optimization dependencies, the pinned NVIDIA source tree and trusted downloaded model artifacts. Missing prerequisites must yield a failure, not fabricated training results. Prefer using the already working pinned Kumo environment and installing missing requirements in it rather than installing a conflicting second PyTorch version.
+**Data and dependency prerequisites:** the runner requires `data/raw/epftoolbox_epex_de.parquet`, `results/predictions/phase2_point_predictions.parquet`, the existing SciPy optimization dependencies, the pinned NVIDIA source tree and trusted downloaded model artifacts. Missing prerequisites must yield a failure, not fabricated training results. Prefer using the pinned Kumo environment and installing only the missing runtime dependencies into it. Do **not** install the generic repository requirements.txt into the pinned NVIDIA environment: it pins an older PyTorch that may replace the audited Kumo runtime. Run the complete original test suite in a separate environment with the legacy dependencies.
 
 ## What the commands do
 
@@ -77,3 +77,7 @@ No full-grid search, DARR, or model-weight fine-tuning beyond the registered hea
 7. On an independent later dataset, repeat the winning configuration before claiming generalization to modern German electricity markets.
 
 **No new accuracy, revenue, significance, or fine-tuning-completion claims are supported until the runner has been executed and its outputs independently inspected.**
+
+### Existing CI compatibility
+
+The draft PR also repairs the pre-existing dependency conflict between NumPy 1.26.4 and SHAP 0.51.0 (which requires NumPy 2). SHAP is pinned to 0.46.0 for this branch's legacy CI environment. This change does not modify published forecasts; review any SHAP-based plots separately before merging.
