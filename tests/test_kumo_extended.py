@@ -6,7 +6,8 @@ import pytest
 from src.research.kumo.extended import (
     assert_identical_model_panel,
     choose_validation_candidate,
-    config_digest,\n    history_standardizer,
+    config_digest,
+    history_standardizer,
     history_candidates,
     validation_seasons,
 )
