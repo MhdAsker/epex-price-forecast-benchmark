@@ -151,6 +151,7 @@ def train_head(
     output_dir: Path,
     max_train_windows: int | None = None,
     max_validation_windows: int | None = None,
+    early_stopping_patience: int | None = None,
 ) -> dict:
     import torch
     from torch.utils.data import DataLoader, Subset
@@ -171,7 +172,11 @@ def train_head(
     best = float("inf")
     best_epoch = -1
     best_state = None
+    epochs_without_improvement = 0
     history: list[dict] = []
+    output_dir.mkdir(parents=True, exist_ok=True)
+    checkpoint_path = output_dir / "best_head.pt"
+    progress_path = output_dir / "training_progress.json"
     started = time.perf_counter()
     for epoch in range(1, epochs + 1):
         model.train(); train_losses = []
@@ -200,20 +205,33 @@ def train_head(
         if row["validation_mae_eur_mwh"] < best:
             best = row["validation_mae_eur_mwh"]; best_epoch = epoch
             best_state = head_state(model)
+            torch.save(best_state, checkpoint_path)
+            epochs_without_improvement = 0
+        else:
+            epochs_without_improvement += 1
+        progress_path.write_text(json.dumps({
+            "status": "running", "completed_epochs": epoch, "best_epoch": best_epoch,
+            "best_validation_mae_eur_mwh": best, "history": history,
+            "checkpoint_sha256": sha256_file(checkpoint_path) if checkpoint_path.exists() else None,
+        }, indent=2), encoding="utf-8")
+        print(json.dumps(row), flush=True)
+        if early_stopping_patience is not None and epochs_without_improvement >= early_stopping_patience:
+            break
     if best_state is None:
         raise RuntimeError("training produced no checkpoint")
     model.load_state_dict(best_state, strict=False)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    checkpoint_path = output_dir / "best_head.pt"
     torch.save(best_state, checkpoint_path)
     result = {
         "best_epoch": best_epoch, "best_validation_mae_eur_mwh": best,
         "history": history, "runtime_seconds": time.perf_counter() - started,
         "train_windows": len(train_data), "validation_windows": len(val_data),
+        "epochs_requested": epochs, "epochs_completed": len(history),
+        "early_stopping_patience": early_stopping_patience,
         "head_change": head_change(before, best_state),
         "checkpoint": str(checkpoint_path), "checkpoint_sha256": sha256_file(checkpoint_path),
     }
     (output_dir / "training_metadata.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
+    progress_path.write_text(json.dumps({"status": "complete", **result}, indent=2), encoding="utf-8")
     return result
 
 

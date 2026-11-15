@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+import pytest
 import torch
 
 from src.research.kumo.data import PriceStandardizer, build_origins
-from src.research.kumo.inference import predict_origins
+from src.research.kumo.inference import predict_origins, predict_origins_darr
 
 
 class _Output:
@@ -30,3 +31,18 @@ def test_inference_scores_first_24_native_steps() -> None:
     assert panel.groupby("delivery_date").size().eq(24).all()
     assert panel["native_horizon_step"].min() == 1
     assert panel["native_horizon_step"].max() == 24
+
+
+def test_darr_rejects_context_continuations_overlapping_query_targets() -> None:
+    index = pd.date_range("2012-01-01", periods=100 * 24, freq="h")
+    frame = pd.DataFrame({"price_eur_mwh": np.arange(len(index), dtype=float)}, index=index)
+    context = build_origins(
+        frame, target_start="2012-02-01", target_end_exclusive="2012-02-10",
+    )
+    queries = build_origins(
+        frame, target_start="2012-02-05", target_end_exclusive="2012-02-12",
+    )
+    with pytest.raises(ValueError, match="overlap query targets"):
+        predict_origins_darr(
+            None, frame, queries, context, PriceStandardizer(0, 1), pd.DataFrame(),
+        )

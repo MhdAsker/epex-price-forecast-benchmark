@@ -1,0 +1,169 @@
+{
+  "status": "complete native-DARR incremental experiment",
+  "registration_timing": "registered after the frozen direct-model retrospective; no DARR outcomes observed",
+  "selection": {
+    "selection_rule": "minimum MAE on all issuance-safe 2015 validation origins",
+    "selection_type": "adaptive extended candidate; not the complete registered grid",
+    "motivation": "the 12-month three-epoch ablation improved through its final epoch",
+    "test_outcomes_read_for_selection": false,
+    "device": "cpu",
+    "train_windows": 365,
+    "validation_windows": 363,
+    "training_first_target": "2013-12-30",
+    "training_last_target": "2014-12-29",
+    "best_epoch": 6,
+    "best_validation_mae_eur_mwh": 6.6072921182798305,
+    "checkpoint_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c",
+    "checkpoint": "artifacts/kumo_finetuning/extended_365_e10/best_head.pt",
+    "load_report": {
+      "checkpoint_keys": 224,
+      "compatible_keys": 224,
+      "skipped_keys": [],
+      "missing_keys": [],
+      "unexpected_keys": [],
+      "head_keys": [
+        "head.linear.weight",
+        "head.linear.bias"
+      ],
+      "compatible_head_keys": [
+        "head.linear.weight",
+        "head.linear.bias"
+      ],
+      "trainable_parameters": 4718664,
+      "frozen_parameters": 341240320
+    }
+  },
+  "configuration": {
+    "status": "registered after the frozen direct-model retrospective; no DARR outcomes observed",
+    "implementation": "pinned NVIDIA sdk.forecasting native embedding retrieval",
+    "context_target_start": "2012-02-01",
+    "context_target_end_exclusive": "2015-01-01",
+    "context_stride_hours": 72,
+    "alpha": 0.01,
+    "k": 64,
+    "temperature": 0.05,
+    "selection": "official defaults fixed without retrospective tuning"
+  },
+  "validation_diagnostics": {
+    "implementation": "NVIDIA sdk.forecasting build_context_memory + knn_forecast",
+    "alpha": 0.01,
+    "k": 64,
+    "temperature": 0.05,
+    "context_windows": 355,
+    "query_windows": 363,
+    "context_memory_seconds": 70.25021619998734,
+    "query_retrieval_seconds": 71.67226419999497,
+    "context_last_target_timestamp": "2014-12-31T23:00:00",
+    "first_query_target_timestamp": "2015-01-01T00:00:00"
+  },
+  "test_diagnostics": {
+    "implementation": "NVIDIA sdk.forecasting build_context_memory + knn_forecast",
+    "alpha": 0.01,
+    "k": 64,
+    "temperature": 0.05,
+    "context_windows": 355,
+    "query_windows": 731,
+    "context_memory_seconds": 70.40734419997898,
+    "query_retrieval_seconds": 145.17327229998773,
+    "context_last_target_timestamp": "2014-12-31T23:00:00",
+    "first_query_target_timestamp": "2016-01-01T00:00:00"
+  },
+  "load_report": {
+    "checkpoint_keys": 224,
+    "compatible_keys": 224,
+    "skipped_keys": [],
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "compatible_head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "trainable_parameters": 4718664,
+    "frozen_parameters": 341240320
+  },
+  "context": {
+    "split": "train",
+    "windows": 355,
+    "first_delivery_date": "2012-02-01",
+    "last_delivery_date": "2014-12-29",
+    "first_forecast_origin": "2012-01-31T12:00:00+01:00",
+    "last_forecast_origin": "2014-12-28T12:00:00+01:00",
+    "input_length": 512,
+    "target_horizon": 72,
+    "scored_products": 24
+  },
+  "validation": {
+    "split": "validation",
+    "windows": 363,
+    "first_delivery_date": "2015-01-01",
+    "last_delivery_date": "2015-12-29",
+    "first_forecast_origin": "2014-12-31T12:00:00+01:00",
+    "last_forecast_origin": "2015-12-28T12:00:00+01:00",
+    "input_length": 512,
+    "target_horizon": 72,
+    "scored_products": 24
+  },
+  "test": {
+    "split": "test",
+    "windows": 731,
+    "first_delivery_date": "2016-01-01",
+    "last_delivery_date": "2017-12-31",
+    "first_forecast_origin": "2015-12-31T12:00:00+01:00",
+    "last_forecast_origin": "2017-12-30T12:00:00+01:00",
+    "input_length": 512,
+    "target_horizon": 72,
+    "scored_products": 24
+  },
+  "qualification": "DARR was registered after direct retrospective results; defaults were not tuned on test outcomes",
+  "source_dataset": {
+    "path": "data/raw/epftoolbox_epex_de.parquet",
+    "sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+    "bytes": 601034
+  },
+  "artifacts": [
+    {
+      "path": "results/kumo_finetuning/darr/battery_dispatch_daily.parquet",
+      "sha256": "124cc1c9195b4096391c8625f9c2b8a1afb6f57bd498f11120fa9cf2caeb6ac2",
+      "bytes": 124306
+    },
+    {
+      "path": "results/kumo_finetuning/darr/battery_metrics.csv",
+      "sha256": "e0209128bdb59c12a99c97b708878cdcca3ef8b3106b8d7eaea309aa69b2a6d0",
+      "bytes": 3116
+    },
+    {
+      "path": "results/kumo_finetuning/darr/metrics.csv",
+      "sha256": "cf113766a87593f776315b723d88b9bdff32901cc2df7448f98095ffbc48bf27",
+      "bytes": 4670
+    },
+    {
+      "path": "results/kumo_finetuning/darr/pairwise_tests.csv",
+      "sha256": "8279005566d403207d762be6539ab49d71274a9e838f6c64ce4a1f5fdee1734c",
+      "bytes": 14559
+    },
+    {
+      "path": "results/kumo_finetuning/darr/predictions_with_darr.parquet",
+      "sha256": "de9b4f6946eee43cd08c27ed45256d836e86933d909e7e9eaae77373b2d1ed79",
+      "bytes": 1683137
+    },
+    {
+      "path": "results/kumo_finetuning/darr/regime_metrics.csv",
+      "sha256": "d967b4fc39aa3e871e253bae825d969eb0a7ae4dce74fcd071592196fa87ec24",
+      "bytes": 19118
+    },
+    {
+      "path": "results/kumo_finetuning/darr/validation_metrics.csv",
+      "sha256": "78eb685c6781ace4adc54bfb6d36305a5107456f1dab980fb7c601f3bd5fa93b",
+      "bytes": 662
+    },
+    {
+      "path": "results/kumo_finetuning/darr/validation_predictions.parquet",
+      "sha256": "31081423da364305dde9431a5295011ea58c2b6a130609a54d10fda9e1d8f798",
+      "bytes": 338332
+    }
+  ]
+}

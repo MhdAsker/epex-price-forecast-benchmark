@@ -58,5 +58,26 @@
     "max_development_origins": 30,
     "qualification": "genuine head update; insufficient for full-grid or retrospective claims"
   },
+  "extended_cpu_candidate": {
+    "status": "adaptive follow-up motivated by epoch-3 validation improvement",
+    "training_history_days": 365,
+    "epochs": 10,
+    "learning_rate": 0.0001,
+    "batch_size": 8,
+    "early_stopping_patience": 3,
+    "validation": "all issuance-safe 2015 origins",
+    "selection_metric": "validation MAE only; 2016-2017 outcomes remain unread"
+  },
+  "darr_extension": {
+    "status": "registered after the frozen direct-model retrospective; no DARR outcomes observed",
+    "implementation": "pinned NVIDIA sdk.forecasting native embedding retrieval",
+    "context_target_start": "2012-02-01",
+    "context_target_end_exclusive": "2015-01-01",
+    "context_stride_hours": 72,
+    "alpha": 0.01,
+    "k": 64,
+    "temperature": 0.05,
+    "selection": "official defaults fixed without retrospective tuning"
+  },
   "history_ablation_days": [92, 183, 365, 730, 1065]
 }

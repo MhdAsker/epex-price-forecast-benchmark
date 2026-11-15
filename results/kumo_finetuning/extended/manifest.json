@@ -1,0 +1,62 @@
+{
+  "status": "completed validation-selected extended training",
+  "selection": {
+    "selection_rule": "minimum MAE on all issuance-safe 2015 validation origins",
+    "selection_type": "adaptive extended candidate; not the complete registered grid",
+    "motivation": "the 12-month three-epoch ablation improved through its final epoch",
+    "test_outcomes_read_for_selection": false,
+    "device": "cpu",
+    "train_windows": 365,
+    "validation_windows": 363,
+    "training_first_target": "2013-12-30",
+    "training_last_target": "2014-12-29",
+    "best_epoch": 6,
+    "best_validation_mae_eur_mwh": 6.6072921182798305,
+    "checkpoint_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c",
+    "checkpoint": "artifacts/kumo_finetuning/extended_365_e10/best_head.pt",
+    "load_report": {
+      "checkpoint_keys": 224,
+      "compatible_keys": 224,
+      "skipped_keys": [],
+      "missing_keys": [],
+      "unexpected_keys": [],
+      "head_keys": [
+        "head.linear.weight",
+        "head.linear.bias"
+      ],
+      "compatible_head_keys": [
+        "head.linear.weight",
+        "head.linear.bias"
+      ],
+      "trainable_parameters": 4718664,
+      "frozen_parameters": 341240320
+    }
+  },
+  "source_dataset": {
+    "path": "data/raw/epftoolbox_epex_de.parquet",
+    "sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+    "bytes": 601034
+  },
+  "artifacts": [
+    {
+      "path": "results/kumo_finetuning/extended/config_frozen.json",
+      "sha256": "5b6c5c7832a2face749d8ef88bb22055fc5c19d1e9277ab3437c42caa4e1546c",
+      "bytes": 2865
+    },
+    {
+      "path": "results/kumo_finetuning/extended/extended_training_curve.png",
+      "sha256": "3bee3712f11d589bc8bcad069e68d1c03140e0c8e26853b0d4ece31a9f7ac6ac",
+      "bytes": 92883
+    },
+    {
+      "path": "results/kumo_finetuning/extended/selection.json",
+      "sha256": "583811abebee0928e0e75838788e4ac5606136aa34236dd2f6d107a32dcecd4e",
+      "bytes": 1116
+    },
+    {
+      "path": "results/kumo_finetuning/extended/training_history.csv",
+      "sha256": "ff02e1da40e61f2fd56c7bc48fae5e4a5df77e42c487113a0cf371dc30389701",
+      "bytes": 616
+    }
+  ]
+}

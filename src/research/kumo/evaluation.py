@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+from dateutil.easter import easter
 from scipy.stats import spearmanr
 
 
@@ -74,21 +75,45 @@ def regime_metrics(points: pd.DataFrame) -> pd.DataFrame:
     daily_volatility = work.drop_duplicates(["delivery_date", "hour"]).groupby("delivery_date").actual.std()
     volatility_cutoff = float(daily_volatility.quantile(0.75))
     work["date"] = pd.to_datetime(work.delivery_date)
+    holiday_dates: set[pd.Timestamp] = set()
+    for year in work.date.dt.year.unique():
+        easter_sunday = pd.Timestamp(easter(int(year)))
+        holiday_dates.update({
+            pd.Timestamp(year=int(year), month=1, day=1),
+            easter_sunday - pd.Timedelta(days=2), easter_sunday + pd.Timedelta(days=1),
+            pd.Timestamp(year=int(year), month=5, day=1),
+            easter_sunday + pd.Timedelta(days=39), easter_sunday + pd.Timedelta(days=50),
+            pd.Timestamp(year=int(year), month=10, day=3),
+            pd.Timestamp(year=int(year), month=12, day=25),
+            pd.Timestamp(year=int(year), month=12, day=26),
+        })
+    month = work.date.dt.month
     labels = {
         "all": pd.Series(True, index=work.index),
         "negative_price_hours": work.actual < 0,
         "high_volatility_days_top_quartile": work.delivery_date.map(daily_volatility) >= volatility_cutoff,
+        "price_spike_hours_ge_100": work.actual >= 100,
+        "german_public_holiday": work.date.dt.normalize().isin(holiday_dates),
         "weekend": work.date.dt.dayofweek >= 5,
         "weekday": work.date.dt.dayofweek < 5,
+        "winter_DJF": month.isin([12, 1, 2]),
+        "spring_MAM": month.isin([3, 4, 5]),
+        "summer_JJA": month.isin([6, 7, 8]),
+        "autumn_SON": month.isin([9, 10, 11]),
     }
     rows = []
+    group_columns = ["model"] + (["test_year"] if "test_year" in work else [])
     for regime, mask in labels.items():
-        for model, group in work[mask].groupby("model"):
-            rows.append({
-                "regime": regime, "model": model,
+        for keys, group in work[mask].groupby(group_columns):
+            keys = keys if isinstance(keys, tuple) else (keys,)
+            row = {
+                "regime": regime, "model": keys[0],
                 "MAE": float(np.mean(np.abs(group.actual - group.prediction))),
                 "bias": float(np.mean(group.prediction - group.actual)),
                 "n_hours": len(group), "n_days": group.delivery_date.nunique(),
                 "volatility_cutoff_eur_mwh": volatility_cutoff,
-            })
+            }
+            if len(keys) > 1:
+                row["test_year"] = int(keys[1])
+            rows.append(row)
     return pd.DataFrame(rows)

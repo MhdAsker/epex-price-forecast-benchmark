@@ -21,7 +21,7 @@ from src.research.kumo.data import (
 )
 from src.research.kumo.diagnostics import resource_report, write_json
 from src.research.kumo.evaluation import add_persistence, market_metrics, regime_metrics
-from src.research.kumo.inference import load_head, predict_origins
+from src.research.kumo.inference import load_head, predict_origins, predict_origins_darr
 from src.research.kumo.train import (
     build_verified_model,
     load_official_standardizer,
@@ -33,10 +33,39 @@ ROOT = Path(__file__).resolve().parent
 CONFIG_PATH = ROOT / "config" / "kumo_finetuning.json"
 OUT = ROOT / "results" / "kumo_finetuning" / "development"
 CHECKPOINT_OUT = ROOT / "artifacts" / "kumo_finetuning" / "cpu_smoke"
+SELECTION_PATH = ROOT / "results" / "kumo_finetuning" / "selection.json"
 
 
 def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _artifact_records(directory: Path) -> list[dict]:
+    return [
+        {"path": path.relative_to(ROOT).as_posix(), "sha256": file_hash(path), "bytes": path.stat().st_size}
+        for path in sorted(directory.rglob("*"))
+        if path.is_file() and path.name != "manifest.json"
+    ]
+
+
+def run_artifact_audit() -> None:
+    """Attach immutable checksums to completed Kumo result directories."""
+    source = ROOT / "data" / "raw" / "epftoolbox_epex_de.parquet"
+    source_record = {"path": source.relative_to(ROOT).as_posix(), "sha256": file_hash(source), "bytes": source.stat().st_size}
+    base = ROOT / "results" / "kumo_finetuning"
+    for name in ("extended", "retrospective", "darr"):
+        directory = base / name
+        if not directory.exists():
+            continue
+        manifest_path = directory / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {
+            "status": "completed validation-selected extended training",
+            "selection": json.loads((directory / "selection.json").read_text(encoding="utf-8")),
+        }
+        manifest["source_dataset"] = source_record
+        manifest["artifacts"] = _artifact_records(directory)
+        write_json(manifest_path, manifest)
+        print(f"audited {name}: {len(manifest['artifacts'])} artifacts")
 
 
 def _plot(training: dict, panel: pd.DataFrame) -> None:
@@ -221,17 +250,78 @@ def run_grid() -> None:
         "checkpoint": f"artifacts/kumo_finetuning/grid/{best['candidate']}/best_head.pt",
     }
     write_json(grid_dir / "selection.json", selection)
+    write_json(SELECTION_PATH, selection)
     shutil.copy2(CONFIG_PATH, grid_dir / "config_frozen.json")
     print(table.to_string(index=False))
+
+
+def run_extended() -> None:
+    """Adaptive longer CPU run; selects only on the complete 2015 validation panel."""
+    config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    frame, standardizer, all_train, validation = _registered_datasets(config)
+    candidate = config["extended_cpu_candidate"]
+    train_origins = all_train[-int(candidate["training_history_days"]):]
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    artifact_dir = ROOT / "artifacts" / "kumo_finetuning" / "extended_365_e10"
+    metadata_path = artifact_dir / "training_metadata.json"
+    if metadata_path.exists():
+        training = json.loads(metadata_path.read_text(encoding="utf-8"))
+        previous_selection = ROOT / "results" / "kumo_finetuning" / "extended" / "selection.json"
+        load_report_payload = (
+            json.loads(previous_selection.read_text(encoding="utf-8")).get("load_report")
+            if previous_selection.exists() else None
+        )
+    else:
+        model, load_report = build_verified_model(config, device=device)
+        load_report_payload = load_report.__dict__
+        training = train_head(
+            model, KumoPriceDataset(frame, train_origins, standardizer),
+            KumoPriceDataset(frame, validation, standardizer),
+            epochs=int(candidate["epochs"]), learning_rate=float(candidate["learning_rate"]),
+            batch_size=int(candidate["batch_size"]), seed=int(config["registered_grid"]["seed"]),
+            output_dir=artifact_dir,
+            early_stopping_patience=int(candidate["early_stopping_patience"]),
+        )
+    selection = {
+        "selection_rule": "minimum MAE on all issuance-safe 2015 validation origins",
+        "selection_type": "adaptive extended candidate; not the complete registered grid",
+        "motivation": "the 12-month three-epoch ablation improved through its final epoch",
+        "test_outcomes_read_for_selection": False,
+        "device": device, "train_windows": len(train_origins),
+        "validation_windows": len(validation),
+        "training_first_target": train_origins[0].delivery_date.date().isoformat(),
+        "training_last_target": train_origins[-1].delivery_date.date().isoformat(),
+        "best_epoch": training["best_epoch"],
+        "best_validation_mae_eur_mwh": training["best_validation_mae_eur_mwh"],
+        "checkpoint_sha256": training["checkpoint_sha256"],
+        "checkpoint": "artifacts/kumo_finetuning/extended_365_e10/best_head.pt",
+        "load_report": load_report_payload,
+    }
+    write_json(SELECTION_PATH, selection)
+    out = ROOT / "results" / "kumo_finetuning" / "extended"
+    out.mkdir(parents=True, exist_ok=True)
+    write_json(out / "selection.json", selection)
+    shutil.copy2(CONFIG_PATH, out / "config_frozen.json")
+    history = pd.DataFrame(training["history"])
+    history.to_csv(out / "training_history.csv", index=False)
+    import matplotlib.pyplot as plt
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+    axes[0].plot(history.epoch, history.train_mse_standardized, marker="o", label="train")
+    axes[0].plot(history.epoch, history.validation_mse_standardized, marker="o", label="validation")
+    axes[0].set(xlabel="Epoch", ylabel="Standardized MSE"); axes[0].legend()
+    axes[1].plot(history.epoch, history.validation_mae_eur_mwh, marker="o")
+    axes[1].axvline(training["best_epoch"], color="black", linestyle="--", label="selected")
+    axes[1].set(xlabel="Epoch", ylabel="Validation MAE (EUR/MWh)"); axes[1].legend()
+    fig.tight_layout(); fig.savefig(out / "extended_training_curve.png", dpi=180); plt.close(fig)
+    print(json.dumps(selection, indent=2))
 
 
 def run_retrospective() -> None:
     """Evaluate only the validation-selected grid checkpoint on 2016-2017."""
     config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-    selection_path = ROOT / "results" / "kumo_finetuning" / "grid" / "selection.json"
-    if not selection_path.exists():
-        raise FileNotFoundError("Run the validation-only grid before retrospective evaluation")
-    selection = json.loads(selection_path.read_text(encoding="utf-8"))
+    if not SELECTION_PATH.exists():
+        raise FileNotFoundError("Run a validation-only selection command before retrospective evaluation")
+    selection = json.loads(SELECTION_PATH.read_text(encoding="utf-8"))
     frame, standardizer, _, _ = _registered_datasets(config)
     origins = build_origins(
         frame, target_start="2016-01-01", target_end_exclusive="2018-01-01",
@@ -258,16 +348,100 @@ def run_retrospective() -> None:
     panel.to_parquet(out / "predictions.parquet", index=False)
     market_metrics(panel).to_csv(out / "metrics.csv", index=False)
     regime_metrics(panel).to_csv(out / "regime_metrics.csv", index=False)
-    pairwise_tests(panel, seed=13).to_csv(out / "pairwise_tests.csv", index=False)
+    pairwise = [pairwise_tests(panel, seed=13).assign(test_year="combined")]
+    for year, year_panel in panel.groupby("test_year"):
+        pairwise.append(pairwise_tests(year_panel, seed=13).assign(test_year=int(year)))
+    pd.concat(pairwise, ignore_index=True).to_csv(out / "pairwise_tests.csv", index=False)
     daily, battery = evaluate_dispatch(panel, BatterySpec())
     daily.to_parquet(out / "battery_dispatch_daily.parquet", index=False)
     battery.to_csv(out / "battery_metrics.csv", index=False)
+    import matplotlib.pyplot as plt
+    metrics = pd.read_csv(out / "metrics.csv")
+    kumo_metrics = metrics[metrics.model.isin(["Kumo zero-shot", "Kumo fine-tuned", "Naive D-1", "JointCurve", "LightGBM"])]
+    fig, ax = plt.subplots(figsize=(10, 5))
+    kumo_metrics.pivot(index="model", columns="test_year", values="MAE").plot.bar(ax=ax)
+    ax.set_ylabel("MAE (EUR/MWh)"); ax.set_title("Frozen full-year retrospective accuracy")
+    fig.tight_layout(); fig.savefig(out / "retrospective_mae.png", dpi=180); plt.close(fig)
     write_json(out / "manifest.json", {
         "status": "complete frozen retrospective evaluation",
         "selection": selection, "load_report": load_report.__dict__,
         "test_outcomes_used_for_selection": False, "origins": origin_manifest(origins, "test"),
         "resources": resource_report(),
+        "qualification": "retrospective extension on previously examined 2016-2017 benchmark years",
     })
+
+
+def run_darr() -> None:
+    """Evaluate native NVIDIA DARR as an incremental frozen-checkpoint extension."""
+    config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    selection = json.loads(SELECTION_PATH.read_text(encoding="utf-8"))
+    direct_path = ROOT / "results" / "kumo_finetuning" / "retrospective" / "predictions.parquet"
+    if not direct_path.exists():
+        raise FileNotFoundError("Run the frozen direct retrospective before the DARR extension")
+    frame, standardizer, _, validation = _registered_datasets(config)
+    darr = config["darr_extension"]
+    stride_days = int(darr["context_stride_hours"]) // 24
+    context = build_origins(
+        frame, target_start=darr["context_target_start"],
+        target_end_exclusive=darr["context_target_end_exclusive"], stride_days=stride_days,
+    )
+    test = build_origins(
+        frame, target_start="2016-01-01", target_end_exclusive="2018-01-01",
+        require_full_target=False,
+    )
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model, load_report = build_verified_model(config, device=device)
+    load_head(model, ROOT / selection["checkpoint"])
+
+    direct_validation = predict_origins(
+        model, frame, validation, standardizer,
+        model_name="Kumo fine-tuned", batch_size=8,
+    )
+    darr_validation, validation_diagnostics = predict_origins_darr(
+        model, frame, validation, context, standardizer, direct_validation,
+        alpha=float(darr["alpha"]), k=int(darr["k"]),
+        temperature=float(darr["temperature"]), batch_size=8,
+    )
+    validation_panel = pd.concat([direct_validation, darr_validation], ignore_index=True)
+
+    retrospective_panel = pd.read_parquet(direct_path)
+    direct_test = retrospective_panel[retrospective_panel.model == "Kumo fine-tuned"].copy()
+    darr_test, test_diagnostics = predict_origins_darr(
+        model, frame, test, context, standardizer, direct_test,
+        alpha=float(darr["alpha"]), k=int(darr["k"]),
+        temperature=float(darr["temperature"]), batch_size=8,
+    )
+    darr_test["test_year"] = pd.to_datetime(darr_test.delivery_date).dt.year
+    darr_test["experiment_scope"] = "post-retrospective registered native-DARR extension"
+    darr_test["comparison_protocol"] = "fixed fine-tuned checkpoint plus fixed 2012-2014 memory"
+    panel = pd.concat([retrospective_panel, darr_test.reindex(columns=retrospective_panel.columns)], ignore_index=True)
+
+    out = ROOT / "results" / "kumo_finetuning" / "darr"
+    out.mkdir(parents=True, exist_ok=True)
+    validation_panel.to_parquet(out / "validation_predictions.parquet", index=False)
+    market_metrics(validation_panel).to_csv(out / "validation_metrics.csv", index=False)
+    panel.to_parquet(out / "predictions_with_darr.parquet", index=False)
+    market_metrics(panel).to_csv(out / "metrics.csv", index=False)
+    regime_metrics(panel).to_csv(out / "regime_metrics.csv", index=False)
+    pairwise = [pairwise_tests(panel, seed=13).assign(test_year="combined")]
+    for year, year_panel in panel.groupby("test_year"):
+        pairwise.append(pairwise_tests(year_panel, seed=13).assign(test_year=int(year)))
+    pd.concat(pairwise, ignore_index=True).to_csv(out / "pairwise_tests.csv", index=False)
+    daily, battery = evaluate_dispatch(panel, BatterySpec())
+    daily.to_parquet(out / "battery_dispatch_daily.parquet", index=False)
+    battery.to_csv(out / "battery_metrics.csv", index=False)
+    write_json(out / "manifest.json", {
+        "status": "complete native-DARR incremental experiment",
+        "registration_timing": darr["status"], "selection": selection,
+        "configuration": darr, "validation_diagnostics": validation_diagnostics,
+        "test_diagnostics": test_diagnostics, "load_report": load_report.__dict__,
+        "context": origin_manifest(context, "train"),
+        "validation": origin_manifest(validation, "validation"),
+        "test": origin_manifest(test, "test"),
+        "qualification": "DARR was registered after direct retrospective results; defaults were not tuned on test outcomes",
+    })
+    print(pd.read_csv(out / "validation_metrics.csv").to_string(index=False))
+    print(pd.read_csv(out / "metrics.csv").query("model.str.contains('Kumo')", engine="python").to_string(index=False))
 
 
 def run_smoke() -> None:
@@ -384,16 +558,22 @@ def run_smoke() -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["smoke", "ablation", "grid", "retrospective"])
+    parser.add_argument("command", choices=["smoke", "ablation", "extended", "grid", "retrospective", "darr", "audit"])
     args = parser.parse_args()
     if args.command == "smoke":
         run_smoke()
     elif args.command == "ablation":
         run_ablation()
+    elif args.command == "extended":
+        run_extended()
     elif args.command == "grid":
         run_grid()
     elif args.command == "retrospective":
         run_retrospective()
+    elif args.command == "darr":
+        run_darr()
+    elif args.command == "audit":
+        run_artifact_audit()
 
 
 if __name__ == "__main__":
