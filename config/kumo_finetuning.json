@@ -1,0 +1,62 @@
+{
+  "experiment_version": "0.1.0-development",
+  "status": "registered_before Kumo outcome evaluation",
+  "protocol": {
+    "market": "historical EPEX-DE bidding zone",
+    "forecast_origin": "12:00 Europe/Berlin on D-1",
+    "input_length_hours": 512,
+    "native_forecast_horizon_hours": 72,
+    "operational_score_horizon": "all 24 canonical products of delivery day D",
+    "context_rule": "complete published day-ahead price curves through D-1",
+    "features": ["price_eur_mwh"]
+  },
+  "data": {
+    "source": "Lago et al. epftoolbox EPEX-Germany",
+    "train_target_start": "2012-02-01",
+    "train_target_end_exclusive": "2015-01-01",
+    "validation_target_start": "2015-01-01",
+    "validation_target_end_exclusive": "2016-01-01",
+    "retrospective_test_years": [2016, 2017],
+    "development_smoke_start": "2016-01-01",
+    "development_smoke_days": 30,
+    "training_window_stride_days": 1,
+    "normalization": "training targets and context series only; scalar mean/std fitted on 2012-2014 prices"
+  },
+  "model": {
+    "official_repository": "https://github.com/NVIDIA/Kumo-TS",
+    "official_commit": "ad459475d1302fc8365e7117e39837a8ecb6a7e3",
+    "official_package_version": "1.0.1",
+    "backbone_repo": "AutonLab/MOMENT-1-large",
+    "backbone_revision": "ca58581bc7bea2ebed4e80dc0a3e4b8b609c6ecc",
+    "checkpoint_repo": "nvidia/Kumo-Forecast",
+    "checkpoint_revision": "402caa11b7ff585141e912c6743026141f648892",
+    "checkpoint_file": "moment_head_512_6hr.pt",
+    "checkpoint_sha256": "04778bee8196c19af3a3e8dbd93e467a85a25208c63285917185347d9ec71743",
+    "standardizer_file": "standardizer.pkl",
+    "standardizer_sha256": "4becbf64aa6148188f384ffdba439bb9969adbb12778f8c12aed00464acf8aef",
+    "freeze_encoder": true,
+    "freeze_embedder": true,
+    "train_forecasting_head": true,
+    "use_cross_channel": false,
+    "use_darr": false
+  },
+  "registered_grid": {
+    "epochs": [3, 5, 10],
+    "learning_rates": [0.0001, 0.00003],
+    "batch_sizes": [4, 8],
+    "seed": 13,
+    "selection_metric": "validation MAE on inverse-transformed 72-step forecasts"
+  },
+  "cpu_smoke": {
+    "enabled": true,
+    "training_history_days": 92,
+    "epochs": 3,
+    "learning_rate": 0.0001,
+    "batch_size": 4,
+    "max_train_windows": 90,
+    "max_validation_windows": 30,
+    "max_development_origins": 30,
+    "qualification": "genuine head update; insufficient for full-grid or retrospective claims"
+  },
+  "history_ablation_days": [92, 183, 365, 730, 1065]
+}

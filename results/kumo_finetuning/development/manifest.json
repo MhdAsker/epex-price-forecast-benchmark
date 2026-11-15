@@ -1,0 +1,275 @@
+{
+  "status": "completed genuine CPU smoke; full registered grid not executed",
+  "configuration": {
+    "experiment_version": "0.1.0-development",
+    "status": "registered_before Kumo outcome evaluation",
+    "protocol": {
+      "market": "historical EPEX-DE bidding zone",
+      "forecast_origin": "12:00 Europe/Berlin on D-1",
+      "input_length_hours": 512,
+      "native_forecast_horizon_hours": 72,
+      "operational_score_horizon": "all 24 canonical products of delivery day D",
+      "context_rule": "complete published day-ahead price curves through D-1",
+      "features": [
+        "price_eur_mwh"
+      ]
+    },
+    "data": {
+      "source": "Lago et al. epftoolbox EPEX-Germany",
+      "train_target_start": "2012-02-01",
+      "train_target_end_exclusive": "2015-01-01",
+      "validation_target_start": "2015-01-01",
+      "validation_target_end_exclusive": "2016-01-01",
+      "retrospective_test_years": [
+        2016,
+        2017
+      ],
+      "development_smoke_start": "2016-01-01",
+      "development_smoke_days": 30,
+      "training_window_stride_days": 1,
+      "normalization": "training targets and context series only; scalar mean/std fitted on 2012-2014 prices"
+    },
+    "model": {
+      "official_repository": "https://github.com/NVIDIA/Kumo-TS",
+      "official_commit": "ad459475d1302fc8365e7117e39837a8ecb6a7e3",
+      "official_package_version": "1.0.1",
+      "backbone_repo": "AutonLab/MOMENT-1-large",
+      "backbone_revision": "ca58581bc7bea2ebed4e80dc0a3e4b8b609c6ecc",
+      "checkpoint_repo": "nvidia/Kumo-Forecast",
+      "checkpoint_revision": "402caa11b7ff585141e912c6743026141f648892",
+      "checkpoint_file": "moment_head_512_6hr.pt",
+      "checkpoint_sha256": "04778bee8196c19af3a3e8dbd93e467a85a25208c63285917185347d9ec71743",
+      "standardizer_file": "standardizer.pkl",
+      "standardizer_sha256": "4becbf64aa6148188f384ffdba439bb9969adbb12778f8c12aed00464acf8aef",
+      "freeze_encoder": true,
+      "freeze_embedder": true,
+      "train_forecasting_head": true,
+      "use_cross_channel": false,
+      "use_darr": false
+    },
+    "registered_grid": {
+      "epochs": [
+        3,
+        5,
+        10
+      ],
+      "learning_rates": [
+        0.0001,
+        3e-05
+      ],
+      "batch_sizes": [
+        4,
+        8
+      ],
+      "seed": 13,
+      "selection_metric": "validation MAE on inverse-transformed 72-step forecasts"
+    },
+    "cpu_smoke": {
+      "enabled": true,
+      "training_history_days": 92,
+      "epochs": 3,
+      "learning_rate": 0.0001,
+      "batch_size": 4,
+      "max_train_windows": 90,
+      "max_validation_windows": 30,
+      "max_development_origins": 30,
+      "qualification": "genuine head update; insufficient for full-grid or retrospective claims"
+    },
+    "history_ablation_days": [
+      92,
+      183,
+      365,
+      730,
+      1065
+    ]
+  },
+  "load_report": {
+    "checkpoint_keys": 224,
+    "compatible_keys": 224,
+    "skipped_keys": [],
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "compatible_head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "trainable_parameters": 4718664,
+    "frozen_parameters": 341240320
+  },
+  "resources": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.3",
+    "torch": "2.12.1+cpu",
+    "torch_cuda": null,
+    "cuda_available": false,
+    "nvidia_smi": "NVIDIA GeForce GTX 1650, 4096 MiB, 610.62",
+    "disk_free_bytes": 21383520256
+  },
+  "source_manifest": {
+    "dataset": "Lago et al. epftoolbox EPEX-Germany",
+    "source": "https://zenodo.org/records/4624805/files/DE.csv",
+    "zenodo_record": "4624805",
+    "retrieved_at_utc": "2026-11-04T12:55:24.294969+00:00",
+    "raw_rows": 52416,
+    "raw_columns": [
+      "Price",
+      "Ampirion Load Forecast",
+      "PV+Wind Forecast"
+    ],
+    "used_columns": [
+      "Price"
+    ],
+    "excluded_columns_reason": "exogenous publication vintages not independently audited",
+    "first_delivery": "2012-01-09T00:00:00",
+    "last_delivery": "2017-12-31T23:00:00",
+    "raw_content_sha256": "be6358196dd8f53ad1c3388d6da7f3a61df0bd1ceaf515fe751de2d0ac4e8c2d"
+  },
+  "normalization_audit": {
+    "zero_shot": "NVIDIA published standardizer, checksum verified",
+    "fine_tuned": "scalar statistics fitted only on registered 2012-2014 German training prices",
+    "german_training_mean": 37.654028951486694,
+    "german_training_std": 16.666522446440073,
+    "nvidia_mean": -5.671202659606934,
+    "nvidia_std": 8.693312644958496
+  },
+  "source_parquet_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "splits": [
+    {
+      "split": "train",
+      "windows": 90,
+      "first_delivery_date": "2014-10-01",
+      "last_delivery_date": "2014-12-29",
+      "first_forecast_origin": "2014-09-30T12:00:00+02:00",
+      "last_forecast_origin": "2014-12-28T12:00:00+01:00",
+      "input_length": 512,
+      "target_horizon": 72,
+      "scored_products": 24
+    },
+    {
+      "split": "validation",
+      "windows": 30,
+      "first_delivery_date": "2015-01-01",
+      "last_delivery_date": "2015-01-30",
+      "first_forecast_origin": "2014-12-31T12:00:00+01:00",
+      "last_forecast_origin": "2015-01-29T12:00:00+01:00",
+      "input_length": 512,
+      "target_horizon": 72,
+      "scored_products": 24
+    },
+    {
+      "split": "test",
+      "windows": 30,
+      "first_delivery_date": "2016-01-01",
+      "last_delivery_date": "2016-01-30",
+      "first_forecast_origin": "2015-12-31T12:00:00+01:00",
+      "last_forecast_origin": "2016-01-29T12:00:00+01:00",
+      "input_length": 512,
+      "target_horizon": 72,
+      "scored_products": 24
+    }
+  ],
+  "training": {
+    "best_epoch": 3,
+    "best_validation_mae_eur_mwh": 10.63193416595459,
+    "history": [
+      {
+        "epoch": 1,
+        "train_mse_standardized": 0.5891801870387533,
+        "validation_mse_standardized": 0.7632918171584606,
+        "validation_mae_eur_mwh": 11.85534381866455
+      },
+      {
+        "epoch": 2,
+        "train_mse_standardized": 0.37721084900524304,
+        "validation_mse_standardized": 0.6918341852724552,
+        "validation_mae_eur_mwh": 11.150809168815613
+      },
+      {
+        "epoch": 3,
+        "train_mse_standardized": 0.3130082293697026,
+        "validation_mse_standardized": 0.6284857783466578,
+        "validation_mae_eur_mwh": 10.63193416595459
+      }
+    ],
+    "runtime_seconds": 110.64706289999594,
+    "train_windows": 90,
+    "validation_windows": 30,
+    "head_change": {
+      "head.linear.bias": {
+        "l2_before": 0.018812188878655434,
+        "l2_delta": 0.0016474714502692223,
+        "max_abs_delta": 0.0004862302157562226
+      },
+      "head.linear.weight": {
+        "l2_before": 13.164715766906738,
+        "l2_delta": 1.6399471759796143,
+        "max_abs_delta": 0.00417019659653306
+      }
+    },
+    "checkpoint": "artifacts/kumo_finetuning/cpu_smoke/best_head.pt (gitignored)",
+    "checkpoint_sha256": "a8964b6560f2e1b5639ad3369fef032856047908fd69cae019cfcdcabab28015"
+  },
+  "prediction_sha256": "8c008e2fd104b15e9265d7a6f62a4f2db97df9b8030dbab0874d8cd039312614",
+  "qualification": "The checkpoint contains a real updated pretrained head, but the limited CPU smoke is not evidence for the registered full-grid or 2016-2017 retrospective claims.",
+  "artifacts": [
+    {
+      "path": "results/kumo_finetuning/development/predictions.parquet",
+      "sha256": "8c008e2fd104b15e9265d7a6f62a4f2db97df9b8030dbab0874d8cd039312614",
+      "bytes": 71372
+    },
+    {
+      "path": "results/kumo_finetuning/development/metrics.csv",
+      "sha256": "3d5723be25181272feffdad8f07108f1421258d162287c5226afffc06e588257",
+      "bytes": 1720
+    },
+    {
+      "path": "results/kumo_finetuning/development/regime_metrics.csv",
+      "sha256": "6f208069bf2318fa84cb71c4323172d33dc1c7d0e44cf119339fe900b51bb318",
+      "bytes": 3539
+    },
+    {
+      "path": "results/kumo_finetuning/development/pairwise_tests.csv",
+      "sha256": "5530bdc3f135dc52bf565c7c0b9415288bdb9214679c1f1098615af5ecf86d0e",
+      "bytes": 3556
+    },
+    {
+      "path": "results/kumo_finetuning/development/battery_metrics.csv",
+      "sha256": "d98d57d354d8000a36ca2998cfc2cb6e61d13325048f121be335544b842c50e7",
+      "bytes": 1440
+    },
+    {
+      "path": "results/kumo_finetuning/development/battery_dispatch_daily.parquet",
+      "sha256": "d6f89dc9f3e0161ebd78a2a190951c88b3ddaa79376aa4b2c07f6133538adf9e",
+      "bytes": 9726
+    },
+    {
+      "path": "results/kumo_finetuning/development/price_standardizer.json",
+      "sha256": "d8670b199b47c3cabc7ec6ebc8b8a15090efcad83f0ec411adccaf7bea4f3b45",
+      "bytes": 64
+    },
+    {
+      "path": "results/kumo_finetuning/development/nvidia_zero_shot/price_standardizer.json",
+      "sha256": "633c83a2e75ba7c0d0822c46e90c7cfe8e917d9197a47356474350835c36ede2",
+      "bytes": 63
+    },
+    {
+      "path": "results/kumo_finetuning/development/plots/cpu_smoke_loss_curve.png",
+      "sha256": "224f1670b5d4e9f48d2f95f4a5429f9a65fdb542259f15be79609d3f8ee38956",
+      "bytes": 48914
+    },
+    {
+      "path": "results/kumo_finetuning/development/plots/cpu_smoke_forecast_example.png",
+      "sha256": "78730e73a165745cc3005a24914128e9cd62516c1274740e16d0d043dacfeb65",
+      "bytes": 118778
+    },
+    {
+      "path": "results/kumo_finetuning/development/config_frozen.json",
+      "sha256": "2d4b706e0fe5ba2a4a852d623007a394588685f85c47c7521146528d6558f0c4",
+      "bytes": 2482
+    }
+  ]
+}
