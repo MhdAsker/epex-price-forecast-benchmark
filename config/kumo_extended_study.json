@@ -1,0 +1,66 @@
+{
+  "experiment": "kumo_extended_head_finetuning_v1",
+  "status": "pre_registered_not_run",
+  "protocol": {
+    "market": "historical EPEX-DE canonical 24 products/day",
+    "origin": "12:00 Europe/Berlin on D-1",
+    "context_hours": 512,
+    "native_horizon_steps": 72,
+    "scored_horizon_steps": 24,
+    "features": [
+      "price_eur_mwh"
+    ]
+  },
+  "data": {
+    "source_path": "data/raw/epftoolbox_epex_de.parquet",
+    "training_target_start": "2012-02-01",
+    "training_target_end_exclusive": "2015-01-01",
+    "validation_target_start": "2015-01-01",
+    "validation_target_end_exclusive": "2016-01-01",
+    "retrospective_start": "2016-01-01",
+    "retrospective_end_exclusive": "2018-01-01"
+  },
+  "training": {
+    "history_windows_days": [
+      365,
+      730,
+      "all_available"
+    ],
+    "epochs": 3,
+    "learning_rate": 0.0001,
+    "batch_size": 8,
+    "seed": 13,
+    "checkpoint": "nvidia_Kumo_72_step_frozen_backbone",
+    "model_selection": "lowest 24-product validation MAE across all eligible 2015 dates",
+    "epoch_selection": "train_head currently chooses checkpoint epoch by 72-step validation MAE; record and separately assess mismatch",
+    "training_history_note": "all_available covers less than 36 calendar months because the training interval ends in 2014"
+  },
+  "evaluation": {
+    "seasonal_validation": true,
+    "test_years": [
+      2016,
+      2017
+    ],
+    "paired_daily_block_bootstrap_days": 7,
+    "comparators": [
+      "Kumo zero-shot",
+      "Kumo fine-tuned",
+      "Naive D-1",
+      "LEAR",
+      "JointCurve",
+      "LightGBM",
+      "XGBoost",
+      "CatBoost"
+    ],
+    "battery": "unchanged_existing_phase3_BatterySpec",
+    "retrospective_not_untouched": true
+  },
+  "exclusions": [
+    "no DARR",
+    "no cross-market pooling",
+    "no post-noon exogenous data",
+    "no tuning on 2016 or 2017",
+    "do not modify frozen conventional results"
+  ],
+  "execution_gate": "never mark training or retrospective complete without genuine local execution and checkpoint hashes"
+}
