@@ -25,7 +25,7 @@ from src.research.kumo.data import (
 )
 from src.research.kumo.evaluation import add_persistence, market_metrics, regime_metrics
 from src.research.kumo.extended import (
-    assert_identical_model_panel, choose_validation_candidate, config_digest,
+    assert_identical_model_panel, choose_validation_candidate, config_digest, history_standardizer,
     ensure_new_immutable_selection, history_candidates, validation_seasons,
 )
 from src.research.kumo.inference import load_head, predict_origins
@@ -108,7 +108,7 @@ def plan(config: dict):
 
 
 def train_and_select(config: dict, device: str) -> None:
-    frame, standardizer, train, val, histories = data_inputs(config)
+    frame, _, train, val, histories = data_inputs(config)
     source_hash = sha256_file(RAW)
     cfg_hash = config_digest(config)
     tr = config["training"]
@@ -119,12 +119,12 @@ def train_and_select(config: dict, device: str) -> None:
     records: list[dict] = []
     for label, subset in histories:
         candidate_dir = OUT / "candidates" / label
-        checkpoint_dir = CHECKPOINTS / label
+        checkpoint_dir = CHECKPOINTS / label\n        standardizer = history_standardizer(frame, subset)
         metadata_path = candidate_dir / "record.json"
         checkpoint_path = checkpoint_dir / "best_head.pt"
         if metadata_path.exists():
             record = json.loads(metadata_path.read_text(encoding="utf-8"))
-            if record["config_digest"] != cfg_hash or record["source_sha256"] != source_hash:
+            if record["config_digest"] != cfg_hash or record["source_sha256"] != source_hash:\n                raise RuntimeError(f"Stale candidate cache: {label}")\n            if record["normalization"] != {"mean": standardizer.mean, "std": standardizer.std}:
                 raise RuntimeError(f"Stale candidate cache: {label}")
             if not checkpoint_path.exists() or sha256_file(checkpoint_path) != record["checkpoint_sha256"]:
                 raise RuntimeError(f"Missing or changed candidate checkpoint: {label}")
@@ -163,7 +163,7 @@ def train_and_select(config: dict, device: str) -> None:
                 "validation_operational_mae_eur_mwh": score,
                 "best_epoch_selected_by_native_72_step_mae": training["best_epoch"],
                 "native_72_step_validation_mae_eur_mwh": training["best_validation_mae_eur_mwh"],
-                "train_windows": len(subset),
+                "train_windows": len(subset),\n                "normalization": {"mean": standardizer.mean, "std": standardizer.std},
                 "validation_windows": len(val),
                 "first_train_target": subset[0].delivery_date.date().isoformat(),
                 "last_train_target": subset[-1].delivery_date.date().isoformat(),
@@ -216,7 +216,7 @@ def retrospective(config: dict, device: str) -> None:
     checkpoint = CHECKPOINTS / selected / "best_head.pt"
     if not checkpoint.exists() or sha256_file(checkpoint) != selection["selected_checkpoint_sha256"]:
         raise RuntimeError("Frozen checkpoint missing or altered")
-    frame, standardizer, _, _, _ = data_inputs(config)
+    frame, _, _, _, _ = data_inputs(config)\n    from src.research.kumo.data import PriceStandardizer\n    chosen = next(x for x in selection["history_candidates"]\n                  if x["history_label"] == selected)\n    standardizer = PriceStandardizer(**chosen["normalization"])
     d = config["data"]
     origins = build_origins(
         frame, target_start=d["retrospective_start"],
