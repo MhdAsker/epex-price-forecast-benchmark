@@ -1,0 +1,14 @@
+{
+  "history_days": 365,
+  "train_windows": 365,
+  "first_training_target": "2013-12-30",
+  "last_training_target": "2014-12-29",
+  "best_epoch": 3,
+  "validation_mae_eur_mwh": 8.842121124267578,
+  "development_mae_eur_mwh": 5.942773856514961,
+  "development_rank_correlation": 0.824422848251618,
+  "development_battery_revenue_eur": 388.90847325790753,
+  "training_runtime_seconds": 373.78693000000203,
+  "checkpoint_sha256": "a46158bf814d375408968f252883bdc34baabd705fe26fd2353aa766d446c724",
+  "qualification": "30-day CPU development ablation; not full retrospective evidence"
+}

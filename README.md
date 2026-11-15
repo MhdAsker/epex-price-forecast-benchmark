@@ -1,7 +1,7 @@
 # EPEX day-ahead price forecasting benchmark
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-14%20passed-brightgreen)](tests/)
+[![Tests](https://img.shields.io/badge/tests-21%20passed-brightgreen)](tests/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Release](https://img.shields.io/badge/release-v0.3.0-purple)](CITATION.cff)
 
@@ -15,12 +15,14 @@ The repository develops the benchmark in three layers:
 2. **Forecast rigor:** multi-year rolling point and probabilistic evaluation with nested temporal tuning, dependence-aware inference, and ablations.
 3. **Generalization and value:** four European zones, local/pooled/transfer learning, non-anticipative battery dispatch, immutable artifacts, and a reproducibility release.
 
+An experimental branch extension evaluates head-only domain adaptation of NVIDIA Kumo-Forecast. The completed CPU development smoke is documented in [`docs/KUMO_FINETUNING_RESEARCH.md`](docs/KUMO_FINETUNING_RESEARCH.md). It is intentionally separated from the frozen Phase 1–3 conclusions.
+
 ## Research status
 
 | Capability | Status | Evidence |
 |---|---|---|
 | Noon D-1 information contract | Complete | [`config/forecast_protocol.json`](config/forecast_protocol.json) |
-| Leakage and DST guardrails | Complete | 14 automated tests |
+| Leakage and DST guardrails | Complete | 21 automated tests |
 | Recent DE-LU holdout | Complete | 2024, 8,040 hourly products |
 | Full-year rolling benchmark | Complete | 2016 and 2017, 17,544 products |
 | Point models | Complete | naive, LEAR, LightGBM, XGBoost, CatBoost, JointCurve, JointMLP |
@@ -181,7 +183,7 @@ Python dependencies are pinned in [`requirements.txt`](requirements.txt). Raw da
 python -m pytest -q
 ```
 
-The 14 tests cover information isolation, DST handling, daily-curve construction, estimator dimensions, probabilistic scores, dependence-aware inference, incomplete-year rejection, battery feasibility/non-simultaneity, and shadow-packet checksum detection.
+The 21 tests cover information isolation, DST handling, daily-curve construction, estimator dimensions, probabilistic scores, dependence-aware inference, incomplete-year rejection, battery feasibility/non-simultaneity, shadow-packet checksums, Kumo issuance causality, checkpoint-independent head training, and 72-to-24-step forecast alignment.
 
 ### Run experiments
 

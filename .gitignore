@@ -24,3 +24,9 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+
+# pinned external research dependencies and large Kumo artifacts
+.research_deps/
+artifacts/kumo_finetuning/
+results/kumo_finetuning/development/checkpoints/
+results/kumo_finetuning/retrospective/checkpoints/
