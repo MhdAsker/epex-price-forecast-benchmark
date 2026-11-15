@@ -6,7 +6,7 @@ import pytest
 from src.research.kumo.extended import (
     assert_identical_model_panel,
     choose_validation_candidate,
-    config_digest,
+    config_digest,\n    history_standardizer,
     history_candidates,
     validation_seasons,
 )
@@ -56,3 +56,13 @@ def test_seasons_and_config_are_deterministic():
     assert set(seasons.season) == {"winter", "summer"}
     assert np.allclose(seasons.mae_eur_mwh, 1.)
     assert config_digest({"b": 2, "a": 1}) == config_digest({"a": 1, "b": 2})
+
+
+def test_training_history_scaler_is_candidate_specific():
+    from types import SimpleNamespace
+    index = pd.date_range("2014-01-01", periods=150, freq="h")
+    frame = pd.DataFrame({"price_eur_mwh": np.r_[np.zeros(75), np.full(75, 100.0)]}, index=index)
+    older = [SimpleNamespace(context_start=0, target_stop=75)]
+    newer = [SimpleNamespace(context_start=75, target_stop=150)]
+    assert history_standardizer(frame, older).mean == 0.0
+    assert history_standardizer(frame, newer).mean == 100.0
