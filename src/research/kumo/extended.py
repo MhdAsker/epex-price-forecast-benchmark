@@ -41,6 +41,21 @@ def history_candidates(train_origins: list, requested: list) -> list[tuple[str, 
     return candidates
 
 
+def history_standardizer(frame: pd.DataFrame, origins: list):
+    """Fit normalization on each candidate's genuinely available training history."""
+    from src.research.kumo.data import PriceStandardizer
+    if not origins:
+        raise ValueError("Empty history for standardization")
+    values = frame.sort_index()["price_eur_mwh"].to_numpy(dtype=float)
+    start = int(origins[0].context_start)
+    stop = int(origins[-1].target_stop)
+    if start < 0 or stop > len(values) or start >= stop:
+        raise ValueError("Invalid candidate normalization interval")
+    if any(o.context_start < start or o.target_stop > stop for o in origins):
+        raise ValueError("Nonchronological candidate history")
+    return PriceStandardizer.fit(values[start:stop])
+
+
 def choose_validation_candidate(records: list[dict], expected_labels: list[str]) -> dict:
     """Selection must use 2015 validation MAE, never retrospective test outcomes."""
     by_label = {}
