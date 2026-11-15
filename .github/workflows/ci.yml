@@ -16,6 +16,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+      - run: python -m compileall -q src tests run_kumo_extended.py run_kumo_finetuning.py
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -r requirements.txt
       - run: python -m pytest -q
