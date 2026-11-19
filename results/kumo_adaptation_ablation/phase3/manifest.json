@@ -1,0 +1,167 @@
+{
+  "status": "complete retrospective and annual-update evaluation",
+  "selection": {
+    "status": "frozen from 2015 development evidence before new retrospective predictions",
+    "selection_metric": "72-step validation MAE",
+    "selected_candidate": "matched_steps_730",
+    "selected_checkpoint": "artifacts/kumo_adaptation_ablation/phase2/matched_steps_730/best_head.pt",
+    "checkpoint_sha256": "12a020a5b46924a92fbff0c4e244a4130c477bfcf5a0d39a28c3c3562191e9b3",
+    "selected_72step_MAE": 6.493633296178735,
+    "selected_24step_MAE": 5.955923481881781,
+    "tied_identical_candidates": [
+      "fixed_epochs_730",
+      "matched_steps_730"
+    ],
+    "test_outcomes_used": false,
+    "qualification": "exploratory selection; 730-vs-365 paired block interval includes zero"
+  },
+  "registration": {
+    "experiment_version": "0.1.0",
+    "registration_date": "2026-11-16",
+    "parent_branch": "feature/kumo-domain-finetuning",
+    "parent_commit": "330df1537ca67d6b18fe7bb26ccadf61d127d58d",
+    "selection_boundary": "2015 validation only; 2016-2017 outcomes are previously observed and evaluation-only",
+    "protocol": {
+      "forecast_origin": "12:00 Europe/Berlin on D-1",
+      "input_length_hours": 512,
+      "native_horizon_hours": 72,
+      "scored_products": 24,
+      "seed": 13
+    },
+    "phase1": {
+      "training_history_days": 365,
+      "epochs": 10,
+      "learning_rate": 0.0001,
+      "batch_size": 8,
+      "early_stopping_patience": 3,
+      "selection_metric": "72-step validation MAE on all issuance-safe 2015 origins",
+      "cells": {
+        "A": "pretrained weights + NVIDIA normalization",
+        "B": "pretrained weights + German 2012-2014 training-only normalization",
+        "C": "German-normalized fine-tuned head bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c + German normalization",
+        "D": "separately fine-tuned pretrained head + NVIDIA normalization"
+      },
+      "primary_contrasts": {
+        "normalization_untrained": "B-A",
+        "weight_update_german": "C-B",
+        "weight_update_nvidia": "D-A",
+        "normalization_finetuned": "C-D",
+        "interaction": "(C-B)-(D-A)"
+      }
+    },
+    "phase2": {
+      "status": "registered before phase1 outcomes",
+      "history_windows": [
+        365,
+        730,
+        "all_eligible"
+      ],
+      "fixed_epoch_budget": 6,
+      "matched_optimizer_steps": 276,
+      "sampling_policy": "epoch-seeded uniform permutation without replacement, cycling only after all eligible windows",
+      "learning_rate": 0.0001,
+      "batch_size": 8,
+      "selection_period": "2015 only",
+      "qualification": "execute only if phase1 supports genuine weight-adaptation value beyond scaling"
+    },
+    "phase3": {
+      "status": "registered after phase2 development results and before new retrospective predictions",
+      "fixed_checkpoint_rule": "minimum 2015 72-step validation MAE; matched_steps_730 selected among tied identical 730 checkpoints",
+      "selected_checkpoint_sha256": "12a020a5b46924a92fbff0c4e244a4130c477bfcf5a0d39a28c3c3562191e9b3",
+      "retrospective_role": "previously observed 2016-2017 extension; evaluation only",
+      "periodic_update": {
+        "frequency": "annual proof-of-concept update for 2017 only",
+        "initial_checkpoint": "selected 730-window head",
+        "update_training_target_start": "2015-01-01",
+        "update_training_target_end_exclusive": "2016-10-01",
+        "update_monitor_start": "2016-10-01",
+        "update_monitor_end_exclusive": "2017-01-01",
+        "epochs": 3,
+        "checkpoint_selection": "final epoch fixed before execution; 2016 outcomes cannot select epoch or hyperparameters",
+        "learning_rate": 0.0001,
+        "batch_size": 8
+      }
+    },
+    "hashes": {
+      "source_dataset_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+      "nvidia_checkpoint_sha256": "04778bee8196c19af3a3e8dbd93e467a85a25208c63285917185347d9ec71743",
+      "nvidia_standardizer_sha256": "4becbf64aa6148188f384ffdba439bb9969adbb12778f8c12aed00464acf8aef",
+      "existing_german_head_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c"
+    }
+  },
+  "retrospective_not_untouched": true,
+  "test_outcomes_used_for_selection": false,
+  "source_dataset_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "artifacts": [
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/battery_daily.parquet",
+      "sha256": "15acdf7fbabb941344430c2b0dd3247f156c1238c09473253468fe89c888b357",
+      "bytes": 361733
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/battery_metrics.csv",
+      "sha256": "a76bcdb5e6b33067a2785ee4c1daaaf4eb387c5a2fa0fdb527ed68c8b4fae443",
+      "bytes": 2697
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/battery_metrics_by_year.csv",
+      "sha256": "164143e51eedfdd629371a29e7c83a7066df94117e56f5b3c8bad7cf4bfd6bd5",
+      "bytes": 5247
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/battery_pairwise_intervals.csv",
+      "sha256": "3aac0871b8e52753de09ec4bd457057d2ef74d9f6f3f3db2162f6654b27e5e5a",
+      "bytes": 4092
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/battery_pairwise_intervals_by_year.csv",
+      "sha256": "5a27504097b1a5af5ca91aa19dd03a59b7d3ae1d2badbb64d1a1d62b714534ba",
+      "bytes": 8489
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/config_frozen.json",
+      "sha256": "94115fa17bc283556b4a6e65de98f6146580fc3711dcef5bde7668697e9104a4",
+      "bytes": 3222
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/extreme_metrics.csv",
+      "sha256": "9dc49adcd601ea5c7c65bb43adaf4de83f007382d8b1c8429b4e7bd95ca486ac",
+      "bytes": 1158
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/metrics.csv",
+      "sha256": "ee7300fe02ddb4a1f60dca9593de636564c1c122fdb1dfc18f5c9cd4ebd5e147",
+      "bytes": 5353
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/pairwise_tests.csv",
+      "sha256": "bcb98a2b8da92b2beebe0b65790a3aff9f04eb3f2405941b56b9e0da9b96e61c",
+      "bytes": 18501
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/predictions.parquet",
+      "sha256": "437e6e66d99ae62eccef45d69a17eb9e35620bec2858c6558a32c0c7b29db94a",
+      "bytes": 1807432
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/regime_metrics.csv",
+      "sha256": "b4221fdbbf0859d605f8f38d528a2d9fc81945c9e7a0c9df9bb5ec74ffadfbf7",
+      "bytes": 21530
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/retrospective_mae.png",
+      "sha256": "c495ec305b038cc7ba9e7820882c0056586ca0072435d4ce434d4844cca5f541",
+      "bytes": 59203
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase3/update_metadata.json",
+      "sha256": "0d8353c9cd61e69987fa6e63e75ce5dc5a5545365ca08a2fd92409cb923b5acb",
+      "bytes": 4103
+    }
+  ],
+  "economic_uncertainty_periods": [
+    2016,
+    2017,
+    "combined"
+  ]
+}

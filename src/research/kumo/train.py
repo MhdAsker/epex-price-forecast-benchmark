@@ -152,9 +152,15 @@ def train_head(
     max_train_windows: int | None = None,
     max_validation_windows: int | None = None,
     early_stopping_patience: int | None = None,
+    resume: bool = False,
+    max_optimizer_steps: int | None = None,
+    checkpoint_selection: str = "best_validation",
 ) -> dict:
     import torch
     from torch.utils.data import DataLoader, Subset
+
+    if checkpoint_selection not in {"best_validation", "final_epoch"}:
+        raise ValueError("checkpoint_selection must be 'best_validation' or 'final_epoch'")
 
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
     train_data = train_dataset
@@ -163,7 +169,6 @@ def train_head(
         train_data = Subset(train_dataset, range(min(len(train_dataset), max_train_windows)))
     if max_validation_windows is not None:
         val_data = Subset(validation_dataset, range(min(len(validation_dataset), max_validation_windows)))
-    train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=0)
     val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False, num_workers=0)
     optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad], lr=learning_rate)
     criterion = torch.nn.MSELoss()
@@ -177,16 +182,51 @@ def train_head(
     output_dir.mkdir(parents=True, exist_ok=True)
     checkpoint_path = output_dir / "best_head.pt"
     progress_path = output_dir / "training_progress.json"
+    resume_path = output_dir / "last_training_state.pt"
+    start_epoch = 1
+    optimizer_steps = 0
+    if resume and resume_path.exists():
+        # This is a locally generated optimizer/RNG continuation bundle, not an
+        # externally supplied model checkpoint. NumPy/Python RNG tuples require
+        # the trusted-pickle path under PyTorch's weights-only default.
+        saved = torch.load(resume_path, map_location=device, weights_only=False)
+        model.load_state_dict(saved["current_head"], strict=False)
+        optimizer.load_state_dict(saved["optimizer"])
+        before = saved["initial_head"]
+        best = float(saved["best"])
+        best_epoch = int(saved["best_epoch"])
+        best_state = saved["best_head"]
+        epochs_without_improvement = int(saved["epochs_without_improvement"])
+        history = saved["history"]
+        optimizer_steps = int(saved["optimizer_steps"])
+        start_epoch = int(saved["completed_epoch"]) + 1
+        if "python_rng_state" in saved:
+            random.setstate(saved["python_rng_state"])
+        if "numpy_rng_state" in saved:
+            np.random.set_state(saved["numpy_rng_state"])
+        if "torch_rng_state" in saved:
+            torch.set_rng_state(saved["torch_rng_state"])
+        if torch.cuda.is_available() and saved.get("cuda_rng_state") is not None:
+            torch.cuda.set_rng_state_all(saved["cuda_rng_state"])
     started = time.perf_counter()
-    for epoch in range(1, epochs + 1):
+    for epoch in range(start_epoch, epochs + 1):
+        generator = torch.Generator().manual_seed(seed + epoch)
+        train_loader = DataLoader(
+            train_data, batch_size=batch_size, shuffle=True, num_workers=0, generator=generator,
+        )
         model.train(); train_losses = []
         for x, y, mask in train_loader:
+            if max_optimizer_steps is not None and optimizer_steps >= max_optimizer_steps:
+                break
             x, y, mask = x.to(device), y.to(device), mask.to(device)
             optimizer.zero_grad(set_to_none=True)
             prediction = model(x_enc=x.float(), input_mask=mask).forecast
             loss = criterion(prediction, y.float())
             loss.backward(); optimizer.step()
             train_losses.append(float(loss.detach()))
+            optimizer_steps += 1
+        if not train_losses:
+            break
         model.eval(); val_losses = []; val_maes = []
         with torch.no_grad():
             for x, y, mask in val_loader:
@@ -202,7 +242,7 @@ def train_head(
             "validation_mae_eur_mwh": float(np.mean(val_maes)),
         }
         history.append(row)
-        if row["validation_mae_eur_mwh"] < best:
+        if checkpoint_selection == "final_epoch" or row["validation_mae_eur_mwh"] < best:
             best = row["validation_mae_eur_mwh"]; best_epoch = epoch
             best_state = head_state(model)
             torch.save(best_state, checkpoint_path)
@@ -212,10 +252,23 @@ def train_head(
         progress_path.write_text(json.dumps({
             "status": "running", "completed_epochs": epoch, "best_epoch": best_epoch,
             "best_validation_mae_eur_mwh": best, "history": history,
+            "optimizer_steps": optimizer_steps,
             "checkpoint_sha256": sha256_file(checkpoint_path) if checkpoint_path.exists() else None,
         }, indent=2), encoding="utf-8")
+        torch.save({
+            "completed_epoch": epoch, "current_head": head_state(model),
+            "initial_head": before, "best_head": best_state, "best": best,
+            "best_epoch": best_epoch, "epochs_without_improvement": epochs_without_improvement,
+            "history": history, "optimizer": optimizer.state_dict(),
+            "optimizer_steps": optimizer_steps,
+            "python_rng_state": random.getstate(), "numpy_rng_state": np.random.get_state(),
+            "torch_rng_state": torch.get_rng_state(),
+            "cuda_rng_state": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None,
+        }, resume_path)
         print(json.dumps(row), flush=True)
         if early_stopping_patience is not None and epochs_without_improvement >= early_stopping_patience:
+            break
+        if max_optimizer_steps is not None and optimizer_steps >= max_optimizer_steps:
             break
     if best_state is None:
         raise RuntimeError("training produced no checkpoint")
@@ -227,6 +280,8 @@ def train_head(
         "train_windows": len(train_data), "validation_windows": len(val_data),
         "epochs_requested": epochs, "epochs_completed": len(history),
         "early_stopping_patience": early_stopping_patience,
+        "optimizer_steps": optimizer_steps, "max_optimizer_steps": max_optimizer_steps,
+        "checkpoint_selection": checkpoint_selection,
         "head_change": head_change(before, best_state),
         "checkpoint": str(checkpoint_path), "checkpoint_sha256": sha256_file(checkpoint_path),
     }

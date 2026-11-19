@@ -1,7 +1,7 @@
 # EPEX day-ahead price forecasting benchmark
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
-[![Tests](https://img.shields.io/badge/tests-22%20passed-brightgreen)](tests/)
+[![Tests](https://img.shields.io/badge/tests-27%20passed-brightgreen)](tests/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Release](https://img.shields.io/badge/release-v0.3.0-purple)](CITATION.cff)
 
@@ -15,7 +15,7 @@ The repository develops the benchmark in three layers:
 2. **Forecast rigor:** multi-year rolling point and probabilistic evaluation with nested temporal tuning, dependence-aware inference, and ablations.
 3. **Generalization and value:** four European zones, local/pooled/transfer learning, non-anticipative battery dispatch, immutable artifacts, and a reproducibility release.
 
-The research branch also evaluates genuine head-only domain adaptation of NVIDIA Kumo-Forecast. It now includes full-2015 checkpoint selection, complete 2016–2017 retrospective evaluation, native DARR retrieval, dependence-aware inference, and battery decision value. The detailed protocol and results are in [`docs/KUMO_FINETUNING_RESEARCH.md`](docs/KUMO_FINETUNING_RESEARCH.md); they remain explicitly separated from the frozen Phase 1–3 conclusions.
+The research branches also evaluate genuine head-only domain adaptation of NVIDIA Kumo-Forecast. The original study includes full-2015 checkpoint selection, complete 2016–2017 retrospective evaluation, native DARR retrieval, dependence-aware inference, and battery decision value. A controlled follow-up separates normalization from weight learning and tests 12-, 24-, and all-eligible-history adaptation. See [`docs/KUMO_FINETUNING_RESEARCH.md`](docs/KUMO_FINETUNING_RESEARCH.md) and [`docs/KUMO_ADAPTATION_ABLATION_RESEARCH.md`](docs/KUMO_ADAPTATION_ABLATION_RESEARCH.md). These extensions remain explicitly separated from the frozen Phase 1–3 conclusions.
 
 ## Research status
 
@@ -31,6 +31,7 @@ The research branch also evaluates genuine head-only domain adaptation of NVIDIA
 | Cross-zone generalization | Complete | BE, DE, FR, Nordic; 140,352 predictions |
 | Decision value | Complete | mixed-integer 1 MW / 1 MWh battery dispatch |
 | Kumo domain adaptation | Complete retrospective extension | real CPU fine-tuning; 731 test days; native DARR |
+| Kumo adaptation ablation | Complete retrospective extension | normalization 2 x 2; 12/24/all-history budgets; annual update; DARR mechanism |
 | Immutable release artifacts | Complete | checksums, manifests, cards, release bundle command |
 | Audited exogenous vintages | Not yet available | excluded rather than treated as known |
 | DOI | Pending external deposit | Zenodo metadata is prepared; no DOI is claimed |
@@ -43,6 +44,7 @@ The research branch also evaluates genuine head-only domain adaptation of NVIDIA
 - Transfer is not uniformly beneficial. It is best by MAE in France, local training is best in Belgium, Germany, and Nordic, and pooled training is worse than persistence in Nordic.
 - Accuracy and economic value do not have identical rankings. In Belgium and France, pooled models produce the greatest battery value even though another model has lower MAE.
 - Head-only Kumo adaptation reduces combined 2016–2017 MAE from **9.57 to 6.56 EUR/MWh** and significantly outperforms zero-shot Kumo, but remains significantly behind JointCurve (**5.45**) and the other conventional learned models. Native DARR worsens MAE to **10.10** while increasing battery value, another accuracy/value ranking reversal.
+- The normalization-controlled ablation finds that changing only the external scaler alters 2015 MAE by just **0.000011 EUR/MWh**. Updating the pretrained head improves it by about **3.61 EUR/MWh** under either scaler, so the Kumo gain is genuine learned-weight adaptation rather than a scaling artifact. A 24-month head has the best development MAE (**5.956**) but its 0.068 improvement over 12 months has a block-bootstrap interval that includes zero; all eligible history is worse (**6.137**).
 
 These are benchmark results, not claims of universal superiority. Market, period, feature vintage, calibration design, and decision objective all affect rankings.
 
@@ -66,6 +68,14 @@ The adaptive longer run uses 365 training windows and every eligible 2015 valida
 Fine-tuned Kumo improves on zero-shot by 3.006 EUR/MWh in combined daily loss; the seven-day block-bootstrap 95% interval is [2.729, 3.282] EUR/MWh in favor of fine-tuning. It is 1.110 EUR/MWh worse than JointCurve, with a confidence interval [0.835, 1.398]. Fine-tuning improves every seasonal slice and reduces error in negative-price and high-volatility regimes relative to zero-shot, but it still trails JointCurve and LEAR in those regimes.
 
 DARR is a separately registered post-retrospective extension using NVIDIA's native embedding retrieval, 355 strictly pre-2015 memory windows, and untuned official defaults. It significantly degrades point accuracy and introduces positive bias, yet raises battery revenue by EUR 810 versus the direct fine-tuned model. This is reported as a negative forecasting result and a decision-ranking reversal—not as a DARR accuracy gain.
+
+### What caused the Kumo improvement?
+
+The follow-up ablation uses four independently valid 2015 configurations: pretrained/adapted weights crossed with NVIDIA/German normalization. German scaling alone leaves zero-shot predictions practically unchanged because the pinned backbone applies reversible instance normalization. Separately training the published head under either convention reduces operational MAE from 9.641 to about 6.03 EUR/MWh; the adapted-scaler difference is not supported (block interval [-0.135, 0.126], DM `p = 0.922`).
+
+The history-budget experiment controls both epochs and optimizer steps. The 730-window candidate minimizes the registered 72-step validation loss, but 12- versus 24-month operational differences are uncertain. The 1,063-window all-eligible model performs worse, showing that more historical regimes are not automatically useful. The selected 24-month head and every input artifact are checksum-frozen before retrospective reuse. Full methods, confidence intervals, loss curves, checkpoint hashes, battery diagnostics, and limitations are in the [adaptation-ablation report](docs/KUMO_ADAPTATION_ABLATION_RESEARCH.md).
+
+On the retrospective panel, the fixed 24-month head reaches 6.454 combined MAE and EUR 6,942 battery revenue. A registered annual head update reaches 6.369 MAE but EUR 6,892 revenue. Its 0.171 EUR/MWh 2017 accuracy gain over the fixed head is not statistically supported (95% block interval [-0.037, 0.363]), and it does not add battery value. Both remain materially behind JointCurve at 5.452 MAE and EUR 9,058. More frequent adaptation is therefore computationally costly and inconclusive here, rather than an automatic path to parity.
 
 ## Phase 1: forecast-time validity on DE-LU 2024
 
@@ -206,7 +216,7 @@ Python dependencies are pinned in [`requirements.txt`](requirements.txt). Raw da
 python -m pytest -q
 ```
 
-The 22 tests cover information isolation, DST handling, daily-curve construction, estimator dimensions, probabilistic scores, dependence-aware inference, incomplete-year rejection, battery feasibility/non-simultaneity, shadow-packet checksums, Kumo issuance causality, checkpoint-independent head training, 72-to-24-step forecast alignment, and DARR context/target separation.
+The 27 tests cover information isolation, DST handling, daily-curve construction, estimator dimensions, probabilistic scores, dependence-aware inference, incomplete-year rejection, battery feasibility/non-simultaneity, shadow-packet checksums, Kumo issuance causality, checkpoint-independent head training, exact RNG/optimizer resume, normalization round-trips, 72-to-24-step forecast alignment, DARR reconstruction, and DARR context/target separation.
 
 ### Run experiments
 

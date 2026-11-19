@@ -1,0 +1,66 @@
+{
+  "status": "complete reconstruction and decision diagnostics for frozen native-DARR outputs",
+  "source": "results/kumo_finetuning/darr/predictions_with_darr.parquet",
+  "source_sha256": "de9b4f6946eee43cd08c27ed45256d836e86933d909e7e9eaae77373b2d1ed79",
+  "alpha": 0.01,
+  "configuration_tuned_on_retrospective": false,
+  "reconstruction_identity": "retrieval = (blend - alpha * direct) / (1 - alpha)",
+  "neighbor_similarity": "recomputed from the unchanged archived checkpoint and frozen memory",
+  "artifacts": [
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/battery_daily.parquet",
+      "sha256": "6f576fbd5f3ff6eedf46b98eb9ec2e03b93fd12217417ecaee0c3d1eba6aa06f",
+      "bytes": 123085
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/battery_pairwise_intervals.csv",
+      "sha256": "39ebd32a2235b4adeba86b6ff351e065ec54e9e74f984296cb3483661cbab0d1",
+      "bytes": 1098
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/battery_summary.csv",
+      "sha256": "ffce8a388b22a24d32f271a7149427dee5c5aa1861ef2d2d4a2ccf1b31d131c2",
+      "bytes": 999
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/battery_summary_by_year.csv",
+      "sha256": "25c4ca5c81f982d4649b91f45ddcb1cb02c8547a591182acff1f95b78b108587",
+      "bytes": 1784
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/daily_forecast_diagnostics.parquet",
+      "sha256": "dbf679a2a6e7474cf61a41fe2e10f21b95cedc0e27fe329792488c9d28f0e361",
+      "bytes": 120775
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/darr_accuracy_value.png",
+      "sha256": "4484b171c2444242273cbe8c16b650a38eb9d0fabd95a990c5142b1c57be58a0",
+      "bytes": 65991
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/forecast_summary.csv",
+      "sha256": "feca7b46bfaf803aaece6e53973b8dc93b13488a060cbb2355c4d6af9c787df6",
+      "bytes": 1492
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/neighbor_quality_daily.parquet",
+      "sha256": "d393a871f4b27c6532ed98402c6e4a8754640506d2b88e5194ad6988dc892e45",
+      "bytes": 62701
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/neighbor_quality_summary.csv",
+      "sha256": "bd3b4a1ff9020c066bb5decdaf718f57f45c544c65b93871fef51cbf46e2e8f7",
+      "bytes": 706
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/reconstructed_components.parquet",
+      "sha256": "07677509a847be7f9731a2ca389fab604ac337b7c9d591adb2c01ff31c1960fe",
+      "bytes": 491431
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/darr_analysis/revenue_gain_concentration.csv",
+      "sha256": "7846fdb9131c05fc50f5e7af9489b199285ed09f78d1c01051c8e499dbaa1481",
+      "bytes": 648
+    }
+  ]
+}

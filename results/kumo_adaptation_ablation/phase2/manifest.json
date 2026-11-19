@@ -1,0 +1,118 @@
+{
+  "status": "complete 2015-only history and training-budget ablation",
+  "registration": {
+    "experiment_version": "0.1.0",
+    "registration_date": "2026-11-16",
+    "parent_branch": "feature/kumo-domain-finetuning",
+    "parent_commit": "330df1537ca67d6b18fe7bb26ccadf61d127d58d",
+    "selection_boundary": "2015 validation only; 2016-2017 outcomes are previously observed and evaluation-only",
+    "protocol": {
+      "forecast_origin": "12:00 Europe/Berlin on D-1",
+      "input_length_hours": 512,
+      "native_horizon_hours": 72,
+      "scored_products": 24,
+      "seed": 13
+    },
+    "phase1": {
+      "training_history_days": 365,
+      "epochs": 10,
+      "learning_rate": 0.0001,
+      "batch_size": 8,
+      "early_stopping_patience": 3,
+      "selection_metric": "72-step validation MAE on all issuance-safe 2015 origins",
+      "cells": {
+        "A": "pretrained weights + NVIDIA normalization",
+        "B": "pretrained weights + German 2012-2014 training-only normalization",
+        "C": "German-normalized fine-tuned head bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c + German normalization",
+        "D": "separately fine-tuned pretrained head + NVIDIA normalization"
+      },
+      "primary_contrasts": {
+        "normalization_untrained": "B-A",
+        "weight_update_german": "C-B",
+        "weight_update_nvidia": "D-A",
+        "normalization_finetuned": "C-D",
+        "interaction": "(C-B)-(D-A)"
+      }
+    },
+    "phase2": {
+      "status": "registered before phase1 outcomes",
+      "history_windows": [
+        365,
+        730,
+        "all_eligible"
+      ],
+      "fixed_epoch_budget": 6,
+      "matched_optimizer_steps": 276,
+      "sampling_policy": "epoch-seeded uniform permutation without replacement, cycling only after all eligible windows",
+      "learning_rate": 0.0001,
+      "batch_size": 8,
+      "selection_period": "2015 only",
+      "qualification": "execute only if phase1 supports genuine weight-adaptation value beyond scaling"
+    },
+    "hashes": {
+      "source_dataset_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+      "nvidia_checkpoint_sha256": "04778bee8196c19af3a3e8dbd93e467a85a25208c63285917185347d9ec71743",
+      "nvidia_standardizer_sha256": "4becbf64aa6148188f384ffdba439bb9969adbb12778f8c12aed00464acf8aef",
+      "existing_german_head_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c"
+    }
+  },
+  "source_dataset_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "test_outcomes_used_for_selection": false,
+  "artifacts": [
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/battery_daily.parquet",
+      "sha256": "e2efdce0e71e0bf4dcef9521169cecf3758b4eaa2fb93c32f9aec52964286e67",
+      "bytes": 107768
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/battery_metrics.csv",
+      "sha256": "47f1e6c4d9c34c9952ebd6a2b8a17d062252e0a28d5964e0817210b2f225cc74",
+      "bytes": 1997
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/battery_pairwise_intervals.csv",
+      "sha256": "4d48fc2e5c01a88e06e4ed74bc4ae0110f1de92c76f3b5be53f1250e9a3cd0ae",
+      "bytes": 2036
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/candidate_metadata.json",
+      "sha256": "4ff94cc9018d925a45087005c371a69c940725069faf15d0c66b504d24454a5f",
+      "bytes": 19559
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/config_frozen.json",
+      "sha256": "b098cdad48388d40670d889fcd77f6480276124e12140bfcf22a38c3a42e1244",
+      "bytes": 2224
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/history_budget_ablation.png",
+      "sha256": "c8678da812305a50a9886eb698a429921ac2f37b11d75284a1b238cd634f8847",
+      "bytes": 109028
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/metrics.csv",
+      "sha256": "04525eb2923b7bc0cb52308b4974de002d970ad8f1adc35bc8ae9fb1d2c1c909",
+      "bytes": 1933
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/pairwise_tests.csv",
+      "sha256": "3f275e4e7bf12f9fc8add40b6b9e38f9473f53fe3aa3b359e53f1a405db01fd7",
+      "bytes": 2811
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/predictions.parquet",
+      "sha256": "9c7386bfd4d4ddfb24a945fe6d87dc172ddd1df30879640f24fe29a3a0c3667b",
+      "bytes": 441166
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/regime_metrics.csv",
+      "sha256": "ac271d42817e4d80a80108d0e4106f85af2243c96cc7622f1dbbcb2d299b3bc5",
+      "bytes": 7243
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase2/summary.csv",
+      "sha256": "57894d2798f1eb5b41c54be60be8563df07a1a58e27c7b94aecb0c3cd56c2728",
+      "bytes": 1650
+    }
+  ]
+}

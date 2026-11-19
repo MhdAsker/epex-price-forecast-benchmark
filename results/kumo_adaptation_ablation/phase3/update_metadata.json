@@ -1,0 +1,122 @@
+{
+  "selection": {
+    "status": "frozen from 2015 development evidence before new retrospective predictions",
+    "selection_metric": "72-step validation MAE",
+    "selected_candidate": "matched_steps_730",
+    "selected_checkpoint": "artifacts/kumo_adaptation_ablation/phase2/matched_steps_730/best_head.pt",
+    "checkpoint_sha256": "12a020a5b46924a92fbff0c4e244a4130c477bfcf5a0d39a28c3c3562191e9b3",
+    "selected_72step_MAE": 6.493633296178735,
+    "selected_24step_MAE": 5.955923481881781,
+    "tied_identical_candidates": [
+      "fixed_epochs_730",
+      "matched_steps_730"
+    ],
+    "test_outcomes_used": false,
+    "qualification": "exploratory selection; 730-vs-365 paired block interval includes zero"
+  },
+  "fixed_load_report": {
+    "checkpoint_keys": 224,
+    "compatible_keys": 224,
+    "skipped_keys": [],
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "compatible_head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "trainable_parameters": 4718664,
+    "frozen_parameters": 341240320
+  },
+  "update_load_report": {
+    "checkpoint_keys": 224,
+    "compatible_keys": 224,
+    "skipped_keys": [],
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "compatible_head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "trainable_parameters": 4718664,
+    "frozen_parameters": 341240320
+  },
+  "update_training": {
+    "best_epoch": 3,
+    "best_validation_mae_eur_mwh": 8.80752464135488,
+    "history": [
+      {
+        "epoch": 1,
+        "train_mse_standardized": 0.28225460844114425,
+        "validation_mse_standardized": 0.6295232127110163,
+        "validation_mae_eur_mwh": 9.232571999231974
+      },
+      {
+        "epoch": 2,
+        "train_mse_standardized": 0.2457887033931911,
+        "validation_mse_standardized": 0.5858567083875338,
+        "validation_mae_eur_mwh": 8.56000550587972
+      },
+      {
+        "epoch": 3,
+        "train_mse_standardized": 0.22272809175774455,
+        "validation_mse_standardized": 0.5946775414049625,
+        "validation_mae_eur_mwh": 8.80752464135488
+      }
+    ],
+    "runtime_seconds": 2058.2399004,
+    "train_windows": 637,
+    "validation_windows": 90,
+    "epochs_requested": 3,
+    "epochs_completed": 3,
+    "early_stopping_patience": null,
+    "optimizer_steps": 240,
+    "max_optimizer_steps": null,
+    "checkpoint_selection": "final_epoch",
+    "head_change": {
+      "head.linear.bias": {
+        "l2_before": 0.018595945090055466,
+        "l2_delta": 0.0005530643975362182,
+        "max_abs_delta": 0.00019325222820043564
+      },
+      "head.linear.weight": {
+        "l2_before": 13.22192096710205,
+        "l2_delta": 2.6879470348358154,
+        "max_abs_delta": 0.00939805619418621
+      }
+    },
+    "checkpoint": "artifacts/kumo_adaptation_ablation/phase3/annual_update_2017/best_head.pt",
+    "checkpoint_sha256": "0e2b3b0f6b84ba8f8a13d5b97372e90516d611848060cadcf40971cc0d40252f"
+  },
+  "update_train": {
+    "split": "train",
+    "windows": 637,
+    "first_delivery_date": "2015-01-01",
+    "last_delivery_date": "2016-09-28",
+    "first_forecast_origin": "2014-12-31T12:00:00+01:00",
+    "last_forecast_origin": "2016-09-27T12:00:00+02:00",
+    "input_length": 512,
+    "target_horizon": 72,
+    "scored_products": 24
+  },
+  "update_monitor": {
+    "split": "validation",
+    "windows": 90,
+    "first_delivery_date": "2016-10-01",
+    "last_delivery_date": "2016-12-29",
+    "first_forecast_origin": "2016-09-30T12:00:00+02:00",
+    "last_forecast_origin": "2016-12-28T12:00:00+01:00",
+    "input_length": 512,
+    "target_horizon": 72,
+    "scored_products": 24
+  },
+  "checkpoint_sha256": "0e2b3b0f6b84ba8f8a13d5b97372e90516d611848060cadcf40971cc0d40252f",
+  "qualification": "annual pseudo-live proof of concept; final epoch fixed before 2016 monitoring outcomes"
+}

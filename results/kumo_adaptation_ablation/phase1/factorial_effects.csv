@@ -1,0 +1,6 @@
+contrast,mae_difference_eur_mwh
+normalization_untrained_B_minus_A,1.1280001141145135e-05
+weight_update_german_C_minus_B,-3.6171949418574654
+weight_update_nvidia_D_minus_A,-3.610476905245699
+normalization_finetuned_C_minus_D,-0.006706756610625142
+interaction,-0.006718036611766287

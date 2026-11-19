@@ -1,0 +1,15 @@
+{
+  "status": "frozen from 2015 development evidence before new retrospective predictions",
+  "selection_metric": "72-step validation MAE",
+  "selected_candidate": "matched_steps_730",
+  "selected_checkpoint": "artifacts/kumo_adaptation_ablation/phase2/matched_steps_730/best_head.pt",
+  "checkpoint_sha256": "12a020a5b46924a92fbff0c4e244a4130c477bfcf5a0d39a28c3c3562191e9b3",
+  "selected_72step_MAE": 6.493633296178735,
+  "selected_24step_MAE": 5.955923481881781,
+  "tied_identical_candidates": [
+    "fixed_epochs_730",
+    "matched_steps_730"
+  ],
+  "test_outcomes_used": false,
+  "qualification": "exploratory selection; 730-vs-365 paired block interval includes zero"
+}

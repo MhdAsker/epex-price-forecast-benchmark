@@ -28,5 +28,6 @@ Thumbs.db
 # pinned external research dependencies and large Kumo artifacts
 .research_deps/
 artifacts/kumo_finetuning/
+artifacts/kumo_adaptation_ablation/
 results/kumo_finetuning/development/checkpoints/
 results/kumo_finetuning/retrospective/checkpoints/

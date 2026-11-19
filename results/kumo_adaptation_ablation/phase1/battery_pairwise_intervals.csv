@@ -1,0 +1,11 @@
+model_1,model_2,mean_daily_revenue_difference_eur,bootstrap_ci_low,bootstrap_ci_high,n_days
+A pretrained + NVIDIA normalization,B pretrained + German normalization,0.0,0.0,0.0,363
+A pretrained + NVIDIA normalization,C fine-tuned + German normalization,-16.57851055520844,-18.76079550099904,-14.04634478141581,363
+A pretrained + NVIDIA normalization,D fine-tuned + NVIDIA normalization,-16.414183102190243,-18.41982168871468,-14.020376560278677,363
+A pretrained + NVIDIA normalization,Naive D-1,-14.029476666527517,-16.30065610510234,-11.44767617035162,363
+B pretrained + German normalization,C fine-tuned + German normalization,-16.57851055520844,-18.76079550099904,-14.04634478141581,363
+B pretrained + German normalization,D fine-tuned + NVIDIA normalization,-16.414183102190243,-18.41982168871468,-14.020376560278677,363
+B pretrained + German normalization,Naive D-1,-14.029476666527517,-16.30065610510234,-11.44767617035162,363
+C fine-tuned + German normalization,D fine-tuned + NVIDIA normalization,0.16432745301819848,-0.26034718963037456,0.6524981657786967,363
+C fine-tuned + German normalization,Naive D-1,2.54903388868092,1.599770356234632,3.3286994765321296,363
+D fine-tuned + NVIDIA normalization,Naive D-1,2.384706435662722,1.3621066990663853,3.178624514818845,363

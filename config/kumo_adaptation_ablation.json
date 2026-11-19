@@ -1,0 +1,70 @@
+{
+  "experiment_version": "0.1.0",
+  "registration_date": "2026-11-16",
+  "parent_branch": "feature/kumo-domain-finetuning",
+  "parent_commit": "330df1537ca67d6b18fe7bb26ccadf61d127d58d",
+  "selection_boundary": "2015 validation only; 2016-2017 outcomes are previously observed and evaluation-only",
+  "protocol": {
+    "forecast_origin": "12:00 Europe/Berlin on D-1",
+    "input_length_hours": 512,
+    "native_horizon_hours": 72,
+    "scored_products": 24,
+    "seed": 13
+  },
+  "phase1": {
+    "training_history_days": 365,
+    "epochs": 10,
+    "learning_rate": 0.0001,
+    "batch_size": 8,
+    "early_stopping_patience": 3,
+    "selection_metric": "72-step validation MAE on all issuance-safe 2015 origins",
+    "cells": {
+      "A": "pretrained weights + NVIDIA normalization",
+      "B": "pretrained weights + German 2012-2014 training-only normalization",
+      "C": "German-normalized fine-tuned head bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c + German normalization",
+      "D": "separately fine-tuned pretrained head + NVIDIA normalization"
+    },
+    "primary_contrasts": {
+      "normalization_untrained": "B-A",
+      "weight_update_german": "C-B",
+      "weight_update_nvidia": "D-A",
+      "normalization_finetuned": "C-D",
+      "interaction": "(C-B)-(D-A)"
+    }
+  },
+  "phase2": {
+    "status": "registered before phase1 outcomes",
+    "history_windows": [365, 730, "all_eligible"],
+    "fixed_epoch_budget": 6,
+    "matched_optimizer_steps": 276,
+    "sampling_policy": "epoch-seeded uniform permutation without replacement, cycling only after all eligible windows",
+    "learning_rate": 0.0001,
+    "batch_size": 8,
+    "selection_period": "2015 only",
+    "qualification": "execute only if phase1 supports genuine weight-adaptation value beyond scaling"
+  },
+  "phase3": {
+    "status": "registered after phase2 development results and before new retrospective predictions",
+    "fixed_checkpoint_rule": "minimum 2015 72-step validation MAE; matched_steps_730 selected among tied identical 730 checkpoints",
+    "selected_checkpoint_sha256": "12a020a5b46924a92fbff0c4e244a4130c477bfcf5a0d39a28c3c3562191e9b3",
+    "retrospective_role": "previously observed 2016-2017 extension; evaluation only",
+    "periodic_update": {
+      "frequency": "annual proof-of-concept update for 2017 only",
+      "initial_checkpoint": "selected 730-window head",
+      "update_training_target_start": "2015-01-01",
+      "update_training_target_end_exclusive": "2016-10-01",
+      "update_monitor_start": "2016-10-01",
+      "update_monitor_end_exclusive": "2017-01-01",
+      "epochs": 3,
+      "checkpoint_selection": "final epoch fixed before execution; 2016 outcomes cannot select epoch or hyperparameters",
+      "learning_rate": 0.0001,
+      "batch_size": 8
+    }
+  },
+  "hashes": {
+    "source_dataset_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+    "nvidia_checkpoint_sha256": "04778bee8196c19af3a3e8dbd93e467a85a25208c63285917185347d9ec71743",
+    "nvidia_standardizer_sha256": "4becbf64aa6148188f384ffdba439bb9969adbb12778f8c12aed00464acf8aef",
+    "existing_german_head_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c"
+  }
+}

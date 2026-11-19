@@ -1,0 +1,108 @@
+{
+  "status": "complete normalization and checkpoint audit before phase1 outcomes",
+  "source": {
+    "path": "data/raw/epftoolbox_epex_de.parquet",
+    "sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+    "rows": 52416
+  },
+  "nvidia_checkpoint": {
+    "path": ".research_deps/Kumo-TS/hf_cache/models--nvidia--Kumo-Forecast/snapshots/402caa11b7ff585141e912c6743026141f648892/moment_head_512_6hr.pt",
+    "sha256": "04778bee8196c19af3a3e8dbd93e467a85a25208c63285917185347d9ec71743"
+  },
+  "existing_german_head": {
+    "path": "artifacts/kumo_finetuning/extended_365_e10/best_head.pt",
+    "sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c"
+  },
+  "standardizers": [
+    {
+      "name": "NVIDIA published",
+      "mean": -5.671202659606934,
+      "std": 8.693312644958496,
+      "roundtrip_max_abs_error_eur_mwh": 1.52587890625e-05,
+      "fit_start": null,
+      "fit_end_exclusive": null
+    },
+    {
+      "name": "German training-only",
+      "mean": 37.654028951486694,
+      "std": 16.666522446440073,
+      "roundtrip_max_abs_error_eur_mwh": 1.52587890625e-05,
+      "fit_start": "2012-02-01",
+      "fit_end_exclusive": "2015-01-01",
+      "fit_observations": 25560,
+      "fit_last_timestamp": "2014-12-31T23:00:00",
+      "recomputed_mean": 37.654028951486694,
+      "recomputed_std_population": 16.666522446440073
+    }
+  ],
+  "load_report_1": {
+    "checkpoint_keys": 224,
+    "compatible_keys": 224,
+    "skipped_keys": [],
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "compatible_head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "trainable_parameters": 4718664,
+    "frozen_parameters": 341240320
+  },
+  "load_report_2": {
+    "checkpoint_keys": 224,
+    "compatible_keys": 224,
+    "skipped_keys": [],
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "compatible_head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "trainable_parameters": 4718664,
+    "frozen_parameters": 341240320
+  },
+  "repeat_load_max_abs_head_difference": 0.0,
+  "repeat_load_max_abs_prediction_difference_eur_mwh": 0.0,
+  "splits": [
+    {
+      "split": "train",
+      "windows": 1063,
+      "first_delivery_date": "2012-02-01",
+      "last_delivery_date": "2014-12-29",
+      "first_forecast_origin": "2012-01-31T12:00:00+01:00",
+      "last_forecast_origin": "2014-12-28T12:00:00+01:00",
+      "input_length": 512,
+      "target_horizon": 72,
+      "scored_products": 24
+    },
+    {
+      "split": "validation",
+      "windows": 363,
+      "first_delivery_date": "2015-01-01",
+      "last_delivery_date": "2015-12-29",
+      "first_forecast_origin": "2014-12-31T12:00:00+01:00",
+      "last_forecast_origin": "2015-12-28T12:00:00+01:00",
+      "input_length": 512,
+      "target_horizon": 72,
+      "scored_products": 24
+    }
+  ],
+  "no_validation_or_test_in_german_scaler": true,
+  "resources": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.3",
+    "torch": "2.12.1+cpu",
+    "torch_cuda": null,
+    "cuda_available": false,
+    "nvidia_smi": "NVIDIA GeForce GTX 1650, 4096 MiB, 610.62",
+    "disk_free_bytes": 25690730496
+  }
+}

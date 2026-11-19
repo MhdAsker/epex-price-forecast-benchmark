@@ -1,0 +1,277 @@
+{
+  "status": "complete 2015-only normalization-controlled phase1",
+  "registration": {
+    "experiment_version": "0.1.0",
+    "registration_date": "2026-11-16",
+    "parent_branch": "feature/kumo-domain-finetuning",
+    "parent_commit": "330df1537ca67d6b18fe7bb26ccadf61d127d58d",
+    "selection_boundary": "2015 validation only; 2016-2017 outcomes are previously observed and evaluation-only",
+    "protocol": {
+      "forecast_origin": "12:00 Europe/Berlin on D-1",
+      "input_length_hours": 512,
+      "native_horizon_hours": 72,
+      "scored_products": 24,
+      "seed": 13
+    },
+    "phase1": {
+      "training_history_days": 365,
+      "epochs": 10,
+      "learning_rate": 0.0001,
+      "batch_size": 8,
+      "early_stopping_patience": 3,
+      "selection_metric": "72-step validation MAE on all issuance-safe 2015 origins",
+      "cells": {
+        "A": "pretrained weights + NVIDIA normalization",
+        "B": "pretrained weights + German 2012-2014 training-only normalization",
+        "C": "German-normalized fine-tuned head bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c + German normalization",
+        "D": "separately fine-tuned pretrained head + NVIDIA normalization"
+      },
+      "primary_contrasts": {
+        "normalization_untrained": "B-A",
+        "weight_update_german": "C-B",
+        "weight_update_nvidia": "D-A",
+        "normalization_finetuned": "C-D",
+        "interaction": "(C-B)-(D-A)"
+      }
+    },
+    "phase2": {
+      "status": "registered before phase1 outcomes",
+      "history_windows": [
+        365,
+        730,
+        "all_eligible"
+      ],
+      "fixed_epoch_budget": 6,
+      "matched_optimizer_steps": 276,
+      "sampling_policy": "epoch-seeded uniform permutation without replacement, cycling only after all eligible windows",
+      "learning_rate": 0.0001,
+      "batch_size": 8,
+      "selection_period": "2015 only",
+      "qualification": "execute only if phase1 supports genuine weight-adaptation value beyond scaling"
+    },
+    "hashes": {
+      "source_dataset_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+      "nvidia_checkpoint_sha256": "04778bee8196c19af3a3e8dbd93e467a85a25208c63285917185347d9ec71743",
+      "nvidia_standardizer_sha256": "4becbf64aa6148188f384ffdba439bb9969adbb12778f8c12aed00464acf8aef",
+      "existing_german_head_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c"
+    }
+  },
+  "metadata": {
+    "device": "cpu",
+    "train": {
+      "split": "train",
+      "windows": 365,
+      "first_delivery_date": "2013-12-30",
+      "last_delivery_date": "2014-12-29",
+      "first_forecast_origin": "2013-12-29T12:00:00+01:00",
+      "last_forecast_origin": "2014-12-28T12:00:00+01:00",
+      "input_length": 512,
+      "target_horizon": 72,
+      "scored_products": 24
+    },
+    "validation": {
+      "split": "validation",
+      "windows": 363,
+      "first_delivery_date": "2015-01-01",
+      "last_delivery_date": "2015-12-29",
+      "first_forecast_origin": "2014-12-31T12:00:00+01:00",
+      "last_forecast_origin": "2015-12-28T12:00:00+01:00",
+      "input_length": 512,
+      "target_horizon": 72,
+      "scored_products": 24
+    },
+    "load_reports": {
+      "A_B": {
+        "checkpoint_keys": 224,
+        "compatible_keys": 224,
+        "skipped_keys": [],
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "head_keys": [
+          "head.linear.weight",
+          "head.linear.bias"
+        ],
+        "compatible_head_keys": [
+          "head.linear.weight",
+          "head.linear.bias"
+        ],
+        "trainable_parameters": 4718664,
+        "frozen_parameters": 341240320
+      },
+      "C": {
+        "checkpoint_keys": 224,
+        "compatible_keys": 224,
+        "skipped_keys": [],
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "head_keys": [
+          "head.linear.weight",
+          "head.linear.bias"
+        ],
+        "compatible_head_keys": [
+          "head.linear.weight",
+          "head.linear.bias"
+        ],
+        "trainable_parameters": 4718664,
+        "frozen_parameters": 341240320
+      },
+      "D": {
+        "checkpoint_keys": 224,
+        "compatible_keys": 224,
+        "skipped_keys": [],
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "head_keys": [
+          "head.linear.weight",
+          "head.linear.bias"
+        ],
+        "compatible_head_keys": [
+          "head.linear.weight",
+          "head.linear.bias"
+        ],
+        "trainable_parameters": 4718664,
+        "frozen_parameters": 341240320
+      }
+    },
+    "D_training": {
+      "best_epoch": 3,
+      "best_validation_mae_eur_mwh": 6.65570750962133,
+      "history": [
+        {
+          "epoch": 1,
+          "train_mse_standardized": 1.4768323535504548,
+          "validation_mse_standardized": 1.1583069135313449,
+          "validation_mae_eur_mwh": 7.039154819820238
+        },
+        {
+          "epoch": 2,
+          "train_mse_standardized": 1.1372785645982493,
+          "validation_mse_standardized": 1.1131689402720202,
+          "validation_mae_eur_mwh": 6.721315373545107
+        },
+        {
+          "epoch": 3,
+          "train_mse_standardized": 0.9985734885153563,
+          "validation_mse_standardized": 1.0755934151618376,
+          "validation_mae_eur_mwh": 6.65570750962133
+        },
+        {
+          "epoch": 4,
+          "train_mse_standardized": 0.9230818074682484,
+          "validation_mse_standardized": 1.079870568021484,
+          "validation_mae_eur_mwh": 6.715426745622055
+        },
+        {
+          "epoch": 5,
+          "train_mse_standardized": 0.8666219478068145,
+          "validation_mse_standardized": 1.09711905212506,
+          "validation_mae_eur_mwh": 6.911222260931264
+        },
+        {
+          "epoch": 6,
+          "train_mse_standardized": 0.8013618601405103,
+          "validation_mse_standardized": 1.0703814910805745,
+          "validation_mae_eur_mwh": 6.690510247064673
+        }
+      ],
+      "runtime_seconds": 1128.9755000000005,
+      "train_windows": 365,
+      "validation_windows": 363,
+      "epochs_requested": 10,
+      "epochs_completed": 6,
+      "early_stopping_patience": 3,
+      "optimizer_steps": 276,
+      "max_optimizer_steps": null,
+      "head_change": {
+        "head.linear.bias": {
+          "l2_before": 0.018812188878655434,
+          "l2_delta": 0.0015457310946658254,
+          "max_abs_delta": 0.0004027461400255561
+        },
+        "head.linear.weight": {
+          "l2_before": 13.164715766906738,
+          "l2_delta": 2.357252597808838,
+          "max_abs_delta": 0.006699807941913605
+        }
+      },
+      "checkpoint": "artifacts/kumo_adaptation_ablation/phase1_official_scaler/best_head.pt",
+      "checkpoint_sha256": "209eb078d70658f90263bd98920e9f336a5797b03c6be493a6b501d45175fe84"
+    },
+    "C_checkpoint_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c",
+    "D_checkpoint_sha256": "209eb078d70658f90263bd98920e9f336a5797b03c6be493a6b501d45175fe84"
+  },
+  "source_dataset_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "artifacts": [
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/audit.json",
+      "sha256": "3054ddcca56c8f4c276c781713f0c202a7d616529e28182220ad9b4544506b40",
+      "bytes": 3437
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/battery_daily.parquet",
+      "sha256": "463cecee5f033b5ccb9a43190bf2d4644cb532cb8f835c2a5b511177956a147a",
+      "bytes": 100846
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/battery_metrics.csv",
+      "sha256": "2753e4f8e828725b5dc62dc3e7481658b4e776bd19449525e511992bbac8ca9f",
+      "bytes": 1582
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/battery_pairwise_intervals.csv",
+      "sha256": "c000a057286d6f4b7a9218df5b9ab14d81571b9ff66eaeef2f39fce4ba35d3b3",
+      "bytes": 1288
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/config_frozen.json",
+      "sha256": "b098cdad48388d40670d889fcd77f6480276124e12140bfcf22a38c3a42e1244",
+      "bytes": 2224
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/extreme_metrics.csv",
+      "sha256": "8cca5738a74f9650a7d33112eba23104f13e21ee69a76c7a164e8108fad44a18",
+      "bytes": 723
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/factorial_effects.csv",
+      "sha256": "b043439cc7af20ad559a26ad792c23f4802a78e413ff635e09814a092db8e73b",
+      "bytes": 286
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/metrics.csv",
+      "sha256": "18057d47128d67887145eef88f43cda859854a2e09cc11e445ae91057b06c63f",
+      "bytes": 1588
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/normalization_ablation.png",
+      "sha256": "bfd593af35e44c28820608b3626781930111849344d8b7864363cc8f2b9395dc",
+      "bytes": 88111
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/pairwise_tests.csv",
+      "sha256": "3ccfdefc6ffcff28cb2cae0dd17259e68f3ac70f5a8ce774ebffc53fa3fd6c0a",
+      "bytes": 1770
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/predictions.parquet",
+      "sha256": "78e2d4bbc6d96732163592acf2833610ec715fb6293b5ea8b69685f8748ea7d1",
+      "bytes": 432942
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/regime_metrics.csv",
+      "sha256": "1ff657d89244fdd4db6e317b3601e13a10ddb7948064311fad6a74e6c0545b52",
+      "bytes": 5845
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/training_history_C.csv",
+      "sha256": "c91a6f2de8e69e960d768ec777732d1e38928a8e2eb967e7f7a7a34dd81ebbc1",
+      "bytes": 629
+    },
+    {
+      "path": "results/kumo_adaptation_ablation/phase1/training_history_D.csv",
+      "sha256": "7adf820a68477a8a39cfddfe3e631fd760307bdb7a77e8e1a6fa4b5520d48d28",
+      "bytes": 448
+    }
+  ],
+  "test_outcomes_used_for_selection": false
+}
