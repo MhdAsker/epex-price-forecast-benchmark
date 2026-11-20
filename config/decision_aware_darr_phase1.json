@@ -1,0 +1,61 @@
+{
+  "experiment_version": "1.0.0",
+  "registered_date": "2026-11-20",
+  "parent_commit": "7f12d2384afb74bc2d24125be70fd9aaa8cb6616",
+  "scope": "causal historical candidate dataset; no reranker training",
+  "market": "historical EPEX-DE canonical 24-product benchmark",
+  "protocol": {
+    "forecast_origin": "12:00 Europe/Berlin on D-1",
+    "input_length_hours": 512,
+    "candidate_continuation_hours": 72,
+    "scored_products": 24,
+    "strict_candidate_rule": "last candidate continuation delivery timestamp is earlier than query issuance",
+    "seed": 13
+  },
+  "queries": {
+    "train_start": "2015-01-01",
+    "train_end_exclusive": "2015-09-01",
+    "validation_start": "2015-09-01",
+    "validation_end_exclusive": "2016-01-01",
+    "expected_train_queries": 241,
+    "expected_validation_queries": 120,
+    "qualification": "2016-2017 remain excluded retrospective evaluation years"
+  },
+  "candidate_library": {
+    "target_start": "2012-02-01",
+    "target_end_exclusive": "2016-01-01",
+    "expected_windows": 1428,
+    "top_k_per_ordering": 64,
+    "orderings": ["embedding_cosine", "calendar", "price_pattern"],
+    "pattern_hours": 168,
+    "darr_temperature": 0.05
+  },
+  "batching": {
+    "embedding_windows_per_batch": 64,
+    "queries_per_candidate_batch": 30,
+    "atomic_suffix": ".partial"
+  },
+  "model": {
+    "base_config": "config/kumo_finetuning.json",
+    "head_checkpoint": "artifacts/kumo_finetuning/extended_365_e10/best_head.pt",
+    "head_checkpoint_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c",
+    "direct_predictions": "results/kumo_adaptation_ablation/phase1/predictions.parquet",
+    "direct_predictions_sha256": "78e2d4bbc6d96732163592acf2833610ec715fb6293b5ea8b69685f8748ea7d1",
+    "direct_model_name": "C fine-tuned + German normalization",
+    "embedding_implementation": "pinned NVIDIA model.embed + sdk.forecasting l2_normalize"
+  },
+  "hashes": {
+    "source_dataset_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+    "nvidia_checkpoint_sha256": "04778bee8196c19af3a3e8dbd93e467a85a25208c63285917185347d9ec71743",
+    "nvidia_standardizer_sha256": "4becbf64aa6148188f384ffdba439bb9969adbb12778f8c12aed00464acf8aef"
+  },
+  "battery": {
+    "power_mw": 1.0,
+    "energy_mwh": 1.0,
+    "roundtrip_efficiency": 0.9,
+    "transaction_cost_eur_mwh": 0.5,
+    "degradation_cost_eur_mwh": 2.0,
+    "initial_soc_fraction": 0.5,
+    "terminal_soc_fraction": 0.5
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "status": "frozen causal plan",
+  "config_sha256": "57205c8cbb295f940985f6633779944fda52ffcef993e40dd67e5cadfc38f987",
+  "source_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "library_windows": 1428,
+  "train_queries": 241,
+  "validation_queries": 120,
+  "purged_origin_dates": [
+    "2015-08-30",
+    "2015-08-31"
+  ],
+  "eligible_candidates_min": 1062,
+  "eligible_candidates_max": 1424,
+  "embedding_batches": 23,
+  "candidate_batches": 13,
+  "direct_prediction_rows": 43560,
+  "nvidia_commit": "ad459475d1302fc8365e7117e39837a8ecb6a7e3",
+  "no_reranker_training": true
+}

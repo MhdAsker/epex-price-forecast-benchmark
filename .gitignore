@@ -29,5 +29,6 @@ Thumbs.db
 .research_deps/
 artifacts/kumo_finetuning/
 artifacts/kumo_adaptation_ablation/
+artifacts/decision_aware_darr/
 results/kumo_finetuning/development/checkpoints/
 results/kumo_finetuning/retrospective/checkpoints/

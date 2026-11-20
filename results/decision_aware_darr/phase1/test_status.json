@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "summary": "34 passed in 26.73s; includes 7 decision-aware DARR causality/resume tests",
+  "command": "C:/Users/asker/Anaconda3/python.exe -m pytest -q",
+  "prompt1_tests": 7,
+  "repository_tests": 34
+}
