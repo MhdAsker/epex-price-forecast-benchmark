@@ -1,0 +1,37 @@
+{
+  "status": "complete",
+  "stage": "candidate",
+  "batch_number": 2,
+  "config_sha256": "57205c8cbb295f940985f6633779944fda52ffcef993e40dd67e5cadfc38f987",
+  "source_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "first_query_id": "epex_de__20150302__h72",
+  "last_query_id": "epex_de__20150331__h72",
+  "queries": 30,
+  "candidate_pairs": 4683,
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase1/candidate_batches/candidate_002/query_features.parquet",
+      "sha256": "0d7590a66e352f1bbe9c73fa9ba201087e4884e493f655767309e5e72764ea8c",
+      "bytes": 24981,
+      "rows": 30
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase1/candidate_batches/candidate_002/query_labels.parquet",
+      "sha256": "0576706712d048c9f63ae35a1cbcfbd7618c4696cbf5587caec7041dbd6741e1",
+      "bytes": 13897,
+      "rows": 30
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase1/candidate_batches/candidate_002/candidate_features.parquet",
+      "sha256": "be092b5b0317eeec3096ceccb8e930de8e4697d423d01b9ebab4aab9130b5d6e",
+      "bytes": 144247,
+      "rows": 4683
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase1/candidate_batches/candidate_002/candidate_labels.parquet",
+      "sha256": "d0536903bc76fbb66bc338558037c0a8a18d0a3fc9eaa9f38eeaf44016ddf5dc",
+      "bytes": 330354,
+      "rows": 4683
+    }
+  ]
+}

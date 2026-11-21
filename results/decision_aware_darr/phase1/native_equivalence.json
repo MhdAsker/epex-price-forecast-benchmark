@@ -1,0 +1,10 @@
+{
+  "status": "numerically verified",
+  "query_id": "epex_de__20150101__h72",
+  "eligible_candidates": 1062,
+  "k": 64,
+  "max_abs_forecast_difference": 1.52587890625e-05,
+  "absolute_tolerance": 2e-05,
+  "weight_sum": 0.9999999403953552,
+  "qualification": "identity/similarity adapter uses the same equations but exposes extra research fields"
+}

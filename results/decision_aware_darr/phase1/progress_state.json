@@ -1,14 +1,14 @@
 {
-  "status": "incomplete",
-  "current_stage": "Stage 3 embedding generation",
+  "status": "complete",
+  "current_stage": "complete",
   "config_sha256": "57205c8cbb295f940985f6633779944fda52ffcef993e40dd67e5cadfc38f987",
   "source_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
-  "embedding_batches_complete": 1,
+  "embedding_batches_complete": 23,
   "embedding_batches_total": 23,
-  "candidate_batches_complete": 0,
+  "candidate_batches_complete": 13,
   "candidate_batches_total": 13,
-  "last_successful_embedding_batch": "embedding_000",
-  "last_successful_candidate_batch": null,
+  "last_successful_embedding_batch": "embedding_022",
+  "last_successful_candidate_batch": "candidate_012",
   "error": null,
   "resume_command": "python run_decision_aware_darr.py build --resume"
 }

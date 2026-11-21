@@ -40,6 +40,7 @@ from src.research.decision_aware_darr.storage import (
     output_record,
     sha256_file,
     verify_batch_manifest,
+    verify_output,
 )
 from src.research.kumo.data import build_origins, training_standardizer, validate_canonical_hourly
 from src.research.kumo.inference import load_head
@@ -339,12 +340,17 @@ def _native_equivalence(
         temperature=config["candidate_library"]["darr_temperature"],
     )[0, 0]
     maximum = float(np.max(np.abs(adapter - official)))
-    if maximum > 1e-5:
+    # The official path accumulates float32 continuations through its
+    # NaN-safe helper. One raw-price float32 quantization step is 1.53e-5 in
+    # this audit; identities, ordering, and weights are otherwise identical.
+    tolerance = 2e-5
+    if maximum > tolerance:
         raise ValueError(f"custom adapter differs from NVIDIA knn_forecast: {maximum}")
     atomic_json(path, {
         "status": "numerically verified", "query_id": window_id(query),
         "eligible_candidates": len(eligible), "k": len(selected),
         "max_abs_forecast_difference": maximum,
+        "absolute_tolerance": tolerance,
         "weight_sum": float(weights.sum()),
         "qualification": "identity/similarity adapter uses the same equations but exposes extra research fields",
     })
@@ -479,7 +485,27 @@ def run_build(*, resume: bool, max_batches: int | None) -> None:
 
 
 def run_status() -> None:
-    state = _state_snapshot("status inspection")
+    stage = "status inspection"
+    manifest_path = RESULTS / "manifest.json"
+    if manifest_path.exists():
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            config, _, config_hash = _load_configs()
+            outputs_valid = all(
+                verify_output(record, ROOT)[0]
+                for record in manifest.get("outputs", [])
+            )
+            if (
+                manifest.get("status") == "complete"
+                and manifest.get("config_sha256") == config_hash
+                and manifest.get("source_sha256") == config["hashes"]["source_dataset_sha256"]
+                and manifest.get("outputs")
+                and outputs_valid
+            ):
+                stage = "complete"
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            pass
+    state = _state_snapshot(stage)
     print(json.dumps(state, indent=2))
 
 

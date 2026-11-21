@@ -1,0 +1,51 @@
+{
+  "status": "passed",
+  "config_sha256": "57205c8cbb295f940985f6633779944fda52ffcef993e40dd67e5cadfc38f987",
+  "source_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "query_rows": 361,
+  "train_queries": 241,
+  "validation_queries": 120,
+  "candidate_library_rows": 1428,
+  "candidate_pair_rows": 54929,
+  "candidate_pairs_min_per_query": 131,
+  "candidate_pairs_max_per_query": 175,
+  "candidate_pairs_mean_per_query": 152.1578947368421,
+  "strict_causal_pairs_verified": 54929,
+  "duplicate_query_candidate_pairs": 0,
+  "feature_label_key_match": true,
+  "feature_label_column_separation": true,
+  "train_validation_label_overlap": false,
+  "evaluation_year_queries_present": false,
+  "outputs": [
+    {
+      "path": "results/decision_aware_darr/phase1/candidate_library.parquet",
+      "sha256": "2398dc605cfe4fee9214f475d11300de69f328bbaaff0e46be6c3623d6e26c93",
+      "bytes": 376172,
+      "rows": 1428
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/query_features.parquet",
+      "sha256": "b19bbb62b93cc2befc6358b979e700e28f978884ed62c9d6b75fd8a6f5993837",
+      "bytes": 119731,
+      "rows": 361
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/query_labels.parquet",
+      "sha256": "dfc75ff7977761b1987ae7dca52f4c7380cef879ada0c426819e996dd4869449",
+      "bytes": 59331,
+      "rows": 361
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/candidate_features.parquet",
+      "sha256": "e073fa69dfd2b668764ab7f991c87c5dfeb5165200c452fcb2ff113bef642318",
+      "bytes": 1459273,
+      "rows": 54929
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/candidate_labels.parquet",
+      "sha256": "210d348715c25f931e22c1bba8e5cba3f22409bfc655abd384a117860e66b848",
+      "bytes": 3531427,
+      "rows": 54929
+    }
+  ]
+}

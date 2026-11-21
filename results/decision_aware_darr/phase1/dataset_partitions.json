@@ -1,0 +1,21 @@
+{
+  "train": {
+    "queries": 241,
+    "first_delivery_date": "2015-01-01",
+    "last_delivery_date": "2015-08-29"
+  },
+  "validation": {
+    "queries": 120,
+    "first_delivery_date": "2015-09-01",
+    "last_delivery_date": "2015-12-29"
+  },
+  "purged_query_dates": [
+    "2015-08-30",
+    "2015-08-31"
+  ],
+  "target_overlap": false,
+  "evaluation_years_excluded": [
+    2016,
+    2017
+  ]
+}

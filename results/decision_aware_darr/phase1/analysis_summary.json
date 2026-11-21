@@ -1,0 +1,45 @@
+{
+  "status": "complete Prompt 1 dataset and non-learned baseline analysis",
+  "config_sha256": "57205c8cbb295f940985f6633779944fda52ffcef993e40dd67e5cadfc38f987",
+  "queries": 361,
+  "candidate_pairs": 54929,
+  "distinct_candidates": 1424,
+  "validation_best_MAE_method": "Direct Kumo",
+  "validation_best_MAE": 6.287069831802769,
+  "quality": {
+    "candidate_pairs": 54929,
+    "unique_queries": 361,
+    "distinct_candidate_histories": 1424,
+    "mean_candidate_reuse": 38.57373595505618,
+    "max_candidate_reuse": 105,
+    "mean_adjacent_query_candidate_jaccard": 0.2282111350728901,
+    "mean_embedding_similarity": 0.9635600694899682,
+    "std_embedding_similarity": 0.02369221922111248,
+    "mean_continuation_mae": 12.22850065117001,
+    "mean_incremental_battery_value": -5.589352025933223,
+    "embedding_similarity_quantiles": {
+      "0.01": 0.8863310289382934,
+      "0.1": 0.9297629237174988,
+      "0.5": 0.9713679552078247,
+      "0.9": 0.9854105353355408,
+      "0.99": 0.9896848273277282
+    },
+    "continuation_mae_quantiles": {
+      "0.01": 2.610533479054769,
+      "0.1": 4.630000082651774,
+      "0.5": 10.020000139872232,
+      "0.9": 22.480916515986127,
+      "0.99": 40.00090000467997
+    },
+    "incremental_value_quantiles": {
+      "0.01": -38.8490862591708,
+      "0.1": -18.356810742586482,
+      "0.5": -3.572676123472723,
+      "0.9": 4.53504320204465,
+      "0.99": 13.32667567213872
+    },
+    "queries_with_mae_range_over_1_eur_pct": 100.0,
+    "queries_with_value_range_over_5_eur_pct": 100.0
+  },
+  "prompt2_readiness": "conditional: sufficient pair rows for a constrained reranker, but only 241 unique training query dates"
+}

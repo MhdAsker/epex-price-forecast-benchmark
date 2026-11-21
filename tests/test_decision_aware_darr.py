@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -21,6 +24,26 @@ from src.research.decision_aware_darr.storage import (
     verify_batch_manifest,
 )
 from src.research.kumo.data import KumoPriceDataset, PriceStandardizer, build_origins
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_status_reports_verified_final_manifest_complete() -> None:
+    import subprocess
+    import sys
+
+    completed = subprocess.run(
+        [sys.executable, "run_decision_aware_darr.py", "status"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    status = json.loads(completed.stdout)
+    assert status["status"] == "complete"
+    assert status["embedding_batches_complete"] == status["embedding_batches_total"]
+    assert status["candidate_batches_complete"] == status["candidate_batches_total"]
 
 
 def _frame(days: int = 500) -> pd.DataFrame:

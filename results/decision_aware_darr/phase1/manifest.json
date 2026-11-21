@@ -1,0 +1,106 @@
+{
+  "status": "complete",
+  "config_sha256": "57205c8cbb295f940985f6633779944fda52ffcef993e40dd67e5cadfc38f987",
+  "source_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "checkpoint_sha256": "bcbb8c66ccafdfd2f89b9dead859592a3bbd3a53e7a735eac5f075f8d2627c0c",
+  "no_reranker_trained": true,
+  "retrospective_2016_2017_used_as_training_queries": false,
+  "outputs": [
+    {
+      "path": "results/decision_aware_darr/phase1/analysis_summary.json",
+      "sha256": "ef1cb8918883f52c3d8a9b120c5779a8b145ea709e963ba20320a94881e3a195",
+      "bytes": 1713
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/audit.json",
+      "sha256": "cb1f4986fac0f69c26fd2c9371bdbd7ab778028c8e0e421613209dccb9084d1b",
+      "bytes": 1868
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/baseline_daily.parquet",
+      "sha256": "6d42bd33eda48a5d9d4762b7ea7defd765525a6ed5ba3230f849f55f1a0b3596",
+      "bytes": 129672,
+      "rows": 1805
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/baseline_metrics.csv",
+      "sha256": "635dffd8e27a8be460a74e73addb902e24c1d0f82a9a1f902f7293dcd92969bc",
+      "bytes": 2266
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/baseline_regimes.csv",
+      "sha256": "c85876092fdbc004cbdffdc385261eb8d2e4f5bb4e732e82fcfb9a77420d2cb8",
+      "bytes": 4236
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/candidate_features.parquet",
+      "sha256": "e073fa69dfd2b668764ab7f991c87c5dfeb5165200c452fcb2ff113bef642318",
+      "bytes": 1459273,
+      "rows": 54929
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/candidate_labels.parquet",
+      "sha256": "210d348715c25f931e22c1bba8e5cba3f22409bfc655abd384a117860e66b848",
+      "bytes": 3531427,
+      "rows": 54929
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/candidate_library.parquet",
+      "sha256": "2398dc605cfe4fee9214f475d11300de69f328bbaaff0e46be6c3623d6e26c93",
+      "bytes": 376172,
+      "rows": 1428
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/candidate_score_correlations.csv",
+      "sha256": "68b785763a4ea7fea53b2313376d8e268d71150f13afa510dae42341b2a33950",
+      "bytes": 1177
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/data_quality.json",
+      "sha256": "585a7db1b2ebaf1fd71fe03a82f0d33a6e8bbdfea72fbd173b8994a970437f3c",
+      "bytes": 1159
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/dataset_partitions.json",
+      "sha256": "9583eb63310afea69dca469e6cab3df34b8272b19c1f5f324cbe1ea03f40d0c9",
+      "bytes": 415
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/feature_schema.json",
+      "sha256": "f81d0d3c723dedb59316d9dfa885da031ddb651cab2f1d7b0b45f75b307f41be",
+      "bytes": 2916
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/native_equivalence.json",
+      "sha256": "28c22847b80b6b0db40d34d953c19d46b49eea70a8a8ef3bbcde150069258564",
+      "bytes": 358
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/PHASE1_REPORT.md",
+      "sha256": "807ae3d2746dd263df7c5e5c1fe045740166a8ef380751c0953a4273f090d54f",
+      "bytes": 4797
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/plan.json",
+      "sha256": "cf1bb00fd8ca5495648b6edef100a9116e1359566aceacaf7de0fce01f059d68",
+      "bytes": 631
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/query_features.parquet",
+      "sha256": "b19bbb62b93cc2befc6358b979e700e28f978884ed62c9d6b75fd8a6f5993837",
+      "bytes": 119731,
+      "rows": 361
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/query_labels.parquet",
+      "sha256": "dfc75ff7977761b1987ae7dca52f4c7380cef879ada0c426819e996dd4869449",
+      "bytes": 59331,
+      "rows": 361
+    },
+    {
+      "path": "results/decision_aware_darr/phase1/test_status.json",
+      "sha256": "6245822faaa2d56d221fbafa5d30f3e28f26acbaf4e20bd53ffb4e6e4355cddf",
+      "bytes": 207
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+retrieval_score,outcome,global_spearman,mean_within_query_spearman,candidate_pairs,queries
+embedding_similarity,continuation_mae,-0.036922866221626056,-0.019175964424963252,54929,361
+embedding_similarity,rank_quality,0.022903657135867388,-0.006553908739342024,54929,361
+embedding_similarity,absolute_spread_error,-0.04758378180269498,-0.03130962487301835,54929,361
+embedding_similarity,incremental_battery_value,0.09047412880990074,0.06174670220005023,54929,361
+calendar_distance,continuation_mae,-0.1249004331362119,-0.11973514776733205,54929,361
+calendar_distance,rank_quality,0.27130507538586845,0.2641859975921173,54929,361
+calendar_distance,absolute_spread_error,-0.04255059810778269,-0.04559176196869568,54929,361
+calendar_distance,incremental_battery_value,0.1593654609864343,0.18672997984049117,54929,361
+pattern_distance,continuation_mae,-0.10819511099563642,-0.09192126585259658,54929,361
+pattern_distance,rank_quality,0.15070497583022618,0.13527525736581383,54929,361
+pattern_distance,absolute_spread_error,-0.043786357627634796,-0.04269641375648951,54929,361
+pattern_distance,incremental_battery_value,0.07496944859519013,0.09046533464752735,54929,361

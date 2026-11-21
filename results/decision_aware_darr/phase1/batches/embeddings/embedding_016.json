@@ -1,0 +1,36 @@
+{
+  "status": "complete",
+  "stage": "embedding",
+  "batch_number": 16,
+  "config_sha256": "57205c8cbb295f940985f6633779944fda52ffcef993e40dd67e5cadfc38f987",
+  "source_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "first_window_id": "epex_de__20141121__h72",
+  "last_window_id": "epex_de__20150123__h72",
+  "windows": 64,
+  "embedding_dimension": 1024,
+  "load_report": {
+    "checkpoint_keys": 224,
+    "compatible_keys": 224,
+    "skipped_keys": [],
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "compatible_head_keys": [
+      "head.linear.weight",
+      "head.linear.bias"
+    ],
+    "trainable_parameters": 4718664,
+    "frozen_parameters": 341240320
+  },
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase1/embeddings/embedding_016.npz",
+      "sha256": "b72af0c35596be72a5f4d2779a7b65683f59a4ce38490106c1a5079579949d92",
+      "bytes": 244389,
+      "rows": 64
+    }
+  ]
+}
