@@ -20,7 +20,7 @@ def test_memory_is_strictly_causal_for_boundary_queries():
     frame,memory,queries,_=runner.origins(); index=validate_canonical_hourly(frame).index
     from src.research.decision_aware_darr.causal import eligible_candidate_indices
     for query in (queries[0],queries[366],queries[-1]):
-        eligible=eligible_candidate_indices(memory,query,index); assert eligible
+        eligible=eligible_candidate_indices(memory,query,index); assert len(eligible)>0
         assert max(memory[i].target_stop for i in eligible)<=query.target_start-12
 
 def test_frozen_feature_order_matches_checkpoint():
