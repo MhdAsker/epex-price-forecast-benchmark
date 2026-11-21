@@ -1,0 +1,13 @@
+{
+  "status": "in progress",
+  "last_verified_stage": "Stage 2 training design registered",
+  "branch": "feature/decision-aware-darr-reranker",
+  "parent_commit": "7a3eb78",
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "train_queries": 241,
+  "validation_queries": 120,
+  "retrospective_2016_2017_accessed": false,
+  "kumo_retrained": false,
+  "next_command": "python run_decision_aware_darr_phase2.py train --resume"
+}

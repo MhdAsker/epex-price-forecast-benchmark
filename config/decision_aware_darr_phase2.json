@@ -1,0 +1,39 @@
+{
+  "experiment_version": "2.0.0",
+  "registered_date": "2026-11-21",
+  "parent_commit": "7a3eb78",
+  "scope": "2015 development-only causal retrieval reranking; no 2016-2017 evaluation",
+  "seed": 13,
+  "phase1_manifest": "results/decision_aware_darr/phase1/manifest.json",
+  "train_queries": 241,
+  "validation_queries": 120,
+  "inner_folds": [
+    {"id": "fold_1", "fit_end": "2015-03-29", "score_start": "2015-04-01", "score_end": "2015-04-30"},
+    {"id": "fold_2", "fit_end": "2015-05-29", "score_start": "2015-06-01", "score_end": "2015-06-30"},
+    {"id": "fold_3", "fit_end": "2015-07-29", "score_start": "2015-08-01", "score_end": "2015-08-29"}
+  ],
+  "purge_days": 2,
+  "objectives": {
+    "forecast": "negative label__continuation_mae_eur_mwh",
+    "economic": "label__incremental_revenue_vs_direct_eur"
+  },
+  "feature_sets": ["embedding_only", "market_context", "combined"],
+  "ridge_alphas": [1.0, 10.0, 100.0, 1000.0],
+  "lightgbm": [
+    {"num_leaves": 5, "max_depth": 3, "n_estimators": 100, "learning_rate": 0.03, "min_child_samples": 80, "reg_alpha": 1.0, "reg_lambda": 10.0},
+    {"num_leaves": 7, "max_depth": 3, "n_estimators": 160, "learning_rate": 0.02, "min_child_samples": 100, "reg_alpha": 2.0, "reg_lambda": 20.0}
+  ],
+  "retrieval_k": [1, 4, 8, 16],
+  "blend_direct_weight": [0.0, 0.25, 0.5, 0.75],
+  "bootstrap": {"block_days": 7, "replications": 2000},
+  "battery": {
+    "power_mw": 1.0,
+    "energy_mwh": 1.0,
+    "roundtrip_efficiency": 0.9,
+    "transaction_cost_eur_mwh": 0.5,
+    "degradation_cost_eur_mwh": 2.0,
+    "initial_soc_fraction": 0.5,
+    "terminal_soc_fraction": 0.5
+  },
+  "prohibited_features": ["label__", "actual", "future", "revenue", "regime", "spike", "negative_price"]
+}

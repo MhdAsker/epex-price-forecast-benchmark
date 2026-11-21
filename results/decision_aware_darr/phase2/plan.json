@@ -1,0 +1,84 @@
+{
+  "status": "registered",
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "phase1_outputs_verified": 18,
+  "candidate_pairs": 54929,
+  "train_queries": 241,
+  "validation_queries": 120,
+  "experiments": 28,
+  "inference_feature_allowlist": {
+    "embedding_only": [
+      "pair__embedding_similarity",
+      "derived__log_embedding_rank"
+    ],
+    "market_context": [
+      "pair__calendar_distance",
+      "pair__pattern_distance",
+      "derived__log_calendar_rank",
+      "derived__log_pattern_rank",
+      "derived__log_candidate_age_days",
+      "query__weekend",
+      "derived__month_sin",
+      "derived__month_cos",
+      "query__context_std_24h",
+      "query__context_spread_24h",
+      "query__context_std_168h",
+      "derived__abs_last_price",
+      "derived__abs_mean_24h",
+      "derived__abs_std_24h",
+      "derived__abs_spread_24h",
+      "derived__abs_mean_168h",
+      "derived__abs_std_168h",
+      "derived__abs_spread_168h",
+      "derived__abs_trend_24h"
+    ],
+    "combined": [
+      "pair__embedding_similarity",
+      "derived__log_embedding_rank",
+      "pair__calendar_distance",
+      "pair__pattern_distance",
+      "derived__log_calendar_rank",
+      "derived__log_pattern_rank",
+      "derived__log_candidate_age_days",
+      "query__weekend",
+      "derived__month_sin",
+      "derived__month_cos",
+      "query__context_std_24h",
+      "query__context_spread_24h",
+      "query__context_std_168h",
+      "derived__abs_last_price",
+      "derived__abs_mean_24h",
+      "derived__abs_std_24h",
+      "derived__abs_spread_24h",
+      "derived__abs_mean_168h",
+      "derived__abs_std_168h",
+      "derived__abs_spread_168h",
+      "derived__abs_trend_24h"
+    ]
+  },
+  "inner_folds": [
+    {
+      "id": "fold_1",
+      "fit_end": "2015-03-29",
+      "score_start": "2015-04-01",
+      "score_end": "2015-04-30"
+    },
+    {
+      "id": "fold_2",
+      "fit_end": "2015-05-29",
+      "score_start": "2015-06-01",
+      "score_end": "2015-06-30"
+    },
+    {
+      "id": "fold_3",
+      "fit_end": "2015-07-29",
+      "score_start": "2015-08-01",
+      "score_end": "2015-08-29"
+    }
+  ],
+  "retrospective_years_excluded": [
+    2016,
+    2017
+  ]
+}
