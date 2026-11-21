@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "summary": "42 passed in 38.69s; includes 7 Phase 2 causality, preprocessing, determinism, checkpoint, alignment, and resume-status tests",
+  "command": "python -m pytest -q",
+  "phase2_tests": 7,
+  "repository_tests": 42
+}

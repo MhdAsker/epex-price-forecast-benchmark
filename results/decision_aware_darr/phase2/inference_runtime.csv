@@ -1,0 +1,5 @@
+method,seconds,queries
+Ridge Forecast frozen,0.30420950000006997,120
+Ridge Economic frozen,0.3585008999998536,120
+Lightgbm Forecast frozen,0.39417540000067675,120
+Lightgbm Economic frozen,0.37952909999876283,120

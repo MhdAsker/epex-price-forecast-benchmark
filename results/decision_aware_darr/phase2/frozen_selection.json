@@ -47,6 +47,7 @@
       "inner_cv_value": 947.7299656291677
     }
   },
-  "validation_opened": false,
-  "retrospective_2016_2017_used": false
+  "validation_opened": true,
+  "retrospective_2016_2017_used": false,
+  "validation_opened_after_freeze": true
 }

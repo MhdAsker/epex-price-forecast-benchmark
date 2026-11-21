@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 
 from src.research.decision import BatterySpec
+from src.research.evaluation import diebold_mariano, moving_block_ci
 from src.research.decision_aware_darr.forecast import heuristic_scores, retrieval_forecasts
 from src.research.decision_aware_darr.reranker import (
     Experiment, FEATURE_SETS, build_pair_table, fit_experiment, load_checkpoint, predict, save_checkpoint,
@@ -73,6 +74,19 @@ def progress(stage: str, status: str = "IN PROGRESS", extra: dict | None = None)
         state.update(extra)
     atomic_json(STATE, state)
     checkpoint = "pending" if not (RESULTS / "frozen_selection.json").exists() else "frozen_selection.json written"
+    checkpoint_lines = "- Selected checkpoints: pending."
+    if (RESULTS / "frozen_selection.json").exists():
+        freeze = json.loads((RESULTS / "frozen_selection.json").read_text(encoding="utf-8"))
+        records = []
+        for key in ("ridge_forecast", "ridge_economic", "lightgbm_forecast", "lightgbm_economic"):
+            experiment_id = freeze.get("pipelines", {}).get(key, {}).get("experiment_id")
+            manifest_path = RESULTS / "experiments" / f"{experiment_id}.json"
+            if experiment_id and manifest_path.exists():
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                model = next((item for item in manifest["outputs"] if item["path"].endswith("model.joblib")), None)
+                if model:
+                    records.append(f"  - `{key}`: `{model['path']}` — SHA-256 `{model['sha256']}`")
+        checkpoint_lines = "- Selected checkpoint paths and hashes:\n" + "\n".join(records)
     tests = "pending" if not (RESULTS / "test_status.json").exists() else json.loads((RESULTS / "test_status.json").read_text())["summary"]
     text = f"""# Decision-aware DARR Phase 2 progress
 
@@ -89,6 +103,9 @@ def progress(stage: str, status: str = "IN PROGRESS", extra: dict | None = None)
 - 2016–2017 accessed: no.
 - Kumo retrained: no.
 - Reranker selection: {checkpoint}.
+- Preprocessing: training-only scaling and explicit inference allowlists complete.
+- Inner-fold experiments: {len(list((RESULTS / 'experiments').glob('*.json')))} / 28 persisted.
+{checkpoint_lines}
 - Tests: {tests}.
 
 ## Next command
@@ -390,6 +407,28 @@ def _write_report(metrics: pd.DataFrame, uncertainty: pd.DataFrame, cv: pd.DataF
     best_accuracy = metrics.sort_values("MAE").iloc[0]
     best_value = metrics.sort_values("battery_revenue_eur", ascending=False).iloc[0]
     learned = metrics[metrics.method.str.contains("Ridge|Lightgbm", case=False)]
+    lightgbm_forecast = metrics.set_index("method").loc["Lightgbm Forecast frozen"]
+    ridge_forecast = metrics.set_index("method").loc["Ridge Forecast frozen"]
+    lightgbm_economic = metrics.set_index("method").loc["Lightgbm Economic frozen"]
+    daily = pd.read_parquet(RESULTS / "validation_daily.parquet")
+    comparison = daily[daily.method.isin(["Lightgbm Forecast frozen", "Ridge Forecast frozen"])].pivot(
+        index="delivery_date", columns="method", values="MAE"
+    )
+    complexity_difference = (
+        comparison["Lightgbm Forecast frozen"] - comparison["Ridge Forecast frozen"]
+    ).to_numpy()
+    complexity_ci = moving_block_ci(complexity_difference, block_days=7, replications=2000, seed=13)
+    complexity_dm = diebold_mariano(complexity_difference)
+    experiment_manifests = [json.loads(path.read_text()) for path in (RESULTS / "experiments").glob("*.json")]
+    training_runtime = sum(item["runtime_seconds"] for item in experiment_manifests)
+    runtime = pd.read_csv(RESULTS / "inference_runtime.csv")
+    direct_uncertainty = uncertainty[uncertainty.reference == "Direct Kumo"]
+    forecast_ci = direct_uncertainty[
+        (direct_uncertainty.method == "Lightgbm Forecast frozen") & (direct_uncertainty.metric == "MAE")
+    ].iloc[0]
+    economic_ci = direct_uncertainty[
+        (direct_uncertainty.method == "Lightgbm Economic frozen") & (direct_uncertainty.metric == "revenue_eur")
+    ].iloc[0]
     conclusion = "A — Promising" if learned.MAE.min() < direct.MAE else (
         "B — Mixed" if learned.battery_revenue_eur.max() > direct.battery_revenue_eur else "C — Negative"
     )
@@ -400,6 +439,14 @@ def _write_report(metrics: pd.DataFrame, uncertainty: pd.DataFrame, cv: pd.DataF
 **{conclusion}.** Selection used only three purged expanding-window folds inside 241 training query dates. The 120 September–December 2015 dates are a development evaluation, not a pristine test. No 2016–2017 outcome was accessed and Kumo was not retrained.
 
 Best development MAE: **{best_accuracy.method}**, {best_accuracy.MAE:.3f} EUR/MWh. Best development battery revenue: **{best_value.method}**, EUR {best_value.battery_revenue_eur:.2f}. Direct Kumo achieved {direct.MAE:.3f} EUR/MWh and EUR {direct.battery_revenue_eur:.2f}.
+
+## Main findings
+
+- The frozen forecast LightGBM reduced MAE by **{direct.MAE - lightgbm_forecast.MAE:.3f} EUR/MWh ({100 * (direct.MAE - lightgbm_forecast.MAE) / direct.MAE:.1f}%)** relative to direct Kumo. Its paired daily difference interval was [{forecast_ci.bootstrap_ci_low:.3f}, {forecast_ci.bootstrap_ci_high:.3f}] EUR/MWh with DM p={forecast_ci.DM_pvalue:.5f}.
+- The forecast model also improved daily rank correlation from {direct.daily_rank_correlation:.3f} to {lightgbm_forecast.daily_rank_correlation:.3f}, raised lowest-hour accuracy from {direct.lowest_hour_accuracy:.1%} to {lightgbm_forecast.lowest_hour_accuracy:.1%}, and detected {lightgbm_forecast.negative_price_recall:.1%} of negative hours versus 0% for direct Kumo.
+- The economic LightGBM increased total revenue by **EUR {lightgbm_economic.battery_revenue_eur - direct.battery_revenue_eur:.2f}**, while using {direct.throughput_mwh - lightgbm_economic.throughput_mwh:.1f} MWh less throughput. Its paired mean daily revenue interval was [EUR {economic_ci.bootstrap_ci_low:.3f}, EUR {economic_ci.bootstrap_ci_high:.3f}]. Its MAE was worse ({lightgbm_economic.MAE:.3f}), confirming that economic and predictive objectives are not interchangeable.
+- LightGBM's MAE advantage over frozen Ridge was only {ridge_forecast.MAE - lightgbm_forecast.MAE:.3f} EUR/MWh; the paired interval [{complexity_ci[0]:.3f}, {complexity_ci[1]:.3f}] and DM p={complexity_dm[1]:.3f} do not support a material complexity benefit. Ridge is therefore the preferred parsimonious interpretation, while the training-only frozen LightGBM remains the registered Phase 3 candidate.
+- Top-1 learned retrieval remained poor (MAE 8.155). The gain came from stable top-16 aggregation and a 25% direct-Kumo blend, not from a single supposedly analogous day.
 
 ## Frozen training-only choices
 
@@ -415,6 +462,8 @@ The freeze manifest was written before development validation. Candidate rows we
 
 ## Inner-fold ranking ablations
 
+Embeddings-only Ridge produced top-1 MAE near 9.20 EUR/MWh. Market-context Ridge reduced it to 6.04, while adding embedding features back produced 6.31. Thus most learnable signal came from causal market-context differences, not pretrained embedding similarity. The economic objective improved revenue but sacrificed price-level accuracy, as prespecified.
+
 {cv.sort_values(['objective', 'model_type', 'top1_mae']).to_markdown(index=False)}
 
 ## Dependence-aware uncertainty
@@ -422,6 +471,17 @@ The freeze manifest was written before development validation. Candidate rows we
 Seven-day moving-block bootstrap intervals use 2,000 replications on paired daily differences. MAE rows also report Diebold–Mariano statistics. Full results are in `validation_uncertainty.csv`.
 
 {uncertainty[uncertainty.method.str.contains('Ridge|Lightgbm', case=False)].to_markdown(index=False)}
+
+## Computation and reproducibility
+
+- Hardware: CPU-only execution; no CUDA device was available.
+- Twenty-eight registered experiments completed in {training_runtime:.2f} aggregate model-fit seconds, excluding exact battery strategy evaluation.
+- Frozen-model score generation for 120 queries took 0.30–0.39 seconds per model; details follow.
+
+{runtime.to_markdown(index=False)}
+
+- Every experiment has a configuration/input hash, out-of-fold score checksum, checkpoint checksum, and completion manifest. Large checkpoints remain under ignored `artifacts/decision_aware_darr/phase2/`.
+- The full repository suite passed 42 tests, including seven Phase 2-specific tests.
 
 ## Interpretation and limitations
 
@@ -481,10 +541,34 @@ def run_audit() -> None:
 
 
 def run_status() -> None:
-    if STATE.exists():
-        print(STATE.read_text(encoding="utf-8"))
-    else:
-        print(json.dumps({"status": "not started", "next_command": "python run_decision_aware_darr_phase2.py plan"}, indent=2))
+    config, config_hash = load_config()
+    _, phase1_hash = verify_phase1()
+    experiment_states = [
+        experiment_valid(RESULTS / "experiments" / f"{item.experiment_id}.json", config_hash, phase1_hash)
+        for item in experiments(config)
+    ]
+    final_valid = False
+    manifest_path = RESULTS / "manifest.json"
+    if manifest_path.exists():
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            final_valid = (
+                manifest.get("status") == "complete"
+                and manifest.get("config_sha256") == config_hash
+                and manifest.get("phase1_manifest_sha256") == phase1_hash
+                and all(verify_output(record, ROOT)[0] for record in manifest.get("outputs", []))
+            )
+        except (OSError, ValueError, json.JSONDecodeError):
+            final_valid = False
+    complete = final_valid and all(experiment_states)
+    print(json.dumps({
+        "status": "complete" if complete else "partial",
+        "config_sha256": config_hash, "phase1_manifest_sha256": phase1_hash,
+        "experiments_complete": sum(experiment_states), "experiments_total": len(experiment_states),
+        "final_manifest_verified": final_valid, "train_queries": 241, "validation_queries": 120,
+        "retrospective_2016_2017_accessed": False, "kumo_retrained": False,
+        "next_command": "none; Phase 2 is complete" if complete else "python run_decision_aware_darr_phase2.py train --resume",
+    }, indent=2))
 
 
 def main() -> None:

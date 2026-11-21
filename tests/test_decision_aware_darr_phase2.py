@@ -77,3 +77,11 @@ def test_validation_queries_never_enter_model_selection_folds() -> None:
     for fold in config["inner_folds"]:
         fit, score = runner.fold_masks(table, fold)
         assert validation.isdisjoint(table.loc[fit | score, "query__id"])
+
+
+def test_phase2_status_verifies_experiments_and_final_outputs(capsys) -> None:
+    runner.run_status()
+    status = json.loads(capsys.readouterr().out)
+    assert status["status"] == "complete"
+    assert status["experiments_complete"] == status["experiments_total"] == 28
+    assert status["final_manifest_verified"] is True

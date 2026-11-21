@@ -1,0 +1,76 @@
+{
+  "status": "complete",
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "outputs": [
+    {
+      "path": "results/decision_aware_darr/phase2/audit.json",
+      "sha256": "b9dbdd16f000230558c77a8943babc081b18a013ae0eec6588a8b34bea10bcb8",
+      "bytes": 2015
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/cv_ranking_metrics.csv",
+      "sha256": "44d505faab3e83e3bfac120f21787e1d5636e20002d27f038ef243a91809e64a",
+      "bytes": 4749
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/cv_strategy_metrics.csv",
+      "sha256": "691abb092af4b1758e526e39a4a2407ad7c61e8f84562f43a2d5db12d876bb4a",
+      "bytes": 6355
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/frozen_selection.json",
+      "sha256": "269922c8f5c10b2dfefe56826570556651d150b0b24ef0c8a22c6b4b06ccb5d5",
+      "bytes": 1776
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/inference_runtime.csv",
+      "sha256": "e38e4a1434c18071acf848567dad504ddff911756f5993c7e1a83fe10339e6f5",
+      "bytes": 217
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/plan.json",
+      "sha256": "0554ea11742209ee8e926dd17a3b97718435fb80c73a2e76e0358b054b88e75c",
+      "bytes": 2408
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/test_status.json",
+      "sha256": "6a20da780651e4810a59241b24ca0ca1850871a36e9b3c83fb5f83dd18673c8c",
+      "bytes": 250
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/validation_daily.parquet",
+      "sha256": "23162b229a6bb3614ccb3cc1f071ec25a05c21169d2fb4326b5c9773c0a553ff",
+      "bytes": 101061,
+      "rows": 1440
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/validation_forecasts.parquet",
+      "sha256": "d0fcad584b6245e00ec8bb4f7f5f4837e7a4be7b44570066ccd168bddc38b854",
+      "bytes": 295711,
+      "rows": 34560
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/validation_metrics.csv",
+      "sha256": "4f9364a6b58975e397bac30fed51cfa61f3c27d9c82eda58e043012041792dc0",
+      "bytes": 5080
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/validation_slices.csv",
+      "sha256": "2c8e11f235c94d8d075c15e9b45f498aa4766951b9849120559e468d17adad62",
+      "bytes": 3503
+    },
+    {
+      "path": "results/decision_aware_darr/phase2/validation_uncertainty.csv",
+      "sha256": "01f8f054d2716592bdbc0700d5dc26875b3c50e1522bfd1686d2fb83d0962e5e",
+      "bytes": 8024
+    },
+    {
+      "path": "docs/DECISION_AWARE_DARR_PHASE2_REPORT.md",
+      "sha256": "4a4c9efaa785c12b3579dd4bd1a9f2ded3ceae94eabcdb79b0558d44e8023461",
+      "bytes": 29419
+    }
+  ],
+  "retrospective_2016_2017_accessed": false,
+  "kumo_retrained": false
+}
