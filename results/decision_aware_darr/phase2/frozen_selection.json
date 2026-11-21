@@ -1,0 +1,52 @@
+{
+  "status": "frozen before 2015 validation",
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "selection_queries": 89,
+  "pipelines": {
+    "ridge_forecast": {
+      "experiment_id": "ridge__forecast__market_context__a1",
+      "k": 16,
+      "direct_weight": 0.25,
+      "selection_metric": "MAE",
+      "inner_cv_value": 4.201395640284868
+    },
+    "ridge_economic": {
+      "experiment_id": "ridge__economic__market_context__a10",
+      "k": 16,
+      "direct_weight": 0.0,
+      "selection_metric": "battery_revenue_eur",
+      "inner_cv_value": 939.7713080273674
+    },
+    "lightgbm_forecast": {
+      "experiment_id": "lightgbm__forecast__combined__g0",
+      "k": 16,
+      "direct_weight": 0.25,
+      "selection_metric": "MAE",
+      "inner_cv_value": 4.167689126599982
+    },
+    "lightgbm_economic": {
+      "experiment_id": "lightgbm__economic__combined__g1",
+      "k": 8,
+      "direct_weight": 0.0,
+      "selection_metric": "battery_revenue_eur",
+      "inner_cv_value": 947.7299656291677
+    },
+    "phase3_forecast_candidate": {
+      "experiment_id": "lightgbm__forecast__combined__g0",
+      "k": 16,
+      "direct_weight": 0.25,
+      "selection_metric": "MAE",
+      "inner_cv_value": 4.167689126599982
+    },
+    "phase3_economic_candidate": {
+      "experiment_id": "lightgbm__economic__combined__g1",
+      "k": 8,
+      "direct_weight": 0.0,
+      "selection_metric": "battery_revenue_eur",
+      "inner_cv_value": 947.7299656291677
+    }
+  },
+  "validation_opened": false,
+  "retrospective_2016_2017_used": false
+}

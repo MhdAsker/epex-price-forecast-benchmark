@@ -1,0 +1,30 @@
+{
+  "status": "complete",
+  "experiment": {
+    "experiment_id": "ridge__forecast__combined__a10",
+    "model_type": "ridge",
+    "objective": "forecast",
+    "feature_set": "combined",
+    "parameters": {
+      "alpha": 10.0
+    }
+  },
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "fit_queries": 241,
+  "cv_queries": 89,
+  "runtime_seconds": 0.4339309000006324,
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/ridge__forecast__combined__a10/cv_scores.parquet",
+      "sha256": "10f7896e906881c057d20631056b2d248c0f88bdaac445820c431ccbf17d57d3",
+      "bytes": 374952,
+      "rows": 13082
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/ridge__forecast__combined__a10/model.joblib",
+      "sha256": "fc1a8858458c2ec04afbec1edd94e0cbc520a9ba34a6fb5c0dffa724c2e594c3",
+      "bytes": 2089
+    }
+  ]
+}

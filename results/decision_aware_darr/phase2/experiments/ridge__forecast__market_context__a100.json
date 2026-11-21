@@ -1,0 +1,30 @@
+{
+  "status": "complete",
+  "experiment": {
+    "experiment_id": "ridge__forecast__market_context__a100",
+    "model_type": "ridge",
+    "objective": "forecast",
+    "feature_set": "market_context",
+    "parameters": {
+      "alpha": 100.0
+    }
+  },
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "fit_queries": 241,
+  "cv_queries": 89,
+  "runtime_seconds": 0.4236638000002131,
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/ridge__forecast__market_context__a100/cv_scores.parquet",
+      "sha256": "5ecf3527f597055663bf932633717d0b086845019ed2657a43e2d17a5bd8592d",
+      "bytes": 374952,
+      "rows": 13082
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/ridge__forecast__market_context__a100/model.joblib",
+      "sha256": "98bec42c082d26058a7b3d261c8b66ee95f67f458e5e2e94754636edd63a22c9",
+      "bytes": 2038
+    }
+  ]
+}

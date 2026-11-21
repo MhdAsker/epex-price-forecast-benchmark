@@ -1,0 +1,36 @@
+{
+  "status": "complete",
+  "experiment": {
+    "experiment_id": "lightgbm__forecast__combined__g1",
+    "model_type": "lightgbm",
+    "objective": "forecast",
+    "feature_set": "combined",
+    "parameters": {
+      "num_leaves": 7,
+      "max_depth": 3,
+      "n_estimators": 160,
+      "learning_rate": 0.02,
+      "min_child_samples": 100,
+      "reg_alpha": 2.0,
+      "reg_lambda": 20.0
+    }
+  },
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "fit_queries": 241,
+  "cv_queries": 89,
+  "runtime_seconds": 1.9313731999991433,
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/lightgbm__forecast__combined__g1/cv_scores.parquet",
+      "sha256": "af2a65cd4239e600dd14d2439568e1d603919386e6a34916f24c8d7ce90f5367",
+      "bytes": 345750,
+      "rows": 13082
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/lightgbm__forecast__combined__g1/model.joblib",
+      "sha256": "0000e53d2c3096becc8f01e1e7a08b0feef5e938e7bfc7e3053fbecbd745a328",
+      "bytes": 131897
+    }
+  ]
+}

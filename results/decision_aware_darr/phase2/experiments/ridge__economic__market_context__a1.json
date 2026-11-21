@@ -1,0 +1,30 @@
+{
+  "status": "complete",
+  "experiment": {
+    "experiment_id": "ridge__economic__market_context__a1",
+    "model_type": "ridge",
+    "objective": "economic",
+    "feature_set": "market_context",
+    "parameters": {
+      "alpha": 1.0
+    }
+  },
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "fit_queries": 241,
+  "cv_queries": 89,
+  "runtime_seconds": 0.41602790000069945,
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/ridge__economic__market_context__a1/cv_scores.parquet",
+      "sha256": "bf7d3402a424540578e65740cbeffa5dd347b9665a2dde91ccf2785703f7c925",
+      "bytes": 374952,
+      "rows": 13082
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/ridge__economic__market_context__a1/model.joblib",
+      "sha256": "49d672ef941fb22623a8f8c01b270c977a5c0e83efcc2b021918e3903120b708",
+      "bytes": 2036
+    }
+  ]
+}

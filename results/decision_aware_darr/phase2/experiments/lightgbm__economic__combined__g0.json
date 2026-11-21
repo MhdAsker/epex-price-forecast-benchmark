@@ -1,0 +1,36 @@
+{
+  "status": "complete",
+  "experiment": {
+    "experiment_id": "lightgbm__economic__combined__g0",
+    "model_type": "lightgbm",
+    "objective": "economic",
+    "feature_set": "combined",
+    "parameters": {
+      "num_leaves": 5,
+      "max_depth": 3,
+      "n_estimators": 100,
+      "learning_rate": 0.03,
+      "min_child_samples": 80,
+      "reg_alpha": 1.0,
+      "reg_lambda": 10.0
+    }
+  },
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "fit_queries": 241,
+  "cv_queries": 89,
+  "runtime_seconds": 1.337005000001227,
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/lightgbm__economic__combined__g0/cv_scores.parquet",
+      "sha256": "3b410de81276a14e0fd90ffefa246e9058efc5e3bb017bdedb96b04a44138c9f",
+      "bytes": 311824,
+      "rows": 13082
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/lightgbm__economic__combined__g0/model.joblib",
+      "sha256": "1f2a748f2871e4dce96619236b265f82e57638eb126949ccb2f3bc5f20578bfa",
+      "bytes": 67368
+    }
+  ]
+}

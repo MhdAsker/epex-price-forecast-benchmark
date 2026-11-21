@@ -1,0 +1,29 @@
+experiment_id,model_type,objective,feature_set,parameters,top1_mae,top1_incremental_revenue,mean_within_query_spearman,cv_queries
+ridge__forecast__embedding_only__a1,ridge,forecast,embedding_only,"{""alpha"": 1.0}",9.199377355314896,-3.091098071957571,0.04975684435998659,89
+ridge__forecast__embedding_only__a10,ridge,forecast,embedding_only,"{""alpha"": 10.0}",9.199377355314896,-3.091098071957571,0.04980057864775181,89
+ridge__forecast__embedding_only__a100,ridge,forecast,embedding_only,"{""alpha"": 100.0}",9.199377355314896,-3.091098071957571,0.05024455051248228,89
+ridge__forecast__embedding_only__a1000,ridge,forecast,embedding_only,"{""alpha"": 1000.0}",9.202429781326927,-2.6175557453921727,0.054278471382563344,89
+ridge__forecast__market_context__a1,ridge,forecast,market_context,"{""alpha"": 1.0}",6.036418491503579,-0.2990604523362685,0.5761380448089994,89
+ridge__forecast__market_context__a10,ridge,forecast,market_context,"{""alpha"": 10.0}",6.0861844091958694,-0.5430373831154969,0.5760482938621501,89
+ridge__forecast__market_context__a100,ridge,forecast,market_context,"{""alpha"": 100.0}",6.163969977933229,-0.8522519230055544,0.575899374351181,89
+ridge__forecast__market_context__a1000,ridge,forecast,market_context,"{""alpha"": 1000.0}",6.203829543724349,-0.4399614171743794,0.5738244584389562,89
+ridge__forecast__combined__a1,ridge,forecast,combined,"{""alpha"": 1.0}",6.314035533655309,-0.7328654370282138,0.5727316257695217,89
+ridge__forecast__combined__a10,ridge,forecast,combined,"{""alpha"": 10.0}",6.314035533655309,-0.7328654370282138,0.5727039178326369,89
+ridge__forecast__combined__a100,ridge,forecast,combined,"{""alpha"": 100.0}",6.424087039676357,-1.2083207333302783,0.5725503413874174,89
+ridge__forecast__combined__a1000,ridge,forecast,combined,"{""alpha"": 1000.0}",6.353183498009621,-1.0388388647304005,0.5703311287564872,89
+lightgbm__forecast__combined__g0,lightgbm,forecast,combined,"{""learning_rate"": 0.03, ""max_depth"": 3, ""min_child_samples"": 80, ""n_estimators"": 100, ""num_leaves"": 5, ""reg_alpha"": 1.0, ""reg_lambda"": 10.0}",5.9272986491950235,-1.1554308779501181,0.5817134283778752,89
+lightgbm__forecast__combined__g1,lightgbm,forecast,combined,"{""learning_rate"": 0.02, ""max_depth"": 3, ""min_child_samples"": 100, ""n_estimators"": 160, ""num_leaves"": 7, ""reg_alpha"": 2.0, ""reg_lambda"": 20.0}",6.008300523072208,-0.7731405970672632,0.5901605594494873,89
+ridge__economic__embedding_only__a1,ridge,economic,embedding_only,"{""alpha"": 1.0}",8.931484091703426,-2.6206174129881172,-0.008072184272710928,89
+ridge__economic__embedding_only__a10,ridge,economic,embedding_only,"{""alpha"": 10.0}",9.027373605562122,-2.5247504400231535,-0.008089505122646704,89
+ridge__economic__embedding_only__a100,ridge,economic,embedding_only,"{""alpha"": 100.0}",9.108380161976608,-2.65883818551989,-0.00893363519352489,89
+ridge__economic__embedding_only__a1000,ridge,economic,embedding_only,"{""alpha"": 1000.0}",9.146090815238802,-2.941721880735239,-0.016331940131805125,89
+ridge__economic__market_context__a1,ridge,economic,market_context,"{""alpha"": 1.0}",7.889765954591256,0.057123315530995554,0.23250261828523294,89
+ridge__economic__market_context__a10,ridge,economic,market_context,"{""alpha"": 10.0}",7.889765954591256,0.057123315530995554,0.23245585021519166,89
+ridge__economic__market_context__a100,ridge,economic,market_context,"{""alpha"": 100.0}",7.8405571510214775,-0.14111117224531902,0.23261594915130052,89
+ridge__economic__market_context__a1000,ridge,economic,market_context,"{""alpha"": 1000.0}",7.637186356200155,-0.15214318694505363,0.23312353364637936,89
+ridge__economic__combined__a1,ridge,economic,combined,"{""alpha"": 1.0}",8.199864231177331,-0.8868925972484469,0.23562607672677716,89
+ridge__economic__combined__a10,ridge,economic,combined,"{""alpha"": 10.0}",8.199864231177331,-0.8868925972484469,0.23558092312819764,89
+ridge__economic__combined__a100,ridge,economic,combined,"{""alpha"": 100.0}",8.199864231177331,-0.8868925972484469,0.23575886094332954,89
+ridge__economic__combined__a1000,ridge,economic,combined,"{""alpha"": 1000.0}",7.805229409051054,-1.0421894584194944,0.23505164980961907,89
+lightgbm__economic__combined__g0,lightgbm,economic,combined,"{""learning_rate"": 0.03, ""max_depth"": 3, ""min_child_samples"": 80, ""n_estimators"": 100, ""num_leaves"": 5, ""reg_alpha"": 1.0, ""reg_lambda"": 10.0}",7.539288386845549,-0.905327063877334,0.2619046495157413,89
+lightgbm__economic__combined__g1,lightgbm,economic,combined,"{""learning_rate"": 0.02, ""max_depth"": 3, ""min_child_samples"": 100, ""n_estimators"": 160, ""num_leaves"": 7, ""reg_alpha"": 2.0, ""reg_lambda"": 20.0}",6.845163888714803,-0.4381249561383115,0.27158765035875193,89

@@ -1,0 +1,30 @@
+{
+  "status": "complete",
+  "experiment": {
+    "experiment_id": "ridge__economic__embedding_only__a10",
+    "model_type": "ridge",
+    "objective": "economic",
+    "feature_set": "embedding_only",
+    "parameters": {
+      "alpha": 10.0
+    }
+  },
+  "config_sha256": "737ac5eeb0c427294badfc51279481da42c4e8c019b16c4c5e7b589cc8579d1c",
+  "phase1_manifest_sha256": "3b4973f6da581aea0c9d6a609efc1db69cfc73a631e71b6d736b87fe6b68c03d",
+  "fit_queries": 241,
+  "cv_queries": 89,
+  "runtime_seconds": 0.2790733000001637,
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/ridge__economic__embedding_only__a10/cv_scores.parquet",
+      "sha256": "2f1277ce04df768069a61ccefb4a0afd7220c74bbef0ae3405b912e0fec8abe3",
+      "bytes": 374952,
+      "rows": 13082
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase2/experiments/ridge__economic__embedding_only__a10/model.joblib",
+      "sha256": "cf59d56a67a01cd9cef7cb4a2555a4380ec122725bf7ffa47f941f9fd8f8abe2",
+      "bytes": 1501
+    }
+  ]
+}
