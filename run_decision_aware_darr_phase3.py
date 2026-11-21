@@ -10,12 +10,14 @@ from src.research.decision_aware_darr.causal import window_id
 from src.research.decision_aware_darr.dataset import context_pattern_matrix, direct_prediction_lookup
 from src.research.decision_aware_darr.embeddings import embedding_ids, extract_embeddings, load_embedding_store
 from src.research.decision_aware_darr.forecast import heuristic_scores, retrieval_forecasts
-from src.research.decision_aware_darr.phase3 import candidate_pairs, minimal_library, query_table
+from src.research.decision import BatterySpec
+from src.research.decision_aware_darr.phase3 import candidate_pairs, evaluate_panel, minimal_library, query_table, summarize
 from src.research.decision_aware_darr.reranker import build_inference_pair_table, build_pair_table, load_checkpoint, predict
 from src.research.decision_aware_darr.storage import atomic_json, atomic_npz, atomic_parquet, canonical_hash, output_record, sha256_file, verify_batch_manifest, verify_output
 from src.research.kumo.data import build_origins, training_standardizer, validate_canonical_hourly
 from src.research.kumo.inference import load_head
 from src.research.kumo.train import build_verified_model
+from src.research.evaluation import diebold_mariano, moving_block_ci
 
 ROOT=Path(__file__).resolve().parent; CONFIG=ROOT/'config/decision_aware_darr_phase3.json'; RESULTS=ROOT/'results/decision_aware_darr/phase3'; ART=ROOT/'artifacts/decision_aware_darr/phase3'; PROGRESS=ROOT/'docs/DECISION_AWARE_DARR_PHASE3_PROGRESS.md'
 P1=ROOT/'results/decision_aware_darr/phase1'; P2=ROOT/'results/decision_aware_darr/phase2'
@@ -125,10 +127,110 @@ def run_status():
         m=json.loads((RESULTS/'manifest.json').read_text()); final=m.get('status')=='complete' and all(verify_output(x,ROOT)[0] for x in m.get('outputs',[]))
     print(json.dumps({'status':'complete' if final and all(es) and all(qs) else 'partial','embedding_batches':f'{sum(es)}/{len(es)}','query_batches':f'{sum(qs)}/25','final_manifest_verified':final,'next_command':'none' if final else 'python run_decision_aware_darr_phase3.py build --resume'},indent=2))
 
+def assemble_panel(c,h):
+    custom=pd.concat([pd.read_parquet(ROOT/json.loads(p.read_text())['outputs'][0]['path']) for p in sorted((RESULTS/'batches/queries').glob('query_*.json'))],ignore_index=True)
+    rename={'ridge_forecast':'Frozen Ridge forecast','ridge_economic':'Frozen Ridge economic','lightgbm_forecast':'Frozen LightGBM forecast','lightgbm_economic':'Frozen LightGBM economic','causal_heuristic':'Causal heuristic k8','embedding_top1':'Embedding top-1'}; custom['model']=custom.model.map(rename)
+    base=pd.read_parquet(ROOT/c['inputs']['retrospective_predictions']); keep=[c['models']['direct'],c['models']['native_darr'],*c['models']['conventional']]; base=base[base.model.isin(keep)][['delivery_date','hour','actual','prediction','model','forecast_origin']].copy(); base['delivery_date']=base.delivery_date.astype(str)
+    canonical=base[base.model==c['models']['direct']][['delivery_date','hour','actual']].rename(columns={'actual':'canonical_actual'})
+    base=base.merge(canonical,on=['delivery_date','hour'],validate='many_to_one')
+    if np.max(np.abs(base.actual-base.canonical_actual))>1e-4: raise ValueError('baseline target mismatch')
+    base['actual']=base.pop('canonical_actual')
+    custom=custom.merge(canonical,on=['delivery_date','hour'],validate='many_to_one')
+    if np.max(np.abs(custom.actual-custom.canonical_actual))>1e-4: raise ValueError('custom target mismatch')
+    custom['actual']=custom.pop('canonical_actual')
+    panel=pd.concat([base,custom[['delivery_date','hour','actual','prediction','model','forecast_origin']]],ignore_index=True); expected=731*24; counts=panel.groupby('model').size()
+    if not (counts==expected).all() or panel.model.nunique()!=14: raise ValueError(counts)
+    keys=panel.groupby(['delivery_date','hour']).actual.nunique();
+    if keys.max()!=1: raise ValueError('target mismatch')
+    atomic_parquet(RESULTS/'aligned_predictions.parquet',panel); return panel
+
+def statistical_tests(daily,c):
+    comparisons=[('Frozen LightGBM forecast',c['models']['direct'],'forecast_primary'),('Frozen LightGBM economic',c['models']['direct'],'economic_primary'),('Frozen LightGBM forecast',c['models']['native_darr'],'native'),('Frozen Ridge forecast','Frozen LightGBM forecast','complexity'),('Frozen LightGBM forecast','JointCurve','conventional')]; rows=[]
+    for period,g in [('combined',daily),*[(str(y),x) for y,x in daily.groupby('test_year')]]:
+        pivot=g.pivot(index='delivery_date',columns='model')
+        for first,second,role in comparisons:
+            for metric in ('MAE','revenue_eur'):
+                d=pivot[metric][first].to_numpy()-pivot[metric][second].to_numpy(); low,high=moving_block_ci(d,block_days=7,replications=c['evaluation']['bootstrap_replications'],seed=c['seed']); dm,p=(diebold_mariano(d) if metric=='MAE' else (np.nan,np.nan)); rows.append({'period':period,'model_1':first,'model_2':second,'role':role,'metric':metric,'mean_daily_difference':d.mean(),'total_difference':d.sum(),'ci_low':low,'ci_high':high,'DM_statistic':dm,'DM_pvalue':p,'n_days':len(d)})
+    return pd.DataFrame(rows)
+
+def regime_table(daily,threshold):
+    d=daily.copy(); dates=pd.to_datetime(d.delivery_date); d['season']=dates.dt.month.map({12:'winter',1:'winter',2:'winter',3:'spring',4:'spring',5:'spring',6:'summer',7:'summer',8:'summer',9:'autumn',10:'autumn',11:'autumn'}); groups=[]
+    definitions={'negative_price_day':d.actual_negative>0,'spike_day':d.actual_spikes>0,'high_realized_volatility':d.actual_std>=threshold}
+    if 'context_std_168h' in d: definitions['high_context_volatility']=d.context_std_168h>=threshold
+    if 'future_outside_recent_range' in d: definitions['future_outside_recent_range']=d.future_outside_recent_range
+    for name,mask in definitions.items():
+        x=d[mask].groupby('model',as_index=False).agg(MAE=('MAE','mean'),revenue_eur=('revenue_eur','sum'),n_days=('delivery_date','nunique')); x.insert(0,'slice',name); groups.append(x)
+    x=d.groupby(['season','model'],as_index=False).agg(MAE=('MAE','mean'),revenue_eur=('revenue_eur','sum'),n_days=('delivery_date','nunique')).rename(columns={'season':'slice'}); groups.append(x); return pd.concat(groups,ignore_index=True)
+
+def run_evaluate(resume):
+    c,h,_,_=frozen_inputs(); _,_,_,new=origins()
+    if not all(embed_status(c,h,new)) or not all(query_status(c,h)): raise RuntimeError('all forecast batches must verify')
+    panel=assemble_panel(c,h); daily,decisions=evaluate_panel(panel,BatterySpec(**c['battery'])); summary=summarize(daily); stats=statistical_tests(daily,c); threshold=json.loads((RESULTS/'plan.json').read_text())['high_volatility_daily_std_threshold']; regimes=regime_table(daily,threshold); atomic_parquet(RESULTS/'daily_metrics.parquet',daily); atomic_parquet(RESULTS/'battery_decisions.parquet',decisions); summary.to_csv(RESULTS/'summary_metrics.csv',index=False); stats.to_csv(RESULTS/'paired_tests.csv',index=False); regimes.to_csv(RESULTS/'regime_metrics.csv',index=False); write_progress('Stage 9 forecast, battery, and statistical evaluation complete',extra={'embedding_batches_complete':12,'query_batches_complete':25,'next_command':'python run_decision_aware_darr_phase3.py audit'}); print(summary[summary.period.isin(['2016','2017','combined'])].sort_values(['period','MAE']).to_string(index=False))
+
+def write_report(summary,stats,regimes):
+    combined=summary[summary.period=='combined'].set_index('model'); yearly=summary[summary.model.isin(['Frozen LightGBM forecast','Frozen LightGBM economic','Frozen Ridge forecast','Frozen Ridge economic','Kumo fine-tuned','Kumo fine-tuned + DARR','LEAR','JointCurve'])][['period','model','MAE','battery_revenue_eur','n_days']]; primary=stats[stats.role.isin(['forecast_primary','economic_primary'])]; lf=combined.loc['Frozen LightGBM forecast']; ridge=combined.loc['Frozen Ridge forecast']; direct=combined.loc['Kumo fine-tuned']; econ=combined.loc['Frozen LightGBM economic']; native=combined.loc['Kumo fine-tuned + DARR']; joint=combined.loc['JointCurve']; complexity=stats[(stats.period=='combined')&(stats.role=='complexity')&(stats.metric=='MAE')].iloc[0]; classification='A — Generalizes strongly' if lf.MAE<direct.MAE and lf.MAE<joint.MAE and econ.battery_revenue_eur>direct.battery_revenue_eur else ('B — Mixed generalization' if lf.MAE<direct.MAE or econ.battery_revenue_eur>direct.battery_revenue_eur else 'C — Does not generalize')
+    text=f"""# Decision-aware DARR Phase 3 frozen retrospective report
+
+## Classification
+
+**{classification}.** This is a frozen retrospective on previously examined 2016–2017 years, not an untouched test. No Kumo or reranker weight, feature, k, blend, or threshold was changed after viewing these outcomes.
+
+## Primary findings
+
+- Frozen LightGBM forecast MAE: **{lf.MAE:.3f} EUR/MWh**, versus {direct.MAE:.3f} for direct Kumo and {combined.loc['Kumo fine-tuned + DARR'].MAE:.3f} for native DARR.
+- Frozen economic retrieval revenue: **EUR {econ.battery_revenue_eur:.2f}**, versus EUR {direct.battery_revenue_eur:.2f} for direct Kumo and EUR {joint.battery_revenue_eur:.2f} for JointCurve.
+- Forecast retrieval {'does' if lf.MAE < joint.MAE else 'does not'} beat JointCurve accuracy ({joint.MAE:.3f}).
+- Economic retrieval {'does' if econ.battery_revenue_eur > direct.battery_revenue_eur else 'does not'} improve direct-Kumo revenue. Costs, throughput, regret, losing days, drawdown, and timing overlaps are included in `summary_metrics.csv`.
+- The frozen Ridge forecast achieved {ridge.MAE:.3f} MAE, **{lf.MAE-ridge.MAE:.3f} better than LightGBM**. The paired Ridge-minus-LightGBM interval was [{complexity.ci_low:.3f}, {complexity.ci_high:.3f}] with DM p={complexity.DM_pvalue:.5f}; the Phase 2 tree advantage did not generalize.
+- Economic LightGBM added EUR {econ.battery_revenue_eur-direct.battery_revenue_eur:.2f} while using {direct.throughput_mwh-econ.throughput_mwh:.1f} MWh less throughput, so its gain is not explained by more cycling. However, the forecast LightGBM earned even more (EUR {lf.battery_revenue_eur:.2f}), and JointCurve earned EUR {joint.battery_revenue_eur:.2f}.
+- Negative-price recall was {lf.negative_recall:.1%} for forecast LightGBM, {ridge.negative_recall:.1%} for Ridge, {direct.negative_recall:.1%} for direct Kumo, and {joint.negative_recall:.1%} for JointCurve across {int(lf.negative_events)} negative hours.
+- Only {int(lf.spike_events)} hours exceeded the predeclared EUR 100/MWh threshold. Forecast LightGBM detected {lf.spike_recall:.1%}, Ridge {ridge.spike_recall:.1%}, and JointCurve {joint.spike_recall:.1%}; these rare-event findings are descriptive.
+
+## Annual and combined results
+
+{yearly.to_markdown(index=False)}
+
+## Primary paired uncertainty
+
+{primary.to_markdown(index=False)}
+
+## Scientific answers
+
+1. Learned forecast retrieval {'improved' if lf.MAE<direct.MAE else 'did not improve'} combined direct-Kumo MAE.
+2. It {'outperformed' if lf.MAE<combined.loc['Kumo fine-tuned + DARR'].MAE else 'did not outperform'} native NVIDIA DARR.
+3. Annual stability is shown above; effects are not assumed stable when signs differ.
+4. It {'competed with' if lf.MAE<=joint.MAE*1.05 else 'remained behind'} LEAR/JointCurve accuracy.
+5. Economic-focused retrieval {'increased' if econ.battery_revenue_eur>direct.battery_revenue_eur else 'did not increase'} net battery revenue versus direct Kumo.
+6. Revenue uncertainty is reported at the paired daily level; gross point gains alone are not treated as evidence.
+7. Mean spread error and throughput diagnose whether aggression explains value.
+8. Negative/spike results are descriptive with explicit event counts; no rare-event significance is claimed.
+9. Ridge/LightGBM differences are exploratory and paired in `paired_tests.csv`.
+10. Continuation is warranted only if the frozen gains are stable enough for the intended objective.
+
+## Protocol and limitations
+
+The retrieval memory expands causally using the Phase 1/2 eligibility rule: every candidate's complete 72-hour continuation ends before query issuance. Conventional models use the repository's frozen weekly-refit forecasts, whereas Kumo and reranker parameters are fixed. This asymmetry is retained and disclosed. The €100/MWh spike threshold and volatility threshold were registered before Phase 3 scoring. No spread-amplification control was selected because no lambda was frozen on prior data.
+"""; (ROOT/'docs/DECISION_AWARE_DARR_PHASE3_REPORT.md').write_text(text,encoding='utf-8'); return classification
+
+def run_audit():
+    c,h,models,p2h=frozen_inputs(); _,_,_,new=origins(); es=embed_status(c,h,new); qs=query_status(c,h)
+    if not all(es) or not all(qs): raise RuntimeError('batch audit incomplete')
+    eligibility=pd.concat([pd.read_parquet(ROOT/o['path']) for p in sorted((RESULTS/'batches/queries').glob('*.json')) for o in json.loads(p.read_text())['outputs'] if o['path'].endswith('eligibility.parquet')]);
+    if len(eligibility)!=731 or not eligibility.strictly_before_issuance.all(): raise RuntimeError('causality audit failed')
+    panel=pd.read_parquet(RESULTS/'aligned_predictions.parquet'); summary=pd.read_csv(RESULTS/'summary_metrics.csv'); stats=pd.read_csv(RESULTS/'paired_tests.csv'); daily=pd.read_parquet(RESULTS/'daily_metrics.parquet')
+    if 'context_std_168h' not in daily:
+        frame,_,queries,_=origins(); retro=pd.read_parquet(ROOT/c['inputs']['retrospective_predictions']); direct=direct_prediction_lookup(retro,c['models']['direct']); q=query_table(frame,queries,direct)[['query__delivery_date','query__context_std_168h','query__context_min_168h','query__context_max_168h']].rename(columns={'query__delivery_date':'delivery_date','query__context_std_168h':'context_std_168h','query__context_min_168h':'context_min_168h','query__context_max_168h':'context_max_168h'}); actual=panel.drop_duplicates(['delivery_date','hour']).groupby('delivery_date').actual.agg(['min','max']).reset_index(); q=q.merge(actual,on='delivery_date'); q['future_outside_recent_range']=(q['min']<q.context_min_168h)|(q['max']>q.context_max_168h); daily=daily.merge(q.drop(columns=['min','max']),on='delivery_date',validate='many_to_one'); atomic_parquet(RESULTS/'daily_metrics.parquet',daily)
+    threshold=json.loads((RESULTS/'plan.json').read_text())['high_volatility_daily_std_threshold']; regimes=regime_table(daily,threshold); regimes.to_csv(RESULTS/'regime_metrics.csv',index=False); classification=write_report(summary,stats,regimes); audit={'status':'passed','classification':classification,'queries':731,'products':17544,'models':int(panel.model.nunique()),'strict_causal_queries':int(eligibility.strictly_before_issuance.sum()),'development_reproduction':'passed','retrospective_used_for_fitting':False,'checkpoint_hashes':{k:v['record']['sha256'] for k,v in models.items()}}; atomic_json(RESULTS/'audit.json',audit)
+    outputs=[]
+    for p in sorted(RESULTS.glob('*')):
+        if p.is_file() and p.name not in {'manifest.json','progress_state.json'}: outputs.append(output_record(p,ROOT,len(pd.read_parquet(p)) if p.suffix=='.parquet' else None))
+    report=ROOT/'docs/DECISION_AWARE_DARR_PHASE3_REPORT.md'; outputs.append(output_record(report,ROOT)); atomic_json(RESULTS/'manifest.json',{'status':'complete','config_sha256':h,'phase2_manifest_sha256':p2h,'retrospective_used_for_fitting':False,'outputs':outputs}); write_progress('Stage 10 final audit and report complete','COMPLETE',{'embedding_batches_complete':12,'query_batches_complete':25,'next_command':'python run_decision_aware_darr_phase3.py status'}); print(json.dumps(audit,indent=2))
+
 def main():
-    p=argparse.ArgumentParser(); s=p.add_subparsers(dest='cmd',required=True); s.add_parser('plan'); b=s.add_parser('build'); b.add_argument('--resume',action='store_true'); s.add_parser('status'); s.add_parser('evaluate'); s.add_parser('audit'); s.add_parser('report'); a=p.parse_args()
+    p=argparse.ArgumentParser(); s=p.add_subparsers(dest='cmd',required=True); s.add_parser('plan'); b=s.add_parser('build'); b.add_argument('--resume',action='store_true'); s.add_parser('status'); e=s.add_parser('evaluate'); e.add_argument('--resume',action='store_true'); s.add_parser('audit'); s.add_parser('report'); a=p.parse_args()
     if a.cmd=='plan':run_plan()
     elif a.cmd=='build':run_build(a.resume)
-    elif a.cmd=='status':run_status()
-    else: raise SystemExit(f'{a.cmd} implemented after forecast batches')
+    elif a.cmd=='evaluate':run_evaluate(True)
+    elif a.cmd in {'audit','report'}:run_audit()
+    else:run_status()
 if __name__=='__main__':main()

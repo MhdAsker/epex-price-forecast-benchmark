@@ -1,0 +1,24 @@
+{
+  "status": "complete",
+  "stage": "query",
+  "batch_number": 13,
+  "config_sha256": "468bc91ac9d1936e69709054a9180fa351840fa57a115635218c91f87e1c645f",
+  "source_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "first_date": "2017-01-25",
+  "last_date": "2017-02-23",
+  "queries": 30,
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase3/query_batches/query_013/predictions.parquet",
+      "sha256": "c2f317f5addb69974f077a1c92ebf9c9ce2e03f5b018ef992c4119f94ffb72e0",
+      "bytes": 48182,
+      "rows": 4320
+    },
+    {
+      "path": "artifacts/decision_aware_darr/phase3/query_batches/query_013/eligibility.parquet",
+      "sha256": "a8efcb91cbdeef5a5f6af107ae4327f2d8bbfaf7d6a38d721ecbefe6086e8a0c",
+      "bytes": 6146,
+      "rows": 30
+    }
+  ]
+}

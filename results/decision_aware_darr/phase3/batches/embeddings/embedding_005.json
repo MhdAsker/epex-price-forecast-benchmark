@@ -1,0 +1,17 @@
+{
+  "status": "complete",
+  "stage": "embedding",
+  "batch_number": 5,
+  "config_sha256": "468bc91ac9d1936e69709054a9180fa351840fa57a115635218c91f87e1c645f",
+  "source_sha256": "1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb",
+  "first_id": "epex_de__20161114__h72",
+  "last_id": "epex_de__20170116__h72",
+  "outputs": [
+    {
+      "path": "artifacts/decision_aware_darr/phase3/embeddings/embedding_005.npz",
+      "sha256": "a5ce41351b8d4307dc8305519379b76d2a25989ef795e9408c87cb15a74a9a0d",
+      "bytes": 244284,
+      "rows": 64
+    }
+  ]
+}

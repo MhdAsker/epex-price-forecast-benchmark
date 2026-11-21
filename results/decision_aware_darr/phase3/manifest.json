@@ -1,0 +1,66 @@
+{
+  "status": "complete",
+  "config_sha256": "468bc91ac9d1936e69709054a9180fa351840fa57a115635218c91f87e1c645f",
+  "phase2_manifest_sha256": "19d7cba0471f04146596afe461ebd70c63029bac51ba7cd3fd8273065866975d",
+  "retrospective_used_for_fitting": false,
+  "outputs": [
+    {
+      "path": "results/decision_aware_darr/phase3/aligned_predictions.parquet",
+      "sha256": "e4992650024b099dc06deba4f96969bab709b83dfbd470445091a669a8dc9dc2",
+      "bytes": 2359892,
+      "rows": 245616
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/audit.json",
+      "sha256": "a9a0ffd5d5b028e7fc80238adf4fe3e6fcfcbf53d606fa7d471b8480b5a99d88",
+      "bytes": 659
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/battery_decisions.parquet",
+      "sha256": "722b802d6a6da91ea01dafea10b751ad4730ee55e3f41f359c9039080dae8ec2",
+      "bytes": 99129,
+      "rows": 245616
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/daily_metrics.parquet",
+      "sha256": "371334c3487bf73d4fcdaf0dbc4198df464dbc08f87a7aa8b2a140c4c00bfdc9",
+      "bytes": 763873,
+      "rows": 10234
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/development_reproduction.json",
+      "sha256": "4b993db06cf608a2065ec861d86b980e37f19b1bb65fd4f077d2dfd07ebe14c0",
+      "bytes": 1307
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/paired_tests.csv",
+      "sha256": "d34de74723e02f47465a9466c09b6e3549233ec18f3502c6e68e55bca38aa7ea",
+      "bytes": 5327
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/plan.json",
+      "sha256": "41e66e219be7921e281da0556f74a341da168c57dfa3abf306d54b414677bae7",
+      "bytes": 939
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/regime_metrics.csv",
+      "sha256": "47e1593fbd051f52f5537c5816d70a8e581e125e40bd122836ec8af17e65725a",
+      "bytes": 9108
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/summary_metrics.csv",
+      "sha256": "079c9d0b000533af37d3f9222898e0f279b8ddd6f30c07aedb83b92ab06876f8",
+      "bytes": 18840
+    },
+    {
+      "path": "results/decision_aware_darr/phase3/test_status.json",
+      "sha256": "7bd2db30373143c222ca4feb30a457854b5cd82a416c6b8c9920d91d00a6c27f",
+      "bytes": 231
+    },
+    {
+      "path": "docs/DECISION_AWARE_DARR_PHASE3_REPORT.md",
+      "sha256": "d0a79c248bd2f3f4b8beb1697c45e03bda67e0a44b59a8564609e4b2f37ce038",
+      "bytes": 8156
+    }
+  ]
+}
