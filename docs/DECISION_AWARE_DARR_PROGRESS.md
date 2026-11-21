@@ -7,7 +7,7 @@
 - Status: COMPLETE.
 - Branch: `feature/decision-aware-darr-dataset`.
 - Parent commit: `7f12d2384afb74bc2d24125be70fd9aaa8cb6616`.
-- Latest committed milestone: `3a0f160` (`feat: add resumable causal DARR dataset pipeline`).
+- Latest completed research-result commit: `c6f0214` (`feat: complete decision-aware DARR phase 1`).
 - Configuration SHA-256: `57205c8cbb295f940985f6633779944fda52ffcef993e40dd67e5cadfc38f987`.
 - Source SHA-256: `1cae127d6647c0e8fa37c3b9726b1ecb8bf3676b1707aec62a2c707639bac7fb`.
 
