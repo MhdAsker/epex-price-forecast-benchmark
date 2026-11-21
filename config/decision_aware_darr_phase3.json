@@ -1,0 +1,50 @@
+{
+  "experiment_version": "3.0.0",
+  "registered_date": "2026-11-21",
+  "parent_commit": "93ca62c",
+  "scope": "frozen retrospective 2016-2017 evaluation; no fitting or tuning",
+  "seed": 13,
+  "evaluation": {
+    "start": "2016-01-01",
+    "end_exclusive": "2018-01-01",
+    "expected_queries": 731,
+    "scored_products": 24,
+    "spike_threshold_eur_mwh": 100.0,
+    "bootstrap_replications": 2000,
+    "bootstrap_block_days": 7
+  },
+  "memory": {
+    "policy": "causal_expanding",
+    "qualification": "continuation of Phase 1/2 per-query causal eligibility over the registered historical EPEX-DE source",
+    "candidate_start": "2012-02-01",
+    "top_k_per_ordering": 64,
+    "pattern_hours": 168,
+    "native_temperature": 0.05
+  },
+  "batching": {"embedding_windows": 64, "query_days": 30},
+  "inputs": {
+    "phase1_config": "config/decision_aware_darr_phase1.json",
+    "phase2_config": "config/decision_aware_darr_phase2.json",
+    "phase2_manifest": "results/decision_aware_darr/phase2/manifest.json",
+    "phase2_freeze": "results/decision_aware_darr/phase2/frozen_selection.json",
+    "source_data": "data/raw/epftoolbox_epex_de.parquet",
+    "retrospective_predictions": "results/kumo_finetuning/darr/predictions_with_darr.parquet",
+    "retrospective_manifest": "results/kumo_finetuning/darr/manifest.json"
+  },
+  "models": {
+    "direct": "Kumo fine-tuned",
+    "native_darr": "Kumo fine-tuned + DARR",
+    "conventional": ["LEAR", "JointCurve", "LightGBM", "XGBoost", "CatBoost", "Naive D-1"],
+    "frozen_pipelines": ["ridge_forecast", "ridge_economic", "lightgbm_forecast", "lightgbm_economic"]
+  },
+  "battery": {
+    "power_mw": 1.0,
+    "energy_mwh": 1.0,
+    "roundtrip_efficiency": 0.9,
+    "transaction_cost_eur_mwh": 0.5,
+    "degradation_cost_eur_mwh": 2.0,
+    "initial_soc_fraction": 0.5,
+    "terminal_soc_fraction": 0.5
+  },
+  "spread_amplification_control": "omitted: no lambda was frozen before retrospective outcomes"
+}

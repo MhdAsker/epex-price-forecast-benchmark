@@ -1,0 +1,11 @@
+{
+  "status": "in progress",
+  "stage": "Stage 3 protocol registered",
+  "config_sha256": "468bc91ac9d1936e69709054a9180fa351840fa57a115635218c91f87e1c645f",
+  "phase2_manifest_sha256": "19d7cba0471f04146596afe461ebd70c63029bac51ba7cd3fd8273065866975d",
+  "embedding_batches_complete": 0,
+  "query_batches_complete": 0,
+  "query_batches_total": 25,
+  "retrospective_used_for_fitting": false,
+  "next_command": "python run_decision_aware_darr_phase3.py build --resume"
+}

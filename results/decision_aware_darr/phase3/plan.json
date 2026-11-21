@@ -1,0 +1,23 @@
+{
+  "status": "registered",
+  "config_sha256": "468bc91ac9d1936e69709054a9180fa351840fa57a115635218c91f87e1c645f",
+  "phase2_manifest_sha256": "19d7cba0471f04146596afe461ebd70c63029bac51ba7cd3fd8273065866975d",
+  "development_reproduction": "passed",
+  "queries": 731,
+  "first_date": "2016-01-01",
+  "last_date": "2017-12-31",
+  "candidate_memory_windows": 2159,
+  "new_embedding_windows": 733,
+  "memory_policy": {
+    "policy": "causal_expanding",
+    "qualification": "continuation of Phase 1/2 per-query causal eligibility over the registered historical EPEX-DE source",
+    "candidate_start": "2012-02-01",
+    "top_k_per_ordering": 64,
+    "pattern_hours": 168,
+    "native_temperature": 0.05
+  },
+  "high_volatility_daily_std_threshold": 12.564499995818679,
+  "spike_threshold": 100.0,
+  "retrospective_not_pristine": true,
+  "spread_control": "omitted: no lambda was frozen before retrospective outcomes"
+}

@@ -43,12 +43,10 @@ class Experiment:
     parameters: dict[str, Any]
 
 
-def build_pair_table(phase1: Path) -> pd.DataFrame:
-    """Construct only the prespecified issuance-time feature matrix."""
-    pair = pd.read_parquet(phase1 / "candidate_features.parquet")
-    labels = pd.read_parquet(phase1 / "candidate_labels.parquet")
-    query = pd.read_parquet(phase1 / "query_features.parquet")
-    library = pd.read_parquet(phase1 / "candidate_library.parquet")
+def build_inference_pair_table(
+    pair: pd.DataFrame, query: pd.DataFrame, library: pd.DataFrame,
+) -> pd.DataFrame:
+    """Construct the frozen issuance-time feature space without outcomes."""
     query_columns = [
         "query__id", "partition", "query__delivery_date", "query__month", "query__weekend",
         "query__context_last_price", "query__context_mean_24h", "query__context_std_24h",
@@ -61,9 +59,9 @@ def build_pair_table(phase1: Path) -> pd.DataFrame:
         "candidate__context_mean_168h", "candidate__context_std_168h",
         "candidate__context_spread_168h", "candidate__context_trend_24h",
     ]
-    table = pair.merge(labels, on=KEYS, validate="one_to_one").merge(
-        query[query_columns], on="query__id", validate="many_to_one"
-    ).merge(library[candidate_columns], on="candidate__id", validate="many_to_one")
+    table = pair.merge(query[query_columns], on="query__id", validate="many_to_one").merge(
+        library[candidate_columns], on="candidate__id", validate="many_to_one"
+    )
     table["derived__log_embedding_rank"] = np.log1p(table["pair__embedding_rank"])
     table["derived__log_calendar_rank"] = np.log1p(table["pair__calendar_rank"])
     table["derived__log_pattern_rank"] = np.log1p(table["pair__pattern_rank"])
@@ -81,11 +79,21 @@ def build_pair_table(phase1: Path) -> pd.DataFrame:
         )
     allowed = set(KEYS + ["partition", "query__delivery_date"])
     allowed.update(FEATURE_SETS["combined"])
-    allowed.update([
+    return table[list(dict.fromkeys(column for column in table.columns if column in allowed))]
+
+
+def build_pair_table(phase1: Path) -> pd.DataFrame:
+    """Construct the training table while retaining only registered outcomes."""
+    pair = pd.read_parquet(phase1 / "candidate_features.parquet")
+    labels = pd.read_parquet(phase1 / "candidate_labels.parquet")
+    query = pd.read_parquet(phase1 / "query_features.parquet")
+    library = pd.read_parquet(phase1 / "candidate_library.parquet")
+    features = build_inference_pair_table(pair, query, library)
+    keep = KEYS + [
         "label__continuation_mae_eur_mwh", "label__incremental_revenue_vs_direct_eur",
         "label__candidate_revenue_eur",
-    ])
-    return table[list(dict.fromkeys(column for column in table.columns if column in allowed))]
+    ]
+    return features.merge(labels[keep], on=KEYS, validate="one_to_one")
 
 
 def target(table: pd.DataFrame, objective: str) -> np.ndarray:
